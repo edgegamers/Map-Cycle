@@ -1,0 +1,67 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\Ronan\\Desktop\\cs_plugins\\MapCycle\\MapCycle.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\Ronan\\Desktop\\cs_plugins\\MapCycle\\MapCycle.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Ronan\\Desktop\\cs_plugins\\MapCycle\\MapCycle.csproj",
+        "projectName": "MapCycle",
+        "projectPath": "C:\\Users\\Ronan\\Desktop\\cs_plugins\\MapCycle\\MapCycle.csproj",
+        "packagesPath": "C:\\Users\\Ronan\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Ronan\\Desktop\\cs_plugins\\MapCycle\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Ronan\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "CounterStrikeSharp.API": {
+              "target": "Package",
+              "version": "[1.0.50, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.404\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
