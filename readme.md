@@ -69,9 +69,6 @@ Each map in the configuration file includes the following attributes:
 - ModuleAuthor: NANOR
 - ModuleVersion: 0.0.1
 
-## License
-This project is licensed under [Specify License Name]. The LICENSE file contains more detailed information.
-
 ## Support
 For assistance, please raise an issue on the GitHub repository of the project.
 
