@@ -74,7 +74,7 @@ Each map in the configuration file includes the following attributes:
 ## Author
 - ModuleName: MapCycle
 - ModuleAuthor: NANOR
-- ModuleVersion: 0.0.1
+- ModuleVersion: 1.0.0
 
 ## Support
 For assistance, please raise an issue on the GitHub repository of the project.
