@@ -8,6 +8,7 @@ MapCycle is a plugin designed for CounterStrikeSharp. This plugin enables server
 - **Support for Multiple Map Types**: Compatible with both standard and workshop maps.
 - **Simple Configuration**: Uses a JSON file for easy setup.
 - **Chat Notifications**: Informs players about the upcoming map.
+- **Command to manually get/set the next map**: To view the upcoming map, enter the command `mc_nextmap`. To specify the next map, use `mc_nextmap de_dust2`.
 
 ## Installation
 - Download the latest release from [here](https://github.com/RonanLOUARN/Map-Cycle/releases/tag/release).
