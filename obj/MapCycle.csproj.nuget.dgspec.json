@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Ronan\\Desktop\\cs_plugins\\MapCycle\\MapCycle.csproj": {}
+    "C:\\Users\\Ronan\\Desktop\\cs_plugins\\Map-Cycle\\MapCycle.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Ronan\\Desktop\\cs_plugins\\MapCycle\\MapCycle.csproj": {
+    "C:\\Users\\Ronan\\Desktop\\cs_plugins\\Map-Cycle\\MapCycle.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Ronan\\Desktop\\cs_plugins\\MapCycle\\MapCycle.csproj",
+        "projectUniqueName": "C:\\Users\\Ronan\\Desktop\\cs_plugins\\Map-Cycle\\MapCycle.csproj",
         "projectName": "MapCycle",
-        "projectPath": "C:\\Users\\Ronan\\Desktop\\cs_plugins\\MapCycle\\MapCycle.csproj",
+        "projectPath": "C:\\Users\\Ronan\\Desktop\\cs_plugins\\Map-Cycle\\MapCycle.csproj",
         "packagesPath": "C:\\Users\\Ronan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Ronan\\Desktop\\cs_plugins\\MapCycle\\obj\\",
+        "outputPath": "C:\\Users\\Ronan\\Desktop\\cs_plugins\\Map-Cycle\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Ronan\\AppData\\Roaming\\NuGet\\NuGet.Config"

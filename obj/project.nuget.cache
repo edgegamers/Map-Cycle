@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "7VFWdYmSUFBbrcGsJPd4GHIgvztFnpOnSXUaOcIBgXQ8Q0BKmyuFSRnwvH4PhcF/2sk8S2IdF/rHwyjuB3E4Ug==",
+  "dgSpecHash": "8kUUxXhcDIMnI+3QOAnPmUqMUFEXU2EW51PlMRMNKeiAhXlj2vMqxA1m+dP8PuI/KN5A9HKM0Sgzx87pA4TYUA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Ronan\\Desktop\\cs_plugins\\MapCycle\\MapCycle.csproj",
+  "projectFilePath": "C:\\Users\\Ronan\\Desktop\\cs_plugins\\Map-Cycle\\MapCycle.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Ronan\\.nuget\\packages\\counterstrikesharp.api\\1.0.50\\counterstrikesharp.api.1.0.50.nupkg.sha512",
     "C:\\Users\\Ronan\\.nuget\\packages\\mcmaster.netcore.plugins\\1.4.0\\mcmaster.netcore.plugins.1.4.0.nupkg.sha512",

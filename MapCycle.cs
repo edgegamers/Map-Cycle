@@ -32,9 +32,8 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     // plugin informations
     public override string ModuleName => "MapCycle";
     public override string ModuleAuthor => "NANOR";
-    public override string ModuleVersion => "0.0.1";
+    public override string ModuleVersion => "0.0.2";
 
-    
     // plugin configs
     public ConfigGen Config { get; set; } = null!;
     public void OnConfigParsed(ConfigGen config) { Config = config; }
@@ -42,18 +41,56 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     // private variables
     private int _iterationIndex = 0;
     private MapItem? _nextMap;
+    private bool _isMapCustom = false;
 
     // Load the plugin
     public override void Load(bool hotReload)
     {
+        CreateNextMapCommand();
+
         RegisterEventHandler<EventCsWinPanelMatch>((@event, info) =>
         {
-            SetNextMap();
-            Server.PrintToChatAll($"[Map Cycle] The next map is: {_nextMap.Name}");
-            AddTimer(10f, ChangeMap, TimerFlags.STOP_ON_MAPCHANGE);
-            
+            AutoMapCycle();
             return HookResult.Continue;
         });
+    }
+
+    private void CreateNextMapCommand()
+    {
+        AddCommand("mc_nextmap", "", (player, commandInfo) =>
+        {
+
+            var commandMapName = commandInfo.GetArg(1);
+
+            if (commandMapName.Length == 0)
+            {
+                commandInfo.ReplyToCommand($"[Map Cycle] The next map is: {_nextMap.Name}");
+                return;
+            }
+
+            var map = Config.Maps.FirstOrDefault(x => x.Name == commandMapName);
+
+            if (map == null)
+            {
+                commandInfo.ReplyToCommand($"[Map Cycle] The map {commandMapName} doesn't exist in the map cycle.");
+                return;
+            } else {
+                _nextMap = map;
+                _isMapCustom = true;
+                Server.PrintToChatAll($"[Map Cycle] The next map is now: {_nextMap.Name}");
+                commandInfo.ReplyToCommand($"[Map Cycle] The next map is now: {_nextMap.Name}");
+            }
+        });
+    }
+
+    private void AutoMapCycle()
+    {
+        if (!_isMapCustom && _nextMap != null)
+        {
+            SetNextMap();
+        }
+        Server.PrintToChatAll($"[Map Cycle] The next map is: {_nextMap.Name}");
+        AddTimer(10f, ChangeMap, TimerFlags.STOP_ON_MAPCHANGE);
     }
 
     private void ChangeMap()
