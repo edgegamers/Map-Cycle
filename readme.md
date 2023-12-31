@@ -14,7 +14,7 @@ MapCycle is a plugin designed for CounterStrikeSharp. This plugin enables server
 - Download the latest release from [here](https://github.com/RonanLOUARN/Map-Cycle/releases/tag/release).
 - Unzip the folder named `MapCycle`.
 - Place it in the directory: `game/csgo/addons/counterstrikesharp/plugins/`.
-- You can start your server with the two default maps, or add new maps to the configuration file, which will be automatically generated upon the first startup.
+- You can start your server with the two default maps, or add new maps to the configuration file, which will be automatically generated upon the first startup. 
 
 ## Configuration
 The configuration file is automatically generated in `game/csgo/addons/counterstrikesharp/configs/plugins/MapCycle`, initially containing two default maps.
