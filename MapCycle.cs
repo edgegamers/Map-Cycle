@@ -41,13 +41,18 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     // private variables
     private int _iterationIndex = 0;
     private MapItem? _nextMap;
-    private bool _isMapCustom = false;
 
     // Load the plugin
     public override void Load(bool hotReload)
     {
+
+        // Set the next map on map start
+        RegisterListener<Listeners.OnMapStart>(SetNextMap);
+
+        // Create the command to get/set the next map
         CreateNextMapCommand();
 
+        // Create the timer to change the map
         RegisterEventHandler<EventCsWinPanelMatch>((@event, info) =>
         {
             AutoMapCycle();
@@ -76,7 +81,6 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
                 return;
             } else {
                 _nextMap = map;
-                _isMapCustom = true;
                 Server.PrintToChatAll($"[Map Cycle] The next map is now: {_nextMap.Name}");
                 commandInfo.ReplyToCommand($"[Map Cycle] The next map is now: {_nextMap.Name}");
             }
@@ -85,10 +89,6 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
 
     private void AutoMapCycle()
     {
-        if (!_isMapCustom && _nextMap != null)
-        {
-            SetNextMap();
-        }
         Server.PrintToChatAll($"[Map Cycle] The next map is: {_nextMap.Name}");
         AddTimer(10f, ChangeMap, TimerFlags.STOP_ON_MAPCHANGE);
     }
@@ -105,14 +105,15 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         }
     } 
 
-    private void SetNextMap()
+    private void SetNextMap(string mapName)
     {
+
         // By default, we set the first map of the cycle
         _nextMap = Config.Maps[0];
 
         foreach (var map in Config.Maps)
         {
-            if (map.Name == NativeAPI.GetMapName())
+            if (map.Name == mapName)
             {
                 // If there is a map after the current one, we set it as next map
                 if(_iterationIndex + 1 < Config.Maps.Count)
@@ -125,5 +126,6 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         }
 
         _iterationIndex = 0;
+        Server.PrintToChatAll($"[Map Cycle] The next map is: {_nextMap.Name}");
     }
 }
