@@ -8,13 +8,31 @@ MapCycle is a plugin designed for CounterStrikeSharp. This plugin enables server
 - **Support for Multiple Map Types**: Compatible with both standard and workshop maps.
 - **Simple Configuration**: Uses a JSON file for easy setup.
 - **Chat Notifications**: Informs players about the upcoming map.
-- **Command to manually get/set the next map**: To view the upcoming map, enter the command `mc_nextmap`. To specify the next map, use `mc_nextmap de_dust2`.
+- **Command to manually get/set the next map from the SERVER CONSOLE**: To view the upcoming map, enter the command `mc_nextmap?`. To specify the next map, use `mc_nextmap de_dust2`.
+- **Command to manually get/set the next map from the CHAT**: To view the upcoming map, enter the command `!mc_nextmap?`. To specify the next map, use `!mc_nextmap de_dust2`.
 
 ## Installation
 - Download the latest release from [here](https://github.com/RonanLOUARN/Map-Cycle/releases/tag/release).
 - Unzip the folder named `MapCycle`.
 - Place it in the directory: `game/csgo/addons/counterstrikesharp/plugins/`.
 - You can start your server with the two default maps, or add new maps to the configuration file, which will be automatically generated upon the first startup. 
+- This plugins needs you to have access of the flag `@css/changemap` in `game/csgo/addons/counterstrikesharp/configs/admins.json` 
+
+## Admin config
+Go to `game/csgo/addons/counterstrikesharp/configs/admins.json`. Create the file if needed.
+Write the configuration like the following one.
+```json
+{
+  "NANOR": {
+    "identity": "STEAM_0:0:123123123",
+    "flags": ["@css/changemap"]
+  }
+}
+
+```
+
+More informations [here](https://docs.cssharp.dev/docs/admin-framework/defining-admins.html)
+
 
 ## Configuration
 The configuration file is automatically generated in `game/csgo/addons/counterstrikesharp/configs/plugins/MapCycle`, initially containing two default maps.
@@ -62,11 +80,6 @@ Each map in the configuration file includes the following attributes:
 2. Install and activate the plugin on your CounterStrikeSharp server.
 3. The plugin will automatically manage map rotation, announcing the next map to players at the conclusion of each match.
 
-## Plugin Methods
-- `Load(bool hotReload)`: Sets up the plugin and initiates event handlers.
-- `ChangeMap()`: Transitions the game to the subsequent map in the rotation.
-- `SetNextMap()`: Selects the next map in the cycle, based on the currently active map.
-
 ## Dependencies
 - CounterStrikeSharp.API
 - System.Text.Json
@@ -74,7 +87,7 @@ Each map in the configuration file includes the following attributes:
 ## Author
 - ModuleName: MapCycle
 - ModuleAuthor: NANOR
-- ModuleVersion: 1.0.0
+- ModuleVersion: 1.0.2
 
 ## Support
 For assistance, please raise an issue on the GitHub repository of the project.

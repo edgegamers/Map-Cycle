@@ -5,6 +5,9 @@ using CounterStrikeSharp.API.Core.Attributes;
 using CounterStrikeSharp.API.Modules.Timers;
 using Timer = CounterStrikeSharp.API.Modules.Timers.Timer;
 using CounterStrikeSharp.API.Modules.Utils;
+using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Admin;
+using CounterStrikeSharp.API.Core.Attributes.Registration;
 
 namespace MapCycle;
 
@@ -33,7 +36,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     // plugin informations
     public override string ModuleName => "MapCycle";
     public override string ModuleAuthor => "NANOR";
-    public override string ModuleVersion => "1.0.0";
+    public override string ModuleVersion => "1.0.2";
 
     // plugin configs
     public ConfigGen Config { get; set; } = null!;
@@ -63,9 +66,6 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
             SetNextMap(Server.MapName);
         }
 
-        // Create the command to get/set the next map
-        CreateNextMapCommand();
-
         // Print the next map on map start
         PrintNextMapOnMapStart();
 
@@ -77,31 +77,29 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         });
     }
 
-    private void CreateNextMapCommand()
+    [ConsoleCommand("mc_nextmap", "Set the next map of the cycle")]
+    [RequiresPermissions("@css/changemap")]
+    [CommandHelper(minArgs: 1, usage: "<#map name>", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
+    public void OnSetNextCommand(CCSPlayerController? caller, CommandInfo info)
     {
-        AddCommand("mc_nextmap", "", (player, commandInfo) =>
+        var commandMapName = info.GetArg(1);
+        var map = Config.Maps.FirstOrDefault(x => x.Name == commandMapName);
+        if (map == null)
         {
+            info.ReplyToCommand($"{_notExistingMapString} {commandMapName}");
+            return;
+        } else {
+            _nextMap = map;
+            info.ReplyToCommand($"{_nextCustomMapString} {_nextMap.Name}");
+        }
+    }
 
-            var commandMapName = commandInfo.GetArg(1);
-
-            if (commandMapName.Length == 0)
-            {
-                commandInfo.ReplyToCommand($"{_nextMapString} {_nextMap.Name}");
-                return;
-            }
-
-            var map = Config.Maps.FirstOrDefault(x => x.Name == commandMapName);
-
-            if (map == null)
-            {
-                commandInfo.ReplyToCommand($"{_notExistingMapString} {commandMapName}");
-                return;
-            } else {
-                _nextMap = map;
-                Server.PrintToChatAll($"{_nextCustomMapString} {_nextMap.Name}");
-                commandInfo.ReplyToCommand($"{_nextCustomMapString} {_nextMap.Name}");
-            }
-        });
+    [ConsoleCommand("mc_nextmap?", "Get the next map of the cycle")]
+    [RequiresPermissions("@css/changemap")]
+    [CommandHelper(whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
+    public void OnGetNextMapCommand(CCSPlayerController? caller, CommandInfo info)
+    {
+        info.ReplyToCommand($"{_nextMapString} {_nextMap.Name}");
     }
 
     private void PrintNextMapOnMapStart()
