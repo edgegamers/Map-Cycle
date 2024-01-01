@@ -4,6 +4,7 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes;
 using CounterStrikeSharp.API.Modules.Timers;
 using Timer = CounterStrikeSharp.API.Modules.Timers.Timer;
+using CounterStrikeSharp.API.Modules.Utils;
 
 namespace MapCycle;
 
@@ -42,15 +43,31 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     private int _iterationIndex = 0;
     private MapItem? _nextMap;
 
+    private string? _mapCycleStringTitle;
+    private string? _nextMapString;
+    private string? _nextCustomMapString;
+    private string? _notExistingMapString;
+
     // Load the plugin
     public override void Load(bool hotReload)
     {
+        _mapCycleStringTitle = $" {ChatColors.Lime}[Map Cycle]{ChatColors.LightBlue}";
+        _nextMapString = $"{_mapCycleStringTitle} The next map is:";
+        _nextCustomMapString = $"{_mapCycleStringTitle} The next map is now:";
+        _notExistingMapString = $"{_mapCycleStringTitle} This map doesn't exist in the map cycle:";
 
         // Set the next map on map start
         RegisterListener<Listeners.OnMapStart>(SetNextMap);
 
+        if(hotReload){
+            SetNextMap(Server.MapName);
+        }
+
         // Create the command to get/set the next map
         CreateNextMapCommand();
+
+        // Print the next map on map start
+        PrintNextMapOnMapStart();
 
         // Create the timer to change the map
         RegisterEventHandler<EventCsWinPanelMatch>((@event, info) =>
@@ -69,7 +86,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
 
             if (commandMapName.Length == 0)
             {
-                commandInfo.ReplyToCommand($"[Map Cycle] The next map is: {_nextMap.Name}");
+                commandInfo.ReplyToCommand($"{_nextMapString} {_nextMap.Name}");
                 return;
             }
 
@@ -77,19 +94,26 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
 
             if (map == null)
             {
-                commandInfo.ReplyToCommand($"[Map Cycle] The map {commandMapName} doesn't exist in the map cycle.");
+                commandInfo.ReplyToCommand($"{_notExistingMapString} {commandMapName}");
                 return;
             } else {
                 _nextMap = map;
-                Server.PrintToChatAll($"[Map Cycle] The next map is now: {_nextMap.Name}");
-                commandInfo.ReplyToCommand($"[Map Cycle] The next map is now: {_nextMap.Name}");
+                Server.PrintToChatAll($"{_nextCustomMapString} {_nextMap.Name}");
+                commandInfo.ReplyToCommand($"{_nextCustomMapString} {_nextMap.Name}");
             }
         });
     }
 
+    private void PrintNextMapOnMapStart()
+    {
+        AddTimer(10f, () => {
+            Server.PrintToChatAll($"{_nextMapString} {_nextMap.Name}");
+        }, TimerFlags.STOP_ON_MAPCHANGE);
+    }
+
     private void AutoMapCycle()
     {
-        Server.PrintToChatAll($"[Map Cycle] The next map is: {_nextMap.Name}");
+        Server.PrintToChatAll($"{_nextMapString} {_nextMap.Name}");
         AddTimer(10f, ChangeMap, TimerFlags.STOP_ON_MAPCHANGE);
     }
 
@@ -126,6 +150,5 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         }
 
         _iterationIndex = 0;
-        Server.PrintToChatAll($"[Map Cycle] The next map is: {_nextMap.Name}");
     }
 }
