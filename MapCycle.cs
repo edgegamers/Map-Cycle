@@ -36,7 +36,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     // plugin informations
     public override string ModuleName => "MapCycle";
     public override string ModuleAuthor => "NANOR";
-    public override string ModuleVersion => "1.0.2";
+    public override string ModuleVersion => "1.0.3";
 
     // plugin configs
     public ConfigGen Config { get; set; } = null!;
@@ -50,11 +50,12 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     private string? _nextMapString;
     private string? _nextCustomMapString;
     private string? _notExistingMapString;
+    private MapItem? _currentMap;
 
     // Load the plugin
     public override void Load(bool hotReload)
     {
-        _mapCycleStringTitle = $" {ChatColors.Lime}[Map Cycle]{ChatColors.LightBlue}";
+        _mapCycleStringTitle = $" {ChatColors.Red}[Map Cycle]{ChatColors.Default}";
         _nextMapString = $"{_mapCycleStringTitle} The next map is:";
         _nextCustomMapString = $"{_mapCycleStringTitle} The next map is now:";
         _notExistingMapString = $"{_mapCycleStringTitle} This map doesn't exist in the map cycle:";
@@ -95,7 +96,6 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     }
 
     [ConsoleCommand("mc_nextmap?", "Get the next map of the cycle")]
-    [RequiresPermissions("@css/changemap")]
     [CommandHelper(whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
     public void OnGetNextMapCommand(CCSPlayerController? caller, CommandInfo info)
     {
@@ -129,24 +129,42 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
 
     private void SetNextMap(string mapName)
     {
-
         // By default, we set the first map of the cycle
         _nextMap = Config.Maps[0];
 
-        foreach (var map in Config.Maps)
-        {
-            if (map.Name == mapName)
-            {
-                // If there is a map after the current one, we set it as next map
-                if(_iterationIndex + 1 < Config.Maps.Count)
-                {
-                    _nextMap = Config.Maps[_iterationIndex + 1];
-                }
-                break;
-            }
-            _iterationIndex++;
-        }
+        // Get the next map index
+        var _nextIndex = CurrentMapIndex() + 1;
 
-        _iterationIndex = 0;
+        // If the next map index is greater than the map cycle count, we let the first map of the cycle
+        if (_nextIndex < Config.Maps.Count){
+            _nextMap = Config.Maps[_nextIndex];
+        }
+    }
+
+    private MapItem CurrentMap()
+    {
+        if(_currentMap != null && _currentMap.Name == Server.MapName) {
+            return _currentMap;
+        } else
+        {
+            _currentMap = Config.Maps.FirstOrDefault(x => x.Name == Server.MapName);
+            if (_currentMap == null)
+            {
+                Server.PrintToConsole($" {ChatColors.Red}[MapCycle] ****************************ERROR MAP CYCLE******************************");
+                Server.PrintToConsole($" [MapCycle] The current map doesn't exist in the map cycle: {Server.MapName}");
+                Server.PrintToConsole($" [MapCycle] Please check that the map is correcly named in the json config.");
+                Server.PrintToConsole($" {ChatColors.Red}[MapCycle] ****************************ERROR MAP CYCLE******************************");
+            }
+            return _currentMap;
+        }
+    }
+
+    private int CurrentMapIndex()
+    {
+        if(CurrentMap() == null) {
+            return 0;
+        } else {
+            return Config.Maps.FindIndex(a => a.Name == CurrentMap().Name);
+        }
     }
 }
