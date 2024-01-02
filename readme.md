@@ -8,8 +8,12 @@ MapCycle is a plugin designed for CounterStrikeSharp. This plugin enables server
 - **Support for Multiple Map Types**: Compatible with both standard and workshop maps.
 - **Simple Configuration**: Uses a JSON file for easy setup.
 - **Chat Notifications**: Informs players about the upcoming map.
-- **Command to manually get/set the next map from the SERVER CONSOLE**: To view the upcoming map, enter the command `mc_nextmap?`. To specify the next map, use `mc_nextmap de_dust2`.
-- **Command to manually get/set the next map from the CHAT**: To view the upcoming map, enter the command `!mc_nextmap?`. To specify the next map, use `!mc_nextmap de_dust2`.
+
+## Commands
+- **`mc_nextmap?` / `mc_nextmap de_dust2` (SERVER CONSOLE)**: Use `mc_nextmap?` to check the upcoming map. To set the next map, input `mc_nextmap de_dust2`.
+- **`!mc_nextmap?` / `!mc_nextmap de_dust2` (CHAT)**: Enter `!mc_nextmap?` to view the next map. To select a different map, type `!mc_nextmap de_dust2`.
+- **`!mc_goto de_dust2`**: This command allows direct access to a chosen map (`de_dust2` in this case) in your cycle, bypassing the need to wait for the current match to end.
+- **`!mc_go`**: Use this command to immediately transition to the next map, without the need to wait for the current match to conclude.
 
 ## Installation
 - Download the latest release from [here](https://github.com/RonanLOUARN/Map-Cycle/releases/tag/release).

@@ -99,6 +99,33 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         }
     }
 
+    [ConsoleCommand("mc_go", "Direct switch to the map you want of the cycle")]
+    [RequiresPermissions("@css/changemap")]
+    [CommandHelper( whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
+    public void OnGoToNextMapCommand(CCSPlayerController? caller, CommandInfo info)
+    {
+        ChangeMap();
+    }
+
+    [ConsoleCommand("mc_goto", "Direct switch to the next map of the cycle")]
+    [RequiresPermissions("@css/changemap")]
+    [CommandHelper(minArgs: 1, usage: "<#map name>", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
+    public void OnGoToNextMapNamedCommand(CCSPlayerController? caller, CommandInfo info)
+    {
+        var commandMapName = info.GetArg(1);
+        var map = Config.Maps.FirstOrDefault(x => x.Name == commandMapName);
+        if (map == null)
+        {
+            info.ReplyToCommand($"{_notExistingMapString} {commandMapName}");
+            return;
+        }
+        else
+        {
+            _nextMap = map;
+            ChangeMap();
+        }
+    }
+
     [ConsoleCommand("mc_nextmap?", "Get the next map of the cycle")]
     [CommandHelper(whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
     public void OnGetNextMapCommand(CCSPlayerController? caller, CommandInfo info)
