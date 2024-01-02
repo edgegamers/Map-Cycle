@@ -20,6 +20,9 @@ public class ConfigGen : BasePluginConfig
         new MapItem { Name = "de_dust2", Id = "de_dust2", Workshop = false },
         new MapItem { Name = "de_aztec", Id = "3070960099", Workshop = true }
     };
+
+    [JsonPropertyName("Randomize")]
+    public bool Randomize { get; set; } = false;
 }
 
 // Class to instanciate a map item with its id and name
@@ -51,6 +54,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     private string? _nextCustomMapString;
     private string? _notExistingMapString;
     private MapItem? _currentMap;
+    private Random _randomIndex = new Random();
 
     // Load the plugin
     public override void Load(bool hotReload)
@@ -131,9 +135,15 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     {
         // By default, we set the first map of the cycle
         _nextMap = Config.Maps[0];
-
         // Get the next map index
         var _nextIndex = CurrentMapIndex() + 1;
+
+        if (Config.Randomize)
+        {
+            do {
+                _nextIndex = _randomIndex.Next(0, Config.Maps.Count);
+            } while (_nextIndex == CurrentMapIndex());
+        }
 
         // If the next map index is greater than the map cycle count, we let the first map of the cycle
         if (_nextIndex < Config.Maps.Count){
@@ -141,7 +151,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         }
     }
 
-    private MapItem CurrentMap()
+    private MapItem? CurrentMap()
     {
         if(_currentMap != null && _currentMap.Name == Server.MapName) {
             return _currentMap;

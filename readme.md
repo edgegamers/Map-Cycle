@@ -37,6 +37,8 @@ More informations [here](https://docs.cssharp.dev/docs/admin-framework/defining-
 ## Configuration
 The configuration file is automatically generated in `game/csgo/addons/counterstrikesharp/configs/plugins/MapCycle`, initially containing two default maps.
 
+`Randomize` to play the maps in random order.
+
 Each map in the configuration file includes the following attributes:
 - `Name`: The actual name of the map (e.g., `de_dust2`, `de_cbble`).
 - `Id`: The workshop ID, or the map name again if it's an official map.
@@ -45,11 +47,17 @@ Each map in the configuration file includes the following attributes:
 ### Example Configuration
 ```json
 {
+  "Randomize": true,
   "Maps": [
     {
       "Name": "de_dust2",
       "Id": "de_dust2",
       "Workshop": false
+    },
+    {
+        "Name": "cs_asssault",
+        "Id": "3070594412",
+        "Workshop": true
     },
     {
       "Name": "de_lake",
