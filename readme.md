@@ -99,7 +99,7 @@ Each map in the configuration file includes the following attributes:
 ## Author
 - ModuleName: MapCycle
 - ModuleAuthor: NANOR
-- ModuleVersion: 1.0.2
+- ModuleVersion: 1.0.3
 
 ## Support
 For assistance, please raise an issue on the GitHub repository of the project.
