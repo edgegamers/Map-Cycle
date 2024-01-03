@@ -59,9 +59,9 @@ Each map in the configuration file includes the following attributes:
       "Workshop": false
     },
     {
-        "Name": "cs_asssault",
-        "Id": "3070594412",
-        "Workshop": true
+      "Name": "cs_assault",
+      "Id": "3070594412",
+      "Workshop": true
     },
     {
       "Name": "de_lake",
