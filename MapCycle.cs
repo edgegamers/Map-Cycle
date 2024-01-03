@@ -46,7 +46,6 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     public void OnConfigParsed(ConfigGen config) { Config = config; }
 
     // private variables
-    private int _iterationIndex = 0;
     private MapItem? _nextMap;
 
     private string? _mapCycleStringTitle;
@@ -116,11 +115,13 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         var map = Config.Maps.FirstOrDefault(x => x.Name == commandMapName);
         if (map == null)
         {
+            // If the map doesn't exist, we print an error
             info.ReplyToCommand($"{_notExistingMapString} {commandMapName}");
             return;
         }
         else
         {
+            // Else we change the map
             _nextMap = map;
             ChangeMap();
         }
@@ -130,11 +131,13 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     [CommandHelper(whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
     public void OnGetNextMapCommand(CCSPlayerController? caller, CommandInfo info)
     {
+        // Print the next map
         info.ReplyToCommand($"{_nextMapString} {_nextMap.Name}");
     }
 
     private void PrintNextMapOnMapStart()
     {
+        // Print the next map on map start
         AddTimer(10f, () => {
             Server.PrintToChatAll($"{_nextMapString} {_nextMap.Name}");
         }, TimerFlags.STOP_ON_MAPCHANGE);
@@ -142,18 +145,22 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
 
     private void AutoMapCycle()
     {
+        // Print the next map
         Server.PrintToChatAll($"{_nextMapString} {_nextMap.Name}");
+        // Change the map
         AddTimer(10f, ChangeMap, TimerFlags.STOP_ON_MAPCHANGE);
     }
 
     private void ChangeMap()
     {
+        // If the next map is a workshop map, we use the host_workshop_map command
         if (_nextMap.Workshop)
         {
             Server.ExecuteCommand($"host_workshop_map {_nextMap.Id}");
         }
         else
         {
+            // Else we use the map command
             Server.ExecuteCommand($"map {_nextMap.Name}");
         }
     } 
@@ -165,6 +172,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         // Get the next map index
         var _nextIndex = CurrentMapIndex() + 1;
 
+        // If the randomize option is enabled, we set a random map
         if (Config.Randomize)
         {
             do {
@@ -180,17 +188,21 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
 
     private MapItem? CurrentMap()
     {
+        // If the current map is the same as the server map, we return it
         if(_currentMap != null && _currentMap.Name == Server.MapName) {
+            Server.PrintToChatAll($" {ChatColors.Red}[MapCycle] ****************************{_currentMap.Name}/ {Server.MapName}******************************");
             return _currentMap;
         } else
         {
+            // Else we search the current map in the map cycle
             _currentMap = Config.Maps.FirstOrDefault(x => x.Name == Server.MapName);
+            // If the current map doesn't exist in the map cycle, we print an error
             if (_currentMap == null)
             {
-                Server.PrintToConsole($" {ChatColors.Red}[MapCycle] ****************************ERROR MAP CYCLE******************************");
-                Server.PrintToConsole($" [MapCycle] The current map doesn't exist in the map cycle: {Server.MapName}");
-                Server.PrintToConsole($" [MapCycle] Please check that the map is correcly named in the json config.");
-                Server.PrintToConsole($" {ChatColors.Red}[MapCycle] ****************************ERROR MAP CYCLE******************************");
+                Server.PrintToChatAll($" {ChatColors.Red}[MapCycle] ****************************ERROR MAP CYCLE******************************");
+                Server.PrintToChatAll($" [MapCycle] The current map doesn't exist in the map cycle: {Server.MapName}");
+                Server.PrintToChatAll($" [MapCycle] Please check that the map is correcly named in the json config.");
+                Server.PrintToChatAll($" {ChatColors.Red}[MapCycle] ****************************ERROR MAP CYCLE******************************");
             }
             return _currentMap;
         }
