@@ -39,7 +39,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     // plugin informations
     public override string ModuleName => "MapCycle";
     public override string ModuleAuthor => "NANOR";
-    public override string ModuleVersion => "1.0.3";
+    public override string ModuleVersion => "1.0.4";
 
     // plugin configs
     public ConfigGen Config { get; set; } = null!;
@@ -66,7 +66,9 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         // Set the next map on map start
         RegisterListener<Listeners.OnMapStart>(SetNextMap);
 
-        if(hotReload){
+        AddCommand("mc_nextmap?", "Get the next map of the cycle", OnGetNextMapCommand);
+
+        if (hotReload){
             SetNextMap(Server.MapName);
         }
 
@@ -127,8 +129,6 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         }
     }
 
-    [ConsoleCommand("mc_nextmap?", "Get the next map of the cycle")]
-    [CommandHelper(whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
     public void OnGetNextMapCommand(CCSPlayerController? caller, CommandInfo info)
     {
         // Print the next map
@@ -138,7 +138,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     private void PrintNextMapOnMapStart()
     {
         // Print the next map on map start
-        AddTimer(10f, () => {
+        AddTimer(10, () => {
             Server.PrintToChatAll($"{_nextMapString} {_nextMap.Name}");
         }, TimerFlags.STOP_ON_MAPCHANGE);
     }

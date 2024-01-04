@@ -3,11 +3,18 @@
 ## Overview
 MapCycle is a plugin designed for CounterStrikeSharp. This plugin enables server administrators to automate the rotation of a predefined list of maps. It's compatible with both standard and workshop maps.
 
+## Donate
+I dedicate a significant part of my free time to coding and developing meaningful plugins for CS2. If you appreciate my work and would like to support me, please consider making a donation through PayPal. Your support helps me continue coding CS2 plugins. Thank you!
+[![PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=MVCFKC7V772WS)
+
 ## Features
 - **Automatic Map Rotation**: Rotates maps according to a configurable list.
 - **Support for Multiple Map Types**: Compatible with both standard and workshop maps.
 - **Simple Configuration**: Uses a JSON file for easy setup.
 - **Chat Notifications**: Informs players about the upcoming map.
+
+## Compatibility
+- [CS2 Simple Admin](https://github.com/daffyyyy/CS2-SimpleAdmin)
 
 ## Commands
 - **`mc_nextmap?` / `mc_nextmap de_dust2` (SERVER CONSOLE)**: Use `mc_nextmap?` to check the upcoming map. To set the next map, input `mc_nextmap de_dust2`.
@@ -16,7 +23,7 @@ MapCycle is a plugin designed for CounterStrikeSharp. This plugin enables server
 - **`!mc_go`**: Use this command to immediately transition to the next map, without the need to wait for the current match to conclude.
 
 ## Installation
-- Download the latest release from [here](https://github.com/RonanLOUARN/Map-Cycle/releases/tag/release).
+- Download the latest release from [here](https://github.com/RonanLOUARN/Map-Cycle/releases).
 - Unzip the folder named `MapCycle`.
 - Place it in the directory: `game/csgo/addons/counterstrikesharp/plugins/`.
 - You can start your server with the two default maps, or add new maps to the configuration file, which will be automatically generated upon the first startup. 
@@ -99,7 +106,7 @@ Each map in the configuration file includes the following attributes:
 ## Author
 - ModuleName: MapCycle
 - ModuleAuthor: NANOR
-- ModuleVersion: 1.0.3
+- ModuleVersion: 1.0.4
 
 ## Support
 For assistance, please raise an issue on the GitHub repository of the project.
