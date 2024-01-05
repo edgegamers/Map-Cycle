@@ -26,10 +26,44 @@ namespace MapCycle
 
         public override string ModuleVersion => throw new NotImplementedException();
 
+
+        // Singleton Instance ---------------------------------------
+        private static Rtv _instance;
+
+        public static Rtv Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new Rtv();
+                }
+                return _instance;
+            }
+        }
+
+        // Constructor ---------------------------------------
+
+        public Rtv()
+        {
+        }
+
+        // End vote Event ---------------------------------------
+        public delegate void EndVoteEventHandler(object sender, EventArgs e);
+
+        // Declare event
+        public event EndVoteEventHandler EndVoteEvent;
+
+        // Trigger event
+        protected virtual void OnEndVote(EventArgs e)
+        {
+            EndVoteEvent?.Invoke(this, e);
+        }
+
         public void Call()
         {
             SetRandomMapList();
-            AddTimer(Config.RtvDelayInSeconds, StartVote, TimerFlags.STOP_ON_MAPCHANGE);
+            StartVote();
         }
 
         public void StartVote()
@@ -49,10 +83,17 @@ namespace MapCycle
             if (VoteList.Count != 0) {
                 mapIndex = VoteList.GroupBy(i => i).OrderByDescending(grp => grp.Count()).Select(grp => grp.Key).First();
             }
-            if(mapIndex == -1) return;
+            if(mapIndex == -1) {
+                Server.PrintToChatAll($" {ChatColors.Red}[MapCycle] {ChatColors.Default}No one voted, the next map will be chosen in the map cycle");
+                OnEndVote(EventArgs.Empty);
+                return;
+            }
 
             NextMap = MapList[mapIndex];
-            Server.PrintToChatAll($" {ChatColors.Red}[MapCycle] The next voted map is {NextMap.Name}");
+            Server.PrintToChatAll($" {ChatColors.Red}[MapCycle] {ChatColors.Default}The vote is finished!");
+            OnEndVote(EventArgs.Empty);
+            VoteList = new List<int>();
+            PlayerVotedList = new List<string>();
         }
 
         public void SetRandomMapList()
@@ -67,7 +108,7 @@ namespace MapCycle
 
         public void RtvCommand()
         {
-            Server.PrintToChatAll($" {ChatColors.Red}[MapCycle] Vote for the next map by typing: !mc_vote number");
+            Server.PrintToChatAll($" {ChatColors.Red}[MapCycle] {ChatColors.Default}Vote for the next map by typing: !mc_vote number");
         
             var i = 1;
             MapList.ForEach(map => {
@@ -82,28 +123,27 @@ namespace MapCycle
             {
                 if(!VoteEnabled)
                 {
-                    info.ReplyToCommand($" {ChatColors.Red}[MapCycle] Votes are not yet open");
+                    info.ReplyToCommand($" {ChatColors.Red}[MapCycle] {ChatColors.Default}Votes are not yet open");
                     return;
                 }
 
                 if(PlayerVotedList.Contains(caller!.PlayerName))
                 {
-                    info.ReplyToCommand($" {ChatColors.Red}[MapCycle] You already voted");
+                    info.ReplyToCommand($" {ChatColors.Red}[MapCycle] {ChatColors.Default}You already voted");
                     return;
                 } else {
                     var commandIndex = int.Parse(info.GetArg(1)) - 1;
                     PlayerVotedList.Add(caller!.PlayerName);
                     VoteList.Add(commandIndex);
                     VoteCount++;
-                    info.ReplyToCommand($" {ChatColors.Red}[MapCycle] You voted for {MapList[commandIndex].Name}");
+                    info.ReplyToCommand($" {ChatColors.Red}[MapCycle] {ChatColors.Default}You voted for {MapList[commandIndex].Name}");
                 }
                 
             }
             catch (Exception e)
             {
                 Server.PrintToConsole($" {ChatColors.Red}[MapCycleError] {ChatColors.Default}{e}");
-                // Code pour gérer toute exception
-                info.ReplyToCommand($" {ChatColors.Red}[MapCycle] Vote invalid");
+                info.ReplyToCommand($" {ChatColors.Red}[MapCycle] {ChatColors.Default}Vote invalid");
             }
         }
     }

@@ -17,10 +17,16 @@ I dedicate a significant part of my free time to coding and developing meaningfu
 - [CS2 Simple Admin](https://github.com/daffyyyy/CS2-SimpleAdmin)
 
 ## Commands
+### Map Cycle
 - **`mc_nextmap?` / `mc_nextmap de_dust2` (SERVER CONSOLE)**: Use `mc_nextmap?` to check the upcoming map. To set the next map, input `mc_nextmap de_dust2`.
 - **`!mc_nextmap?` / `!mc_nextmap de_dust2` (CHAT)**: Enter `!mc_nextmap?` to view the next map. To select a different map, type `!mc_nextmap de_dust2`.
 - **`!mc_goto de_dust2`**: This command allows direct access to a chosen map (`de_dust2` in this case) in your cycle, bypassing the need to wait for the current match to end.
 - **`!mc_go`**: Use this command to immediately transition to the next map, without the need to wait for the current match to conclude.
+
+### RTV
+- **`!mc_vote`**: Vote for a map [RTV]. E.g `!mc_vote 5`
+
+![img](https://drive.google.com/file/d/18yyRQb2Z5mfOI7a_mkhCcudb8c0Tq_UJ/view?usp=sharing)
 
 ## Installation
 - Download the latest release from [here](https://github.com/RonanLOUARN/Map-Cycle/releases).
@@ -44,11 +50,14 @@ Write the configuration like the following one.
 
 More informations [here](https://docs.cssharp.dev/docs/admin-framework/defining-admins.html)
 
-
 ## Configuration
 The configuration file is automatically generated in `game/csgo/addons/counterstrikesharp/configs/plugins/MapCycle`, initially containing two default maps.
 
+**JSON attributes**
 `Randomize` to play the maps in random order.
+`RtvEnabled` Enable or disable random map cycle.
+`RtvMapCount` Number of proposed maps. They are randomly selected in the cycle.
+`RtvRoundStartVote` Number of the round the vote start. E.g 5 the vote will at the beginning of the fifth round.
 
 Each map in the configuration file includes the following attributes:
 - `Name`: The actual name of the map (e.g., `de_dust2`, `de_cbble`).
@@ -58,7 +67,10 @@ Each map in the configuration file includes the following attributes:
 ### Example Configuration
 ```json
 {
-  "Randomize": true,
+  "Randomize": false,
+  "RtvEnabled": true,
+  "RtvMapCount": 5,
+  "RtvRoundStartVote": 1,
   "Maps": [
     {
       "Name": "de_dust2",
@@ -66,9 +78,9 @@ Each map in the configuration file includes the following attributes:
       "Workshop": false
     },
     {
-      "Name": "cs_assault",
-      "Id": "3070594412",
-      "Workshop": true
+        "Name": "cs_assault",
+        "Id": "3070594412",
+        "Workshop": true
     },
     {
       "Name": "de_lake",
@@ -81,7 +93,7 @@ Each map in the configuration file includes the following attributes:
       "Workshop": true
     }
   ],
-  "ConfigVersion": 1
+  "ConfigVersion": 1 // Do not touch
 }
 
 ```
@@ -106,7 +118,7 @@ Each map in the configuration file includes the following attributes:
 ## Author
 - ModuleName: MapCycle
 - ModuleAuthor: NANOR
-- ModuleVersion: 1.0.4
+- ModuleVersion: 1.1.0
 
 ## Support
 For assistance, please raise an issue on the GitHub repository of the project.
