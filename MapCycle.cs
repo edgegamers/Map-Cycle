@@ -47,7 +47,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     // plugin informations
     public override string ModuleName => "MapCycle";
     public override string ModuleAuthor => "NANOR";
-    public override string ModuleVersion => "1.1.0";
+    public override string ModuleVersion => "1.1.1";
 
     // plugin configs
     public ConfigGen Config { get; set; } = null!;
@@ -214,7 +214,9 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
 
     private void ChangeMap()
     {
-        _rtv.NextMap = null;
+        if(_rtv != null){
+            _rtv.NextMap = null;
+        }
         _currentRound = 0;
 
         // If the next map is a workshop map, we use the host_workshop_map command
