@@ -8,7 +8,6 @@ using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
-
 namespace MapCycle;
 
 // Class to fetch data from the json config
@@ -23,6 +22,15 @@ public class ConfigGen : BasePluginConfig
 
     [JsonPropertyName("Randomize")]
     public bool Randomize { get; set; } = false;
+
+    [JsonPropertyName("RtvEnabled")]
+    public bool RtvEnabled { get; set; } = false;
+    [JsonPropertyName("RtvMapCount")]
+    public int RtvMapCount { get; set; } = 5;
+    [JsonPropertyName("RtvDelayInSeconds")]
+    public int RtvDelayInSeconds { get; set; } = 30;
+    [JsonPropertyName("RtvDurationInSeconds")]
+    public int RtvDurationInSeconds { get; set; } = 30;
 }
 
 // Class to instanciate a map item with its id and name
@@ -43,6 +51,8 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
 
     // plugin configs
     public ConfigGen Config { get; set; } = null!;
+    public bool VoteCountNeededPercent { get; private set; }
+
     public void OnConfigParsed(ConfigGen config) { Config = config; }
 
     // private variables
@@ -54,10 +64,12 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     private string? _notExistingMapString;
     private MapItem? _currentMap;
     private Random _randomIndex = new Random();
+    private Rtv? _rtv;
 
     // Load the plugin
     public override void Load(bool hotReload)
     {
+        // Strings for chat messages
         _mapCycleStringTitle = $" {ChatColors.Red}[Map Cycle]{ChatColors.Default}";
         _nextMapString = $"{_mapCycleStringTitle} The next map is:";
         _nextCustomMapString = $"{_mapCycleStringTitle} The next map is now:";
@@ -69,11 +81,21 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         AddCommand("mc_nextmap?", "Get the next map of the cycle", OnGetNextMapCommand);
 
         if (hotReload){
-            SetNextMap(Server.MapName);
+            if (!Config.RtvEnabled)
+            {
+                SetNextMap(Server.MapName);
+            } else {
+                StartRtv(Server.MapName);
+            }
         }
 
         // Print the next map on map start
-        PrintNextMapOnMapStart();
+        if(!Config.RtvEnabled)
+        {
+            PrintNextMapOnMapStart();
+        } else {
+            RegisterListener<Listeners.OnMapStart>(StartRtv);
+        }
 
         // Create the timer to change the map
         RegisterEventHandler<EventCsWinPanelMatch>((@event, info) =>
@@ -81,6 +103,13 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
             AutoMapCycle();
             return HookResult.Continue;
         });
+    }
+
+    private void StartRtv(string mapName)
+    {
+        _rtv = new Rtv { Config = Config };
+        _rtv.Call();
+        AddCommand("mc_vote", "Get the next map of the cycle", _rtv.AddVote);
     }
 
     [ConsoleCommand("mc_nextmap", "Set the next map of the cycle")]
@@ -132,7 +161,11 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     public void OnGetNextMapCommand(CCSPlayerController? caller, CommandInfo info)
     {
         // Print the next map
-        info.ReplyToCommand($"{_nextMapString} {_nextMap.Name}");
+        if(_nextMap == null) {
+            info.ReplyToCommand($"{_mapCycleStringTitle} The vote will define the next map");
+        } else {
+            info.ReplyToCommand($"{_nextMapString} {_nextMap.Name}");
+        }
     }
 
     private void PrintNextMapOnMapStart()
@@ -145,6 +178,10 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
 
     private void AutoMapCycle()
     {
+        if (_rtv != null && _rtv.NextMap != null)
+        {
+            _nextMap = _rtv.NextMap;
+        }
         // Print the next map
         Server.PrintToChatAll($"{_nextMapString} {_nextMap.Name}");
         // Change the map
