@@ -26,7 +26,7 @@ I dedicate a significant part of my free time to coding and developing meaningfu
 ### RTV
 - **`!mc_vote`**: Vote for a map [RTV]. E.g `!mc_vote 5`
 
-![img](https://drive.google.com/file/d/18yyRQb2Z5mfOI7a_mkhCcudb8c0Tq_UJ/view?usp=sharing)
+![img](https://drive.google.com/file/d/18yyRQb2Z5mfOI7a_mkhCcudb8c0Tq_UJ/preview)
 
 ## Installation
 - Download the latest release from [here](https://github.com/RonanLOUARN/Map-Cycle/releases).
