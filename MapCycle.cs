@@ -102,7 +102,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         if (Config.RtvEnabled)
         {
             AddCommand("mc_vote", "Get the next map of the cycle", _rtv.AddVote);
-
+            
             // Add the event to change the map when the vote is finished
             _rtv.EndVoteEvent += (sender, e) =>
             {
@@ -190,14 +190,6 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         } else {
             info.ReplyToCommand($"{_nextMapString} {_nextMap.Name}");
         }
-    }
-
-    private void PrintNextMapOnMapStart()
-    {
-        // Print the next map on map start
-        AddTimer(10, () => {
-            Server.PrintToChatAll($"{_nextMapString} {_nextMap.Name}");
-        }, TimerFlags.STOP_ON_MAPCHANGE);
     }
 
     private void AutoMapCycle()

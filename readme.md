@@ -58,6 +58,7 @@ The configuration file is automatically generated in `game/csgo/addons/counterst
 `RtvEnabled` Enable or disable random map cycle.
 `RtvMapCount` Number of proposed maps. They are randomly selected in the cycle.
 `RtvRoundStartVote` Number of the round the vote start. E.g 5 the vote will at the beginning of the fifth round.
+`RtvDurationInSeconds` Voting duration
 
 Each map in the configuration file includes the following attributes:
 - `Name`: The actual name of the map (e.g., `de_dust2`, `de_cbble`).
@@ -71,6 +72,7 @@ Each map in the configuration file includes the following attributes:
   "RtvEnabled": true,
   "RtvMapCount": 5,
   "RtvRoundStartVote": 1,
+  "RtvDurationInSeconds": 30,
   "Maps": [
     {
       "Name": "de_dust2",
@@ -97,6 +99,22 @@ Each map in the configuration file includes the following attributes:
 }
 
 ```
+
+## Troubleshooting
+### If the Cycle doesn't work as expected and it restarts to the first map
+1) **Check if the JSON config is correctly formated.** You can use this tool to verify that: https://jsonformatter.curiousconcept.com/
+If it's correctly formated then you'll have a green screen
+
+![img](https://drive.google.com/uc?export=view&id=1rzZxelI_hmk1yVMJICXckw6eBBJmfGyx)
+
+If not, you'll have a red screen with explanations:
+
+![img](https://drive.google.com/uc?export=view&id=1RW5HQ8jc363xEVKZzrJwC3Lvk0YOPmLv)
+
+
+2) **Check if the map name is correct.**
+Set the map on your server with `host_workshop_map 123123123` and when the map has started you verify the name directly on the steam server browser.
+![img](https://drive.google.com/uc?export=view&id=1vJllKCRsX9oUR9HC4yNrzkE45jxM8NnL)
 
 ### ConfigGen Class
 - `Maps`: A list of `MapItem` objects, with each object representing a map in the rotation cycle.
