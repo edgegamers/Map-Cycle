@@ -54,11 +54,14 @@ More informations [here](https://docs.cssharp.dev/docs/admin-framework/defining-
 The configuration file is automatically generated in `game/csgo/addons/counterstrikesharp/configs/plugins/MapCycle`, initially containing two default maps.
 
 **JSON attributes**
+
 `Randomize` to play the maps in random order.
+
 `RtvEnabled` Enable or disable random map cycle.
+
 `RtvMapCount` Number of proposed maps. They are randomly selected in the cycle.
+
 `RtvRoundStartVote` Number of the round the vote start. E.g 5 the vote will at the beginning of the fifth round.
-`RtvDurationInSeconds` Voting duration
 
 Each map in the configuration file includes the following attributes:
 - `Name`: The actual name of the map (e.g., `de_dust2`, `de_cbble`).
