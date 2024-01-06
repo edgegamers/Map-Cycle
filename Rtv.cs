@@ -133,10 +133,16 @@ namespace MapCycle
                     return;
                 } else {
                     var commandIndex = int.Parse(info.GetArg(1)) - 1;
-                    PlayerVotedList.Add(caller!.PlayerName);
-                    VoteList.Add(commandIndex);
-                    VoteCount++;
-                    info.ReplyToCommand($" {ChatColors.Red}[MapCycle] {ChatColors.Default}You voted for {MapList[commandIndex].Name}");
+                    if(commandIndex > MapList.Count - 1 || commandIndex < 0)
+                    {
+                        info.ReplyToCommand($" {ChatColors.Red}[MapCycle] {ChatColors.Default}Vote invalid");
+                        return;
+                    } else {
+                        PlayerVotedList.Add(caller!.PlayerName);
+                        VoteList.Add(commandIndex);
+                        VoteCount++;
+                        info.ReplyToCommand($" {ChatColors.Red}[MapCycle] {ChatColors.Default}You voted for {MapList[commandIndex].Name}");
+                    }
                 }
                 
             }

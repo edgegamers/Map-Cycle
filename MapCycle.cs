@@ -25,10 +25,13 @@ public class ConfigGen : BasePluginConfig
 
     [JsonPropertyName("RtvEnabled")]
     public bool RtvEnabled { get; set; } = false;
+
     [JsonPropertyName("RtvMapCount")]
     public int RtvMapCount { get; set; } = 5;
-    [JsonPropertyName("RtvDelayInSeconds")]
+
+    [JsonPropertyName("RtvRoundStartVote")]
     public int RtvRoundStartVote { get; set; } = 1;
+    
     [JsonPropertyName("RtvDurationInSeconds")]
     public int RtvDurationInSeconds { get; set; } = 30;
 }
