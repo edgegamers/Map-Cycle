@@ -63,6 +63,8 @@ The configuration file is automatically generated in `game/csgo/addons/counterst
 
 `RtvRoundStartVote` Number of the round the vote start. E.g 5 the vote will at the beginning of the fifth round.
 
+`RtvDurationInSeconds` Voting duration
+
 Each map in the configuration file includes the following attributes:
 - `Name`: The actual name of the map (e.g., `de_dust2`, `de_cbble`).
 - `Id`: The workshop ID, or the map name again if it's an official map.
