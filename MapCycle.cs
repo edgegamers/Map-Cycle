@@ -31,7 +31,7 @@ public class ConfigGen : BasePluginConfig
 
     [JsonPropertyName("RtvRoundStartVote")]
     public int RtvRoundStartVote { get; set; } = 1;
-    
+
     [JsonPropertyName("RtvDurationInSeconds")]
     public int RtvDurationInSeconds { get; set; } = 30;
 }
@@ -50,7 +50,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     // plugin informations
     public override string ModuleName => "MapCycle";
     public override string ModuleAuthor => "NANOR";
-    public override string ModuleVersion => "1.1.1";
+    public override string ModuleVersion => "1.1.3";
 
     // plugin configs
     public ConfigGen Config { get; set; } = null!;
