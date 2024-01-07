@@ -1,0 +1,16 @@
+{
+    "prefix": " {red}[Цикл карты]{default}",
+    "NextMap": "%prefix% Следующая карта: {0}",
+    "NextMapNow": "%prefix% Следующая карта сейчас: {0}",
+    "NextMapUnset": "%prefix% Голосование определит следующую карту",
+    "NotExistingMap": "%prefix% Этой карты нет в цикле карт: {0}",
+    "NoVotes": "%prefix% Никто не голосовал, следующая карта будет выбрана в цикле карт",
+    "VoteFinished": "%prefix% Голосование закончено!",
+    "VoteNotOpen": "%prefix% Голосование еще не открыто",
+    "VotedAlready": "%prefix% Вы уже голосовали",
+    "VoteInvalid": "%prefix% Голос недействителен",
+    "VoteConfirm": "%prefix% Вы проголосовали за {0}",
+    "AnnounceVoteHow": "%prefix% Проголосуйте за следующую карту, введя: !<number>",
+    "VoteRankFormat": "%prefix% [{green}{0}{default}] - {1}",
+    "AlreadyVoted": "%prefix% Вы уже проголосовали"
+}

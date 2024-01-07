@@ -18,13 +18,18 @@ I dedicate a significant part of my free time to coding and developing meaningfu
 
 ## Commands
 ### Map Cycle
-- **`mc_nextmap?` / `mc_nextmap de_dust2` (SERVER CONSOLE)**: Use `mc_nextmap?` to check the upcoming map. To set the next map, input `mc_nextmap de_dust2`.
-- **`!mc_nextmap?` / `!mc_nextmap de_dust2` (CHAT)**: Enter `!mc_nextmap?` to view the next map. To select a different map, type `!mc_nextmap de_dust2`.
+- **`mc_nextmap` / `mc_nextmap de_dust2` (SERVER CONSOLE)**: Use `mc_nextmap` to check the upcoming map. To set the next map, input `mc_nextmap de_dust2`.
+- **`!mc_nextmap` / `!mc_nextmap de_dust2` (CHAT)**: Enter `!mc_nextmap` to view the next map. To select a different map, type `!mc_nextmap de_dust2`.
 - **`!mc_goto de_dust2`**: This command allows direct access to a chosen map (`de_dust2` in this case) in your cycle, bypassing the need to wait for the current match to end.
 - **`!mc_go`**: Use this command to immediately transition to the next map, without the need to wait for the current match to conclude.
 
 ### RTV
+
+#### Deprecated
 - **`!mc_vote`**: Vote for a map [RTV]. E.g `!mc_vote 5`
+
+#### New command
+Use the ChatMenu to vote. The !mc_vote command no longer exists. To vote, simply press !1, or !2, or !3 etc...
 
 ![img](https://drive.google.com/uc?export=view&id=18yyRQb2Z5mfOI7a_mkhCcudb8c0Tq_UJ)
 
@@ -61,7 +66,7 @@ The configuration file is automatically generated in `game/csgo/addons/counterst
 
 `RtvMapCount` Number of proposed maps. They are randomly selected in the cycle.
 
-`RtvRoundStartVote` Number of the round the vote start. E.g 5 the vote will at the beginning of the fifth round.
+`RtvRoundStartVote` Number of the round the vote start. E.g 5 the vote will at the beginning of the fifth round (warmup not included).
 
 `RtvDurationInSeconds` Voting duration
 
@@ -141,7 +146,7 @@ Set the map on your server with `host_workshop_map 123123123` and when the map h
 ## Author
 - ModuleName: MapCycle
 - ModuleAuthor: NANOR
-- ModuleVersion: 1.1.3
+- ModuleVersion: 1.2.0
 
 ## Support
 For assistance, please raise an issue on the GitHub repository of the project.
