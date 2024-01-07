@@ -1,0 +1,16 @@
+{
+    "prefix": " {red}[دورة الخريطة]{default}",
+    "NextMap": "%prefix% الخريطة التالية هي: {0}",
+    "NextMapNow": "%prefix% الخريطة التالية الآن هي: {0}",
+    "NextMapUnset": "%prefix% سيتم تحديد الخريطة التالية عن طريق التصويت",
+    "NotExistingMap": "%prefix% هذه الخريطة غير موجودة في دورة الخرائط: {0}",
+    "NoVotes": "%prefix% لا أحد قام بالتصويت، سيتم اختيار الخريطة التالية في دورة الخرائط",
+    "VoteFinished": "%prefix% انتهى التصويت!",
+    "VoteNotOpen": "%prefix% التصويت لم يبدأ بعد",
+    "VotedAlready": "%prefix% لقد قمت بالتصويت بالفعل",
+    "VoteInvalid": "%prefix% التصويت غير صالح",
+    "VoteConfirm": "%prefix% لقد صوتت لصالح {0}",
+    "AnnounceVoteHow": "%prefix% للتصويت، اكتب !1، أو !2، أو !3، إلخ...",
+    "VoteRankFormat": "%prefix% [{green}{0}{default}] - {1}",
+    "AlreadyVoted": "%prefix% لقد قمت بالتصويت بالفعل"
+}

@@ -1,17 +1,18 @@
-﻿using System.Text.Json.Serialization;
+using System.Globalization;
+using System.Text.Json.Serialization;
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes;
-using CounterStrikeSharp.API.Modules.Timers;
-using Timer = CounterStrikeSharp.API.Modules.Timers.Timer;
 using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Admin;
+using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using Microsoft.Extensions.Localization;
 namespace MapCycle;
 
 // Class to fetch data from the json config
+[MinimumApiVersion(80)]
 public class ConfigGen : BasePluginConfig
 {
     [JsonPropertyName("Maps")]
@@ -31,7 +32,7 @@ public class ConfigGen : BasePluginConfig
     public int RtvMapCount { get; set; } = 5;
 
     [JsonPropertyName("RtvRoundStartVote")]
-    public int RtvRoundStartVote { get; set; } = 1;
+    public int RtvRoundStartVote { get; set; } = 3;
 
     [JsonPropertyName("RtvDurationInSeconds")]
     public int RtvDurationInSeconds { get; set; } = 30;
@@ -51,7 +52,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     // plugin informations
     public override string ModuleName => "MapCycle";
     public override string ModuleAuthor => "NANOR";
-    public override string ModuleVersion => "1.1.3";
+    public override string ModuleVersion => "1.2.0";
 
     // plugin configs
     public ConfigGen Config { get; set; } = null!;
@@ -72,27 +73,27 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     {
         // Set the next map on map start
         RegisterListener<Listeners.OnMapStart>(SetNextMap);
-
+        LocalizationExtension.PrintLocalizedChatAll(Localizer, "NextMapNow", "OK");
         if (hotReload){
+            Server.PrintToConsole($"[MapCycle] {ChatColors.Default}Hot reload detected, the next map will be the same as before the reload {Config.RtvRoundStartVote}");
             if (!Config.RtvEnabled)
             {
                 SetNextMap(Server.MapName);
+            } else {
+                InitRTV();
             }
         } else {
             if (!Config.RtvEnabled)
             {
                 SetNextMap(Server.MapName);
             } else {
-                if(_rtv == null){
-                    _rtv = Rtv.Instance;
-                    _rtv.Config = Config;
-                }
+                InitRTV();
             }
         }
 
         if (Config.RtvEnabled)
         {
-            AddCommand("css_vote", "Get the next map of the cycle", _rtv.AddVote);
+            //AddCommand("mc_vote", "Get the next map of the cycle", _rtv.AddVote);
             
             // Add the event to change the map when the vote is finished
             _rtv.EndVoteEvent += (sender, e) =>
@@ -112,7 +113,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         RegisterEventHandler<EventRoundStart>((@event, info) =>
         {
             _currentRound++;
-            if (Config.RtvEnabled && _currentRound == Config.RtvRoundStartVote)
+            if (Config.RtvEnabled && _currentRound == Config.RtvRoundStartVote + 1) // +1 for the warmup
             {
                 _rtv.Call();
             }
@@ -127,7 +128,16 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         });
     }
 
-    [ConsoleCommand("css_nextmap", "Gets/sets the next map of the cycle")]
+    public void InitRTV()
+    {
+        if(_rtv == null){
+            _rtv = Rtv.Instance;
+            _rtv.Config = Config;
+            _rtv.Localizer = Localizer;
+        }
+    }
+
+    [ConsoleCommand("mc_nextmap", "Gets/sets the next map of the cycle")]
     public void OnSetNextCommand(CCSPlayerController? caller, CommandInfo info)
     {
         if(info.ArgCount == 1 || !AdminManager.PlayerHasPermissions(caller, "@css/changemap")) {
