@@ -83,7 +83,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         // Set the next map on map start
         RegisterListener<Listeners.OnMapStart>(SetNextMap);
 
-        AddCommand("mc_nextmap?", "Get the next map of the cycle", OnGetNextMapCommand);
+        AddCommand("css_nextmap?", "Get the next map of the cycle", OnGetNextMapCommand);
 
         if (hotReload){
             if (!Config.RtvEnabled)
@@ -104,7 +104,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
 
         if (Config.RtvEnabled)
         {
-            AddCommand("mc_vote", "Get the next map of the cycle", _rtv.AddVote);
+            AddCommand("css_vote", "Get the next map of the cycle", _rtv.AddVote);
             
             // Add the event to change the map when the vote is finished
             _rtv.EndVoteEvent += (sender, e) =>
@@ -139,7 +139,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         });
     }
 
-    [ConsoleCommand("mc_nextmap", "Set the next map of the cycle")]
+    [ConsoleCommand("css_nextmap", "Set the next map of the cycle")]
     [RequiresPermissions("@css/changemap")]
     [CommandHelper(minArgs: 1, usage: "<#map name>", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
     public void OnSetNextCommand(CCSPlayerController? caller, CommandInfo info)
@@ -156,7 +156,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         }
     }
 
-    [ConsoleCommand("mc_go", "Direct switch to the map you want of the cycle")]
+    [ConsoleCommand("css_go", "Direct switch to the map you want of the cycle")]
     [RequiresPermissions("@css/changemap")]
     [CommandHelper( whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
     public void OnGoToNextMapCommand(CCSPlayerController? caller, CommandInfo info)
@@ -164,7 +164,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         ChangeMap();
     }
 
-    [ConsoleCommand("mc_goto", "Direct switch to the next map of the cycle")]
+    [ConsoleCommand("css_goto", "Direct switch to the next map of the cycle")]
     [RequiresPermissions("@css/changemap")]
     [CommandHelper(minArgs: 1, usage: "<#map name>", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
     public void OnGoToNextMapNamedCommand(CCSPlayerController? caller, CommandInfo info)

@@ -18,13 +18,13 @@ I dedicate a significant part of my free time to coding and developing meaningfu
 
 ## Commands
 ### Map Cycle
-- **`mc_nextmap?` / `mc_nextmap de_dust2` (SERVER CONSOLE)**: Use `mc_nextmap?` to check the upcoming map. To set the next map, input `mc_nextmap de_dust2`.
-- **`!mc_nextmap?` / `!mc_nextmap de_dust2` (CHAT)**: Enter `!mc_nextmap?` to view the next map. To select a different map, type `!mc_nextmap de_dust2`.
-- **`!mc_goto de_dust2`**: This command allows direct access to a chosen map (`de_dust2` in this case) in your cycle, bypassing the need to wait for the current match to end.
-- **`!mc_go`**: Use this command to immediately transition to the next map, without the need to wait for the current match to conclude.
+- **`css_nextmap?` / `css_nextmap de_dust2` (SERVER CONSOLE)**: Use `css_nextmap?` to check the upcoming map. To set the next map, input `css_nextmap de_dust2`.
+- **`!css_nextmap?` / `!css_nextmap de_dust2` (CHAT)**: Enter `!css_nextmap?` to view the next map. To select a different map, type `!css_nextmap de_dust2`.
+- **`!css_goto de_dust2`**: This command allows direct access to a chosen map (`de_dust2` in this case) in your cycle, bypassing the need to wait for the current match to end.
+- **`!css_go`**: Use this command to immediately transition to the next map, without the need to wait for the current match to conclude.
 
 ### RTV
-- **`!mc_vote`**: Vote for a map [RTV]. E.g `!mc_vote 5`
+- **`!css_vote`**: Vote for a map [RTV]. E.g `!css_vote 5`
 
 ![img](https://drive.google.com/uc?export=view&id=18yyRQb2Z5mfOI7a_mkhCcudb8c0Tq_UJ)
 

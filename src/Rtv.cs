@@ -108,7 +108,7 @@ namespace MapCycle
 
         public void RtvCommand()
         {
-            Server.PrintToChatAll($" {ChatColors.Red}[MapCycle] {ChatColors.Default}Vote for the next map by typing: !mc_vote number");
+            Server.PrintToChatAll($" {ChatColors.Red}[MapCycle] {ChatColors.Default}Vote for the next map by typing: !css_vote number");
         
             var i = 1;
             MapList.ForEach(map => {
