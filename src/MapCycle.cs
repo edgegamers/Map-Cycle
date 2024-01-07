@@ -9,6 +9,7 @@ using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using Microsoft.Extensions.Localization;
+using CounterStrikeSharp.API.Modules.Timers;
 namespace MapCycle;
 
 // Class to fetch data from the json config
