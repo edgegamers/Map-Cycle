@@ -254,19 +254,20 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Ronan\\.nuget\\packages\\": {}
+    "C:\\Users\\imodm\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Ronan\\Desktop\\cs_plugins\\Map-Cycle\\MapCycle.csproj",
+      "projectUniqueName": "c:\\Users\\imodm\\Documents\\Coding\\EGO\\CS2\\Map-Cycle\\MapCycle.csproj",
       "projectName": "MapCycle",
-      "projectPath": "C:\\Users\\Ronan\\Desktop\\cs_plugins\\Map-Cycle\\MapCycle.csproj",
-      "packagesPath": "C:\\Users\\Ronan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Ronan\\Desktop\\cs_plugins\\Map-Cycle\\obj\\",
+      "projectPath": "c:\\Users\\imodm\\Documents\\Coding\\EGO\\CS2\\Map-Cycle\\MapCycle.csproj",
+      "packagesPath": "C:\\Users\\imodm\\.nuget\\packages\\",
+      "outputPath": "c:\\Users\\imodm\\Documents\\Coding\\EGO\\CS2\\Map-Cycle\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Ronan\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "c:\\Users\\imodm\\NuGet.Config",
+        "C:\\Users\\imodm\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
