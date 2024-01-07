@@ -8,6 +8,10 @@ using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
+using Microsoft.Extensions.Localization;
+using CounterStrikeSharp.API.Core.Translations;
+using CounterStrikeSharp.API.Modules.Menu;
+using System.Text.RegularExpressions;
 using System.Linq;
 
 namespace MapCycle
@@ -21,6 +25,7 @@ namespace MapCycle
         public List<string> PlayerVotedList = new List<string>();
         public MapItem? NextMap;
         public ConfigGen? Config { get; set; }
+        public IStringLocalizer Localizer { get; set; }
 
         public override string ModuleName => throw new NotImplementedException();
 
@@ -84,13 +89,13 @@ namespace MapCycle
                 mapIndex = VoteList.GroupBy(i => i).OrderByDescending(grp => grp.Count()).Select(grp => grp.Key).First();
             }
             if(mapIndex == -1) {
-                Server.PrintToChatAll($" {ChatColors.Red}[MapCycle] {ChatColors.Default}No one voted, the next map will be chosen in the map cycle");
+                LocalizationExtension.PrintLocalizedChatAll(Localizer, "NoVotes");
                 OnEndVote(EventArgs.Empty);
                 return;
             }
 
             NextMap = MapList[mapIndex];
-            Server.PrintToChatAll($" {ChatColors.Red}[MapCycle] {ChatColors.Default}The vote is finished!");
+            LocalizationExtension.PrintLocalizedChatAll(Localizer, "VoteFinished");
             OnEndVote(EventArgs.Empty);
             VoteList = new List<int>();
             PlayerVotedList = new List<string>();
@@ -108,40 +113,45 @@ namespace MapCycle
 
         public void RtvCommand()
         {
-            Server.PrintToChatAll($" {ChatColors.Red}[MapCycle] {ChatColors.Default}Vote for the next map by typing: !mc_vote number");
-        
+
+            var menu = new ChatMenu(Localizer["AnnounceVoteHow"]);
             var i = 1;
             MapList.ForEach(map => {
-                Server.PrintToChatAll($" {ChatColors.Red}[MapCycle] {ChatColors.Default}[{ChatColors.Green}{i}{ChatColors.Default}] - {map.Name}");
+                menu.AddMenuOption(Localizer["VoteRankFormat", i, map.Name], (controller, options) => {
+                    AddVote(controller, options);
+                });
                 i++;
             });
+
+            foreach (var player in Utilities.GetPlayers())
+            {
+                ChatMenus.OpenMenu(player, menu);
+            }
         }
 
-        public void AddVote(CCSPlayerController? caller, CommandInfo info)
+        public void AddVote(CCSPlayerController? caller, ChatMenuOption info)
         {
+            string pattern = @"\[([0-9]+)\]";
+            Match match = Regex.Match(info.Text, pattern);
             try
             {
-                if(!VoteEnabled)
-                {
-                    info.ReplyToCommand($" {ChatColors.Red}[MapCycle] {ChatColors.Default}Votes are not yet open");
-                    return;
-                }
-
                 if(PlayerVotedList.Contains(caller!.PlayerName))
                 {
-                    info.ReplyToCommand($" {ChatColors.Red}[MapCycle] {ChatColors.Default}You already voted");
+                    LocalizationExtension.PrintLocalizedChatAll(Localizer, "AlreadyVoted");
                     return;
                 } else {
-                    var commandIndex = int.Parse(info.GetArg(1)) - 1;
+                    int number = int.Parse(match.Groups[1].Value);
+                    var commandIndex = number - 1;
                     if(commandIndex > MapList.Count - 1 || commandIndex < 0)
                     {
-                        info.ReplyToCommand($" {ChatColors.Red}[MapCycle] {ChatColors.Default}Vote invalid");
+                        Server.PrintToChatAll($"Player {caller!.PlayerName} voted for {commandIndex}");
+                        LocalizationExtension.PrintLocalizedChatAll(Localizer, "VoteInvalid");
                         return;
                     } else {
                         PlayerVotedList.Add(caller!.PlayerName);
                         VoteList.Add(commandIndex);
                         VoteCount++;
-                        info.ReplyToCommand($" {ChatColors.Red}[MapCycle] {ChatColors.Default}You voted for {MapList[commandIndex].Name}");
+                        LocalizationExtension.PrintLocalizedChatAll(Localizer, "VoteConfirm", MapList[commandIndex].Name);
                     }
                 }
                 
@@ -149,7 +159,7 @@ namespace MapCycle
             catch (Exception e)
             {
                 Server.PrintToConsole($" {ChatColors.Red}[MapCycleError] {ChatColors.Default}{e}");
-                info.ReplyToCommand($" {ChatColors.Red}[MapCycle] {ChatColors.Default}Vote invalid");
+                LocalizationExtension.PrintLocalizedChatAll(Localizer, "VoteInvalid");
             }
         }
     }

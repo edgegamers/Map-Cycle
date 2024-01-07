@@ -1,0 +1,16 @@
+{
+    "prefix": " {red}[Map Cycle]{default}",
+    "NextMap": "%prefix% The next map is: {0}",
+    "NextMapNow": "%prefix% The next map is now: {0}",
+    "NextMapUnset": "%prefix% The vote will define the next map",
+    "NotExistingMap": "%prefix% This map doesn't exist in the map cycle: {0}",
+    "NoVotes": "%prefix% No one voted, the next map will be chosen in the map cycle",
+    "VoteFinished": "%prefix% The vote is finished!",
+    "VoteNotOpen": "%prefix% Votes are not yet open",
+    "VotedAlready": "%prefix% You already voted",
+    "VoteInvalid": "%prefix% Vote invalid",
+    "VoteConfirm": "%prefix% You voted for {0}",
+    "AnnounceVoteHow": "{red}[Map Cycle] {default}Vote for the next map by typing: !1, or !2, or !3, etc...",
+    "VoteRankFormat": "{default}[{0}] {1}",
+    "AlreadyVoted": "%prefix% You already voted"
+}
