@@ -92,7 +92,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
 
         if (Config.RtvEnabled)
         {
-            AddCommand("mc_vote", "Get the next map of the cycle", _rtv.AddVote);
+            AddCommand("css_vote", "Get the next map of the cycle", _rtv.AddVote);
             
             // Add the event to change the map when the vote is finished
             _rtv.EndVoteEvent += (sender, e) =>
@@ -127,7 +127,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         });
     }
 
-    [ConsoleCommand("mc_nextmap", "Gets/sets the next map of the cycle")]
+    [ConsoleCommand("css_nextmap", "Gets/sets the next map of the cycle")]
     public void OnSetNextCommand(CCSPlayerController? caller, CommandInfo info)
     {
         if(info.ArgCount == 1 || !AdminManager.PlayerHasPermissions(caller, "@css/changemap")) {
@@ -146,7 +146,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         }
     }
 
-    [ConsoleCommand("mc_go", "Direct switch to the map you want of the cycle")]
+    [ConsoleCommand("css_go", "Direct switch to the map you want of the cycle")]
     [RequiresPermissions("@css/changemap")]
     [CommandHelper( whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
     public void OnGoToNextMapCommand(CCSPlayerController? caller, CommandInfo info)
@@ -154,7 +154,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         ChangeMap();
     }
 
-    [ConsoleCommand("mc_goto", "Direct switch to the next map of the cycle")]
+    [ConsoleCommand("css_goto", "Direct switch to the next map of the cycle")]
     [RequiresPermissions("@css/changemap")]
     [CommandHelper(minArgs: 1, usage: "<#map name>", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
     public void OnGoToNextMapNamedCommand(CCSPlayerController? caller, CommandInfo info)
