@@ -83,8 +83,6 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         // Set the next map on map start
         RegisterListener<Listeners.OnMapStart>(SetNextMap);
 
-        AddCommand("css_nextmap?", "Get the next map of the cycle", OnGetNextMapCommand);
-
         if (hotReload){
             if (!Config.RtvEnabled)
             {
@@ -144,6 +142,10 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     [CommandHelper(minArgs: 1, usage: "<#map name>", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
     public void OnSetNextCommand(CCSPlayerController? caller, CommandInfo info)
     {
+        if(info.ArgCount == 1 || !AdminManager.PlayerHasPermissions(caller, "@css/changemap")) {
+            OnGetNextMapCommand(caller, info);
+            return;
+        }
         var commandMapName = info.GetArg(1);
         var map = Config.Maps.FirstOrDefault(x => x.Name == commandMapName);
         if (map == null)
