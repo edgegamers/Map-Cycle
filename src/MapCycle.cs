@@ -8,6 +8,7 @@ using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
+using Microsoft.Extensions.Localization;
 namespace MapCycle;
 
 // Class to fetch data from the json config
@@ -61,10 +62,6 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     // private variables
     private MapItem? _nextMap;
 
-    private string? _mapCycleStringTitle;
-    private string? _nextMapString;
-    private string? _nextCustomMapString;
-    private string? _notExistingMapString;
     private int _currentRound = 0;
     private MapItem? _currentMap;
     private Random _randomIndex = new Random();
@@ -73,17 +70,8 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     // Load the plugin
     public override void Load(bool hotReload)
     {
-        // Strings for chat messages
-        _mapCycleStringTitle = $" {ChatColors.Red}[Map Cycle]{ChatColors.Default}";
-        _nextMapString = $"{_mapCycleStringTitle} The next map is:";
-        _nextCustomMapString = $"{_mapCycleStringTitle} The next map is now:";
-        _notExistingMapString = $"{_mapCycleStringTitle} This map doesn't exist in the map cycle:";
-        
-
         // Set the next map on map start
         RegisterListener<Listeners.OnMapStart>(SetNextMap);
-
-        AddCommand("mc_nextmap?", "Get the next map of the cycle", OnGetNextMapCommand);
 
         if (hotReload){
             if (!Config.RtvEnabled)
@@ -104,7 +92,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
 
         if (Config.RtvEnabled)
         {
-            AddCommand("mc_vote", "Get the next map of the cycle", _rtv.AddVote);
+            AddCommand("css_vote", "Get the next map of the cycle", _rtv.AddVote);
             
             // Add the event to change the map when the vote is finished
             _rtv.EndVoteEvent += (sender, e) =>
@@ -117,7 +105,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
                 } else {
                     SetNextMap(Server.MapName);
                 }
-                Server.PrintToChatAll($"{_nextCustomMapString} {_nextMap.Name}");
+                LocalizationExtension.PrintLocalizedChatAll(Localizer, "NextMapNow", _nextMap.Name);
             };
         }
 
@@ -139,24 +127,26 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         });
     }
 
-    [ConsoleCommand("mc_nextmap", "Set the next map of the cycle")]
-    [RequiresPermissions("@css/changemap")]
-    [CommandHelper(minArgs: 1, usage: "<#map name>", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
+    [ConsoleCommand("css_nextmap", "Gets/sets the next map of the cycle")]
     public void OnSetNextCommand(CCSPlayerController? caller, CommandInfo info)
     {
+        if(info.ArgCount == 1 || !AdminManager.PlayerHasPermissions(caller, "@css/changemap")) {
+            OnGetNextMapCommand(caller, info);
+            return;
+        }
         var commandMapName = info.GetArg(1);
         var map = Config.Maps.FirstOrDefault(x => x.Name == commandMapName);
         if (map == null)
         {
-            info.ReplyToCommand($"{_notExistingMapString} {commandMapName}");
+            info.ReplyLocalized(Localizer, "NotExistingMap", commandMapName);
             return;
         } else {
             _nextMap = map;
-            info.ReplyToCommand($"{_nextCustomMapString} {_nextMap.Name}");
+            info.ReplyLocalized(Localizer, "NextMapNow", _nextMap.Name);
         }
     }
 
-    [ConsoleCommand("mc_go", "Direct switch to the map you want of the cycle")]
+    [ConsoleCommand("css_go", "Direct switch to the map you want of the cycle")]
     [RequiresPermissions("@css/changemap")]
     [CommandHelper( whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
     public void OnGoToNextMapCommand(CCSPlayerController? caller, CommandInfo info)
@@ -164,7 +154,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         ChangeMap();
     }
 
-    [ConsoleCommand("mc_goto", "Direct switch to the next map of the cycle")]
+    [ConsoleCommand("css_goto", "Direct switch to the next map of the cycle")]
     [RequiresPermissions("@css/changemap")]
     [CommandHelper(minArgs: 1, usage: "<#map name>", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
     public void OnGoToNextMapNamedCommand(CCSPlayerController? caller, CommandInfo info)
@@ -174,7 +164,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         if (map == null)
         {
             // If the map doesn't exist, we print an error
-            info.ReplyToCommand($"{_notExistingMapString} {commandMapName}");
+            info.ReplyLocalized(Localizer, "NotExistingMap", commandMapName);
             return;
         }
         else
@@ -189,9 +179,9 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     {
         // Print the next map
         if(_nextMap == null) {
-            info.ReplyToCommand($"{_mapCycleStringTitle} {ChatColors.Default}The vote will define the next map");
+            info.ReplyLocalized(Localizer, "NextMapUnset");
         } else {
-            info.ReplyToCommand($"{_nextMapString} {_nextMap.Name}");
+            info.ReplyLocalized(Localizer, "NextMap", _nextMap.Name);
         }
     }
 
@@ -202,7 +192,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
             _nextMap = _rtv.NextMap;
         }
         // Print the next map
-        Server.PrintToChatAll($"{_nextMapString} {_nextMap.Name}");
+        LocalizationExtension.PrintLocalizedChatAll(Localizer, "NextMap", _nextMap.Name);
         // Change the map
         AddTimer(10f, ChangeMap, TimerFlags.STOP_ON_MAPCHANGE);
     }
