@@ -73,8 +73,6 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         // Set the next map on map start
         RegisterListener<Listeners.OnMapStart>(SetNextMap);
 
-        AddCommand("mc_nextmap?", "Get the next map of the cycle", OnGetNextMapCommand);
-
         if (hotReload){
             Server.PrintToConsole($"[MapCycle] {ChatColors.Default}Hot reload detected, the next map will be the same as before the reload {Config.RtvRoundStartVote}");
             if (!Config.RtvEnabled)
@@ -135,11 +133,13 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         });
     }
 
-    [ConsoleCommand("mc_nextmap", "Set the next map of the cycle")]
-    [RequiresPermissions("@css/changemap")]
-    [CommandHelper(minArgs: 1, usage: "<#map name>", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
+    [ConsoleCommand("mc_nextmap", "Gets/sets the next map of the cycle")]
     public void OnSetNextCommand(CCSPlayerController? caller, CommandInfo info)
     {
+        if(info.ArgCount == 1 || !AdminManager.PlayerHasPermissions(caller, "@css/changemap")) {
+            OnGetNextMapCommand(caller, info);
+            return;
+        }
         var commandMapName = info.GetArg(1);
         var map = Config.Maps.FirstOrDefault(x => x.Name == commandMapName);
         if (map == null)
