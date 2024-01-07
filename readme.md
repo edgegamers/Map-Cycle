@@ -24,7 +24,7 @@ I dedicate a significant part of my free time to coding and developing meaningfu
 - **`!mc_go`**: Use this command to immediately transition to the next map, without the need to wait for the current match to conclude.
 
 ### RTV
-- **`!css_vote`**: Vote for a map [RTV]. E.g `!css_vote 5`
+- **`!vote`**: Vote for a map [RTV]. E.g `!vote 5`
 
 ![img](https://drive.google.com/uc?export=view&id=18yyRQb2Z5mfOI7a_mkhCcudb8c0Tq_UJ)
 
