@@ -8,6 +8,8 @@ using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
+using Microsoft.Extensions.Localization;
+using CounterStrikeSharp.API.Core.Translations;
 using System.Linq;
 
 namespace MapCycle
@@ -21,6 +23,7 @@ namespace MapCycle
         public List<string> PlayerVotedList = new List<string>();
         public MapItem? NextMap;
         public ConfigGen? Config { get; set; }
+        public IStringLocalizer Localizer { get; set; }
 
         public override string ModuleName => throw new NotImplementedException();
 
@@ -108,7 +111,10 @@ namespace MapCycle
 
         public void RtvCommand()
         {
-            LocalizationExtension.PrintLocalizedChatAll(Localizer, "AnnounceVoteHow");
+            var localizer = Localizer;
+            Server.PrintToChatAll($" {ChatColors.Green}[MapCycle] {localizer} Plugin loaded");
+
+            LocalizationExtension.PrintLocalizedChatAll(localizer, "AnnounceVoteHow");
         
             var i = 1;
             MapList.ForEach(map => {

@@ -141,7 +141,7 @@ Set the map on your server with `host_workshop_map 123123123` and when the map h
 ## Author
 - ModuleName: MapCycle
 - ModuleAuthor: NANOR
-- ModuleVersion: 1.1.3
+- ModuleVersion: 1.1.4
 
 ## Support
 For assistance, please raise an issue on the GitHub repository of the project.

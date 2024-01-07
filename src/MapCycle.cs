@@ -1,17 +1,24 @@
+using System.Globalization;
 using System.Text.Json.Serialization;
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes;
-using CounterStrikeSharp.API.Modules.Timers;
-using Timer = CounterStrikeSharp.API.Modules.Timers.Timer;
 using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Admin;
+using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using Microsoft.Extensions.Localization;
+using CounterStrikeSharp.API.Core.Translations;
+
+using CounterStrikeSharp.API.Modules.Timers;
+using Timer = CounterStrikeSharp.API.Modules.Timers.Timer;
+
+
 namespace MapCycle;
 
 // Class to fetch data from the json config
+[MinimumApiVersion(80)]
 public class ConfigGen : BasePluginConfig
 {
     [JsonPropertyName("Maps")]
@@ -51,7 +58,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     // plugin informations
     public override string ModuleName => "MapCycle";
     public override string ModuleAuthor => "NANOR";
-    public override string ModuleVersion => "1.1.3";
+    public override string ModuleVersion => "1.1.4";
 
     // plugin configs
     public ConfigGen Config { get; set; } = null!;
@@ -72,27 +79,21 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     {
         // Set the next map on map start
         RegisterListener<Listeners.OnMapStart>(SetNextMap);
-
+        LocalizationExtension.PrintLocalizedChatAll(Localizer, "NextMapNow", "OK");
         if (hotReload){
             Server.PrintToConsole($"[MapCycle] {ChatColors.Default}Hot reload detected, the next map will be the same as before the reload {Config.RtvRoundStartVote}");
             if (!Config.RtvEnabled)
             {
                 SetNextMap(Server.MapName);
             } else {
-                if(_rtv == null){
-                    _rtv = Rtv.Instance;
-                    _rtv.Config = Config;
-                }
+                InitRTV();
             }
         } else {
             if (!Config.RtvEnabled)
             {
                 SetNextMap(Server.MapName);
             } else {
-                if(_rtv == null){
-                    _rtv = Rtv.Instance;
-                    _rtv.Config = Config;
-                }
+                InitRTV();
             }
         }
 
@@ -131,6 +132,15 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
             AutoMapCycle();
             return HookResult.Continue;
         });
+    }
+
+    public void InitRTV()
+    {
+        if(_rtv == null){
+            _rtv = Rtv.Instance;
+            _rtv.Config = Config;
+            _rtv.Localizer = Localizer;
+        }
     }
 
     [ConsoleCommand("mc_nextmap", "Gets/sets the next map of the cycle")]

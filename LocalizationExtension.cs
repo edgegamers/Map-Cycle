@@ -1,6 +1,8 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Localization;
+using CounterStrikeSharp.API.Core.Translations;
 
 namespace MapCycle;
 

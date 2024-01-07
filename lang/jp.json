@@ -1,0 +1,16 @@
+{
+    "prefix": " {red}[マップサイクル]{default}",
+    "NextMap": "%prefix% 次のマップは: {0}",
+    "NextMapNow": "%prefix% 現在の次のマップは: {0}",
+    "NextMapUnset": "%prefix% 投票で次のマップが決定されます",
+    "NotExistingMap": "%prefix% このマップはマップサイクルに存在しません: {0}",
+    "NoVotes": "%prefix% 誰も投票していないので、次のマップはマップサイクルで選ばれます",
+    "VoteFinished": "%prefix% 投票は終了しました！",
+    "VoteNotOpen": "%prefix% 投票はまだ開始されていません",
+    "VotedAlready": "%prefix% あなたはすでに投票済みです",
+    "VoteInvalid": "%prefix% 無効な投票です",
+    "VoteConfirm": "%prefix% あなたは {0} に投票しました",
+    "AnnounceVoteHow": "%prefix% 次のマップに投票するには、!mc_vote number と入力してください",
+    "VoteRankFormat": "%prefix% [{green}{0}{default}] - {1}",
+    "AlreadyVoted": "%prefix% あなたはすでに投票済みです"
+}

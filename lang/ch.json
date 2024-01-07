@@ -1,0 +1,16 @@
+{
+    "prefix": " {red}[地图循环]{default}",
+    "NextMap": "%prefix% 下一个地图是: {0}",
+    "NextMapNow": "%prefix% 现在的下一个地图是: {0}",
+    "NextMapUnset": "%prefix% 投票将决定下一个地图",
+    "NotExistingMap": "%prefix% 这个地图在地图循环中不存在: {0}",
+    "NoVotes": "%prefix% 没有人投票，下一个地图将在地图循环中被选择",
+    "VoteFinished": "%prefix% 投票结束了！",
+    "VoteNotOpen": "%prefix% 投票还未开始",
+    "VotedAlready": "%prefix% 你已经投过票了",
+    "VoteInvalid": "%prefix% 投票无效",
+    "VoteConfirm": "%prefix% 你已为 {0} 投票",
+    "AnnounceVoteHow": "%prefix% 通过输入 !mc_vote number 来为下一个地图投票",
+    "VoteRankFormat": "%prefix% [{green}{0}{default}] - {1}",
+    "AlreadyVoted": "%prefix% 你已经投过票了"
+}

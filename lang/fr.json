@@ -1,0 +1,16 @@
+{
+    "prefix": " {red}[Map Cycle]{default}",
+    "NextMap": "%prefix% La map suivante est: {0}",
+    "NextMapNow": "%prefix% La map suivante est désormais: {0}",
+    "NextMapUnset": "%prefix% La map suivante n'est pas définie",
+    "NotExistingMap": "%prefix% La map {0} n'existe pas",
+    "NoVotes": "%prefix% Il n'y a pas de votes",
+    "VoteFinished": "%prefix% Le vote est terminé, la map suivante est: {0}",
+    "VoteNotOpen": "%prefix% Il n'y a pas de vote en cours",
+    "VotedAlready": "%prefix% Vous avez déjà voté",
+    "VoteInvalid": "%prefix% Le vote {0} n'est pas valide",
+    "VoteConfirm": "%prefix% Vous avez voté pour {0}",
+    "AnnounceVoteHow": "%prefix% Pour voter, tapez !mc_vote <map>",
+    "VoteRankFormat": "%prefix% [{green}{0}{default}] - {1}",
+    "AlreadyVoted": "%prefix% Vous avez déjà voté"
+}

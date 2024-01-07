@@ -11,5 +11,6 @@
     "VoteInvalid": "%prefix% Vote invalid",
     "VoteConfirm": "%prefix% You voted for {0}",
     "AnnounceVoteHow": "%prefix% Vote for the next map by typing: !mc_vote number",
-    "VoteRankFormat": "%prefix% [{green}{1}{default}] - {2}"
+    "VoteRankFormat": "%prefix% [{green}{0}{default}] - {1}",
+    "AlreadyVoted": "%prefix% You already voted"
 }
