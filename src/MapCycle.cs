@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes;
@@ -30,7 +30,7 @@ public class ConfigGen : BasePluginConfig
     public int RtvMapCount { get; set; } = 5;
 
     [JsonPropertyName("RtvRoundStartVote")]
-    public int RtvRoundStartVote { get; set; } = 1;
+    public int RtvRoundStartVote { get; set; } = 3;
 
     [JsonPropertyName("RtvDurationInSeconds")]
     public int RtvDurationInSeconds { get; set; } = 30;
@@ -86,9 +86,15 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         AddCommand("mc_nextmap?", "Get the next map of the cycle", OnGetNextMapCommand);
 
         if (hotReload){
+            Server.PrintToConsole($"[MapCycle] {ChatColors.Default}Hot reload detected, the next map will be the same as before the reload {Config.RtvRoundStartVote}");
             if (!Config.RtvEnabled)
             {
                 SetNextMap(Server.MapName);
+            } else {
+                if(_rtv == null){
+                    _rtv = Rtv.Instance;
+                    _rtv.Config = Config;
+                }
             }
         } else {
             if (!Config.RtvEnabled)
@@ -124,7 +130,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         RegisterEventHandler<EventRoundStart>((@event, info) =>
         {
             _currentRound++;
-            if (Config.RtvEnabled && _currentRound == Config.RtvRoundStartVote)
+            if (Config.RtvEnabled && _currentRound == Config.RtvRoundStartVote + 1) // +1 for the warmup
             {
                 _rtv.Call();
             }
