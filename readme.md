@@ -29,7 +29,7 @@ I dedicate a significant part of my free time to coding and developing meaningfu
 - **`!mc_vote`**: Vote for a map [RTV]. E.g `!mc_vote 5`
 
 #### New command
-
+Use the ChatMenu to vote. The !mc_vote command no longer exists. To vote, simply press !1, or !2, or !3 etc...
 
 ![img](https://drive.google.com/uc?export=view&id=18yyRQb2Z5mfOI7a_mkhCcudb8c0Tq_UJ)
 
