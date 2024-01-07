@@ -10,7 +10,7 @@
     "VotedAlready": "%prefix% Vous avez déjà voté",
     "VoteInvalid": "%prefix% Le vote {0} n'est pas valide",
     "VoteConfirm": "%prefix% Vous avez voté pour {0}",
-    "AnnounceVoteHow": "%prefix% Pour voter, tapez !mc_vote <map>",
-    "VoteRankFormat": "%prefix% [{green}{0}{default}] - {1}",
+    "AnnounceVoteHow": "{red}[Map Cycle] {default}Pour voter, tapez !1, ou !2, ou !3, etc...",
+    "VoteRankFormat": "{default}[{0}] - {1}",
     "AlreadyVoted": "%prefix% Vous avez déjà voté"
 }

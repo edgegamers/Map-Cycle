@@ -24,7 +24,12 @@ I dedicate a significant part of my free time to coding and developing meaningfu
 - **`!mc_go`**: Use this command to immediately transition to the next map, without the need to wait for the current match to conclude.
 
 ### RTV
+
+#### Deprecated
 - **`!mc_vote`**: Vote for a map [RTV]. E.g `!mc_vote 5`
+
+#### New command
+
 
 ![img](https://drive.google.com/uc?export=view&id=18yyRQb2Z5mfOI7a_mkhCcudb8c0Tq_UJ)
 
@@ -141,7 +146,7 @@ Set the map on your server with `host_workshop_map 123123123` and when the map h
 ## Author
 - ModuleName: MapCycle
 - ModuleAuthor: NANOR
-- ModuleVersion: 1.1.4
+- ModuleVersion: 1.2.0
 
 ## Support
 For assistance, please raise an issue on the GitHub repository of the project.

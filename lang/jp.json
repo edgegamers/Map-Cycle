@@ -10,7 +10,7 @@
     "VotedAlready": "%prefix% あなたはすでに投票済みです",
     "VoteInvalid": "%prefix% 無効な投票です",
     "VoteConfirm": "%prefix% あなたは {0} に投票しました",
-    "AnnounceVoteHow": "%prefix% 次のマップに投票するには、!mc_vote number と入力してください",
+    "AnnounceVoteHow": "%prefix% 次のマップに投票するには、!<number> と入力してください",
     "VoteRankFormat": "%prefix% [{green}{0}{default}] - {1}",
     "AlreadyVoted": "%prefix% あなたはすでに投票済みです"
 }

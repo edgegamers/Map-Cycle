@@ -58,7 +58,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     // plugin informations
     public override string ModuleName => "MapCycle";
     public override string ModuleAuthor => "NANOR";
-    public override string ModuleVersion => "1.1.4";
+    public override string ModuleVersion => "1.2.0";
 
     // plugin configs
     public ConfigGen Config { get; set; } = null!;
@@ -99,7 +99,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
 
         if (Config.RtvEnabled)
         {
-            AddCommand("mc_vote", "Get the next map of the cycle", _rtv.AddVote);
+            //AddCommand("mc_vote", "Get the next map of the cycle", _rtv.AddVote);
             
             // Add the event to change the map when the vote is finished
             _rtv.EndVoteEvent += (sender, e) =>

@@ -10,7 +10,7 @@
     "VotedAlready": "%prefix% Вы уже голосовали",
     "VoteInvalid": "%prefix% Голос недействителен",
     "VoteConfirm": "%prefix% Вы проголосовали за {0}",
-    "AnnounceVoteHow": "%prefix% Проголосуйте за следующую карту, введя: !mc_vote number",
+    "AnnounceVoteHow": "%prefix% Проголосуйте за следующую карту, введя: !<number>",
     "VoteRankFormat": "%prefix% [{green}{0}{default}] - {1}",
     "AlreadyVoted": "%prefix% Вы уже проголосовали"
 }

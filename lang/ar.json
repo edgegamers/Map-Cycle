@@ -10,7 +10,7 @@
     "VotedAlready": "%prefix% لقد قمت بالتصويت بالفعل",
     "VoteInvalid": "%prefix% التصويت غير صالح",
     "VoteConfirm": "%prefix% لقد صوتت لصالح {0}",
-    "AnnounceVoteHow": "%prefix% صوت للخريطة التالية بكتابة: !mc_vote رقم",
+    "AnnounceVoteHow": "%prefix% للتصويت، اكتب !1، أو !2، أو !3، إلخ...",
     "VoteRankFormat": "%prefix% [{green}{0}{default}] - {1}",
     "AlreadyVoted": "%prefix% لقد قمت بالتصويت بالفعل"
 }

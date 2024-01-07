@@ -10,7 +10,7 @@
     "VotedAlready": "%prefix% 你已经投过票了",
     "VoteInvalid": "%prefix% 投票无效",
     "VoteConfirm": "%prefix% 你已为 {0} 投票",
-    "AnnounceVoteHow": "%prefix% 通过输入 !mc_vote number 来为下一个地图投票",
+    "AnnounceVoteHow": "%prefix% 你可以使用 {0} 来投票",
     "VoteRankFormat": "%prefix% [{green}{0}{default}] - {1}",
     "AlreadyVoted": "%prefix% 你已经投过票了"
 }
