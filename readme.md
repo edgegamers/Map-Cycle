@@ -61,7 +61,7 @@ The configuration file is automatically generated in `game/csgo/addons/counterst
 
 `RtvMapCount` Number of proposed maps. They are randomly selected in the cycle.
 
-`RtvRoundStartVote` Number of the round the vote start. E.g 5 the vote will at the beginning of the fifth round.
+`RtvRoundStartVote` Number of the round the vote start. E.g 5 the vote will at the beginning of the fifth round (warmup not included).
 
 `RtvDurationInSeconds` Voting duration
 
