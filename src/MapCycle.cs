@@ -58,7 +58,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     // plugin informations
     public override string ModuleName => "MapCycle";
     public override string ModuleAuthor => "NANOR";
-    public override string ModuleVersion => "1.2.1";
+    public override string ModuleVersion => "1.2.2";
 
     // plugin configs
     public ConfigGen Config { get; set; } = null!;
@@ -143,7 +143,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         }
     }
 
-    [ConsoleCommand("mc_nextmap", "Gets/sets the next map of the cycle")]
+    [ConsoleCommand("nextmap", "Gets/sets the next map of the cycle")]
     public void OnSetNextCommand(CCSPlayerController? caller, CommandInfo info)
     {
         if(info.ArgCount == 1 || !AdminManager.PlayerHasPermissions(caller, "@css/changemap")) {
@@ -162,7 +162,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         }
     }
 
-    [ConsoleCommand("mc_go", "Direct switch to the map you want of the cycle")]
+    [ConsoleCommand("go", "Direct switch to the map you want of the cycle")]
     [RequiresPermissions("@css/changemap")]
     [CommandHelper( whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
     public void OnGoToNextMapCommand(CCSPlayerController? caller, CommandInfo info)
@@ -170,7 +170,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         ChangeMap();
     }
 
-    [ConsoleCommand("mc_goto", "Direct switch to the next map of the cycle")]
+    [ConsoleCommand("goto", "Direct switch to the next map of the cycle")]
     [RequiresPermissions("@css/changemap")]
     [CommandHelper(minArgs: 1, usage: "<#map name>", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
     public void OnGoToNextMapNamedCommand(CCSPlayerController? caller, CommandInfo info)
