@@ -18,8 +18,8 @@ I dedicate a significant part of my free time to coding and developing meaningfu
 
 ## Commands
 ### Map Cycle
-- **`nextmap` / `nextmap de_dust2` (SERVER CONSOLE)**: Use `mc_nextmap` to check the upcoming map. To set the next map, input `mc_nextmap de_dust2`.
-- **`!nextmap` / `!nextmap de_dust2` (CHAT)**: Enter `!mc_nextmap` to view the next map. To select a different map, type `!mc_nextmap de_dust2`.
+- **`nextmap` / `nextmap de_dust2` (SERVER CONSOLE)**: Use `nextmap` to check the upcoming map. To set the next map, input `nextmap de_dust2`.
+- **`!nextmap` / `!nextmap de_dust2` (CHAT)**: Enter `!nextmap` to view the next map. To select a different map, type `!nextmap de_dust2`.
 - **`!goto de_dust2`**: This command allows direct access to a chosen map (`de_dust2` in this case) in your cycle, bypassing the need to wait for the current match to end.
 - **`!go`**: Use this command to immediately transition to the next map, without the need to wait for the current match to conclude.
 
@@ -69,6 +69,8 @@ The configuration file is automatically generated in `game/csgo/addons/counterst
 `RtvRoundStartVote` Number of the round the vote start. E.g 5 the vote will at the beginning of the fifth round (warmup not included).
 
 `RtvDurationInSeconds` Voting duration
+
+`RtvStartVoteAtTheEnd` If you activate this option, voting will start at the end of the match. And the map will change at the end of the win panel and will no longer take into account the round and duration options.
 
 Each map in the configuration file includes the following attributes:
 - `Name`: The actual name of the map (e.g., `de_dust2`, `de_cbble`).

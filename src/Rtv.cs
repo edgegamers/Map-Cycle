@@ -65,20 +65,20 @@ namespace MapCycle
             EndVoteEvent?.Invoke(this, e);
         }
 
-        public void Call()
+        public void Call(int duration)
         {
             SetRandomMapList();
-            StartVote();
+            StartVote(duration);
         }
 
-        public void StartVote()
+        public void StartVote(int duration)
         {
             VoteEnabled = true;
             VoteCount = 0;
             VoteList.Clear();
             PlayerVotedList.Clear();
             RtvCommand();
-            AddTimer(Config.RtvDurationInSeconds, EndVote, TimerFlags.STOP_ON_MAPCHANGE);
+            AddTimer(duration, EndVote, TimerFlags.STOP_ON_MAPCHANGE);
         }
 
         public void EndVote()

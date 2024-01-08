@@ -40,6 +40,9 @@ public class ConfigGen : BasePluginConfig
     [JsonPropertyName("RtvRoundStartVote")]
     public int RtvRoundStartVote { get; set; } = 3;
 
+    [JsonPropertyName("RtvStartVoteAtTheEnd")]
+    public bool RtvStartVoteAtTheEnd { get; set; } = true;
+
     [JsonPropertyName("RtvDurationInSeconds")]
     public int RtvDurationInSeconds { get; set; } = 30;
 }
@@ -58,7 +61,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     // plugin informations
     public override string ModuleName => "MapCycle";
     public override string ModuleAuthor => "NANOR";
-    public override string ModuleVersion => "1.2.2";
+    public override string ModuleVersion => "1.3.0";
 
     // plugin configs
     public ConfigGen Config { get; set; } = null!;
@@ -119,9 +122,9 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         RegisterEventHandler<EventRoundStart>((@event, info) =>
         {
             _currentRound++;
-            if (Config.RtvEnabled && _currentRound == Config.RtvRoundStartVote + 1) // +1 for the warmup
+            if (Config.RtvEnabled && _currentRound == Config.RtvRoundStartVote + 1 && !Config.RtvStartVoteAtTheEnd) // +1 for the warmup
             {
-                _rtv.Call();
+                _rtv.Call(Config!.RtvDurationInSeconds);
             }
             return HookResult.Continue;
         });
@@ -129,6 +132,11 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         // Create the timer to change the map
         RegisterEventHandler<EventCsWinPanelMatch>((@event, info) =>
         {
+            // Start the vote at the end of the match
+            if(Config.RtvStartVoteAtTheEnd && Config.RtvEnabled)
+            {
+                _rtv.Call(15);
+            }
             AutoMapCycle();
             return HookResult.Continue;
         });
@@ -210,7 +218,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         // Print the next map
         LocalizationExtension.PrintLocalizedChatAll(Localizer, "NextMap", _nextMap.Name);
         // Change the map
-        AddTimer(10f, ChangeMap, TimerFlags.STOP_ON_MAPCHANGE);
+        AddTimer(19f, ChangeMap, TimerFlags.STOP_ON_MAPCHANGE);
     }
 
     private void ChangeMap()
