@@ -76,6 +76,7 @@ The configuration file is automatically generated in `game/csgo/addons/counterst
 
 Each map in the configuration file includes the following attributes:
 - `Name`: The actual name of the map (e.g., `de_dust2`, `de_cbble`).
+- `DisplayName`: The name that is displayed in the chat. If this field is empty, it will display the name of the map (de_dust2, etc..).
 - `Id`: The workshop ID, or the map name again if it's an official map.
 - `Workshop`: Indicates whether the map is from the workshop (`true` or `false`).
 
@@ -92,21 +93,25 @@ Each map in the configuration file includes the following attributes:
   "Maps": [
     {
       "Name": "de_dust2",
+      "DisplayName": "Dust 2",
       "Id": "de_dust2",
       "Workshop": false
     },
     {
         "Name": "cs_assault",
+        "DisplayName": "Assault",
         "Id": "3070594412",
         "Workshop": true
     },
     {
       "Name": "de_lake",
+      "DisplayName": "Lake",
       "Id": "3070563536",
       "Workshop": true
     },
     {
       "Name": "de_cbble",
+      "DisplayName": "Cobblestone",
       "Id": "3070293560",
       "Workshop": true
     }

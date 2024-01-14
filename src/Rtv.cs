@@ -77,8 +77,8 @@ namespace MapCycle
         {
             VoteEnabled = false;
             int mapIndex = -1;
-            var playerCountFloat = (float)Utilities.GetPlayers().Count;
-            var enoughVotes = VoteList.Count >= playerCountFloat * Config.RtvVoteRatio;
+            var playerWithoutBotsCountFloat = Utilities.GetPlayers().Count(p => !p.IsBot);
+            var enoughVotes = VoteList.Count >= playerWithoutBotsCountFloat * Config.RtvVoteRatio;
             if (VoteList.Count != 0 && enoughVotes) {
                 mapIndex = VoteList.GroupBy(i => i).OrderByDescending(grp => grp.Count()).Select(grp => grp.Key).First();
             }
@@ -118,7 +118,7 @@ namespace MapCycle
             var menu = new ChatMenu(Localizer["AnnounceVoteHow"]);
             var i = 1;
             MapList.ForEach(map => {
-                menu.AddMenuOption(Localizer["VoteRankFormat", i, map.Name], (controller, options) => {
+                menu.AddMenuOption(Localizer["VoteRankFormat", i, map.DName()], (controller, options) => {
                     AddVote(controller, options);
                 });
                 i++;
@@ -151,7 +151,7 @@ namespace MapCycle
                         PlayerVotedList.Add(caller!.PlayerName);
                         VoteList.Add(commandIndex);
                         VoteCount++;
-                        LocalizationExtension.PrintLocalizedChat(caller, Localizer, "VoteConfirm", MapList[commandIndex].Name);
+                        LocalizationExtension.PrintLocalizedChat(caller, Localizer, "VoteConfirm", MapList[commandIndex].DName());
                     }
                 }
                 

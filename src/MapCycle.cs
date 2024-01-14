@@ -70,7 +70,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
                 } else {
                     SetNextMap(Server.MapName);
                 }
-                LocalizationExtension.PrintLocalizedChatAll(Localizer, "NextMapNow", _nextMap.Name);
+                LocalizationExtension.PrintLocalizedChatAll(Localizer, "NextMapNow", _nextMap.DName());
             };
         }
 
@@ -121,7 +121,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
             return;
         } else {
             _nextMap = map;
-            info.ReplyLocalized(Localizer, "NextMapNow", _nextMap.Name);
+            info.ReplyLocalized(Localizer, "NextMapNow", _nextMap.DName());
         }
     }
 
@@ -160,7 +160,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         if(_nextMap == null) {
             info.ReplyLocalized(Localizer, "NextMapUnset");
         } else {
-            info.ReplyLocalized(Localizer, "NextMap", _nextMap.Name);
+            info.ReplyLocalized(Localizer, "NextMap", _nextMap.DName());
         }
     }
 
@@ -171,7 +171,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
             _nextMap = _rtv.NextMap;
         }
         // Print the next map
-        LocalizationExtension.PrintLocalizedChatAll(Localizer, "NextMap", _nextMap.Name);
+        LocalizationExtension.PrintLocalizedChatAll(Localizer, "NextMap", _nextMap.DName());
         // Change the map
         AddTimer(19f, ChangeMap, TimerFlags.STOP_ON_MAPCHANGE);
     }
