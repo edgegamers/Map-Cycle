@@ -18,14 +18,14 @@ I dedicate a significant part of my free time to coding and developing meaningfu
 
 ## Commands
 ### Map Cycle
-1) **`!addmap cs_assault Assault 3070594412`**: Use `addmap` to insert a new map to the cycle from the game or the console without having toi rewrite the file.
+1) **`!addmap cs_assault Assault 3070594412`**: This command allows you to add a new map to the cycle without having to manually edit the configuration file.
 - Pattern: `!addmap mapname display_name workshopid_or_mapname_for_offi_map`
 - E.g WS map:  `!addmap cs_assault Assault 3070594412`
 - E.g official map:  `!addmap de_dust2 "Dust 2" de_dust2`
 
 ---
 
-2) **`!removemap cs_assault`**: Use `removemap` to remove a map from the cycle ingame or from the console without having to rewrite the file.
+2) **`!removemap cs_assault`**: This command allows you to remove a map from the cycle directly in-game or from the console, eliminating the need to manually edit the configuration file.
 - Pattern: `!removemap mapname`
 - E.g WS map: `!removemap cs_assault`
 - E.g official map: `!removemap de_dust2`
