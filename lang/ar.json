@@ -12,5 +12,6 @@
     "VoteConfirm": "%prefix% لقد صوتت لصالح {0}",
     "AnnounceVoteHow": "%prefix% للتصويت، اكتب !1، أو !2، أو !3، إلخ...",
     "VoteRankFormat": "%prefix% [{green}{0}{default}] - {1}",
-    "AlreadyVoted": "%prefix% لقد قمت بالتصويت بالفعل"
+    "AlreadyVoted": "%prefix% لقد قمت بالتصويت بالفعل",
+    "NotEnoughVotes": "%prefix% لا يوجد تصويت كافي"
 }

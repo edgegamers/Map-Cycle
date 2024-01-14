@@ -12,5 +12,6 @@
     "VoteConfirm": "%prefix% Вы проголосовали за {0}",
     "AnnounceVoteHow": "%prefix% Проголосуйте за следующую карту, введя: !<number>",
     "VoteRankFormat": "%prefix% [{green}{0}{default}] - {1}",
-    "AlreadyVoted": "%prefix% Вы уже проголосовали"
+    "AlreadyVoted": "%prefix% Вы уже проголосовали",
+    "NotEnoughVotes": "%prefix% Недостаточно голосов для выбора следующей карты",
 }

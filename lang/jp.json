@@ -12,5 +12,6 @@
     "VoteConfirm": "%prefix% あなたは {0} に投票しました",
     "AnnounceVoteHow": "%prefix% 次のマップに投票するには、!<number> と入力してください",
     "VoteRankFormat": "%prefix% [{green}{0}{default}] - {1}",
-    "AlreadyVoted": "%prefix% あなたはすでに投票済みです"
+    "AlreadyVoted": "%prefix% あなたはすでに投票済みです",
+    "NotEnoughVotes": "%prefix% 投票数が足りません"
 }

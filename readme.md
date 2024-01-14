@@ -72,6 +72,8 @@ The configuration file is automatically generated in `game/csgo/addons/counterst
 
 `RtvStartVoteAtTheEnd` If you activate this option, voting will start at the end of the match. And the map will change at the end of the win panel and will no longer take into account the round and duration options for RTV.
 
+`RtvVoteRatio` Determines the minimum ratio of votes required for a vote to be considered valid.
+
 Each map in the configuration file includes the following attributes:
 - `Name`: The actual name of the map (e.g., `de_dust2`, `de_cbble`).
 - `Id`: The workshop ID, or the map name again if it's an official map.
@@ -86,6 +88,7 @@ Each map in the configuration file includes the following attributes:
   "RtvRoundStartVote": 1,
   "RtvDurationInSeconds": 30,
   "RtvStartVoteAtTheEnd": true,
+  "RtvVoteRatio": 0.5,
   "Maps": [
     {
       "Name": "de_dust2",
@@ -149,7 +152,7 @@ Set the map on your server with `host_workshop_map 123123123` and when the map h
 ## Author
 - ModuleName: MapCycle
 - ModuleAuthor: NANOR
-- ModuleVersion: 1.2.3
+- ModuleVersion: 1.3.0
 
 ## Support
 For assistance, please raise an issue on the GitHub repository of the project.

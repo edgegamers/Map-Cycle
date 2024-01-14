@@ -12,5 +12,6 @@
     "VoteConfirm": "%prefix% Voce votou em {0}",
     "AnnounceVoteHow": "{red}[Map Cycle] {default}Vota no proximo mapa escrevendo: !1, or !2, or !3, etc...",
     "VoteRankFormat": "{default}[{0}] {1}",
-    "AlreadyVoted": "%prefix% Voce ja votou !"
+    "AlreadyVoted": "%prefix% Voce ja votou !",
+    "NotEnoughVotes": "%prefix% Nao ha votos suficientes para definir o proximo mapa",
 }

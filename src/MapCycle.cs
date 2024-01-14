@@ -1,59 +1,16 @@
-using System.Globalization;
-using System.Text.Json.Serialization;
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes;
 using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Admin;
-using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
-using Microsoft.Extensions.Localization;
-using CounterStrikeSharp.API.Core.Translations;
-
 using CounterStrikeSharp.API.Modules.Timers;
-using Timer = CounterStrikeSharp.API.Modules.Timers.Timer;
 
 
 namespace MapCycle;
 
-// Class to fetch data from the json config
 [MinimumApiVersion(80)]
-public class ConfigGen : BasePluginConfig
-{
-    [JsonPropertyName("Maps")]
-    public List<MapItem> Maps { get; set; } = new List<MapItem>
-    {
-        new MapItem { Name = "de_dust2", Id = "de_dust2", Workshop = false },
-        new MapItem { Name = "de_aztec", Id = "3070960099", Workshop = true }
-    };
-
-    [JsonPropertyName("Randomize")]
-    public bool Randomize { get; set; } = false;
-
-    [JsonPropertyName("RtvEnabled")]
-    public bool RtvEnabled { get; set; } = false;
-
-    [JsonPropertyName("RtvMapCount")]
-    public int RtvMapCount { get; set; } = 5;
-
-    [JsonPropertyName("RtvRoundStartVote")]
-    public int RtvRoundStartVote { get; set; } = 3;
-
-    [JsonPropertyName("RtvStartVoteAtTheEnd")]
-    public bool RtvStartVoteAtTheEnd { get; set; } = true;
-
-    [JsonPropertyName("RtvDurationInSeconds")]
-    public int RtvDurationInSeconds { get; set; } = 30;
-}
-
-// Class to instanciate a map item with its id and name
-public class MapItem
-{
-    public string Name { get; set; }
-    public string Id { get; set; }
-    public bool Workshop { get; set; }
-}
 
 // Main class of the plugin
 public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
@@ -102,8 +59,6 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
 
         if (Config.RtvEnabled)
         {
-            //AddCommand("mc_vote", "Get the next map of the cycle", _rtv.AddVote);
-            
             // Add the event to change the map when the vote is finished
             _rtv.EndVoteEvent += (sender, e) =>
             {
