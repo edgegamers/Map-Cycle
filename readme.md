@@ -18,12 +18,32 @@ I dedicate a significant part of my free time to coding and developing meaningfu
 
 ## Commands
 ### Map Cycle
-- **`nextmap` / `nextmap de_dust2` (SERVER CONSOLE)**: Use `nextmap` to check the upcoming map. To set the next map, input `nextmap de_dust2`.
-- **`!nextmap` / `!nextmap de_dust2` (CHAT)**: Enter `!nextmap` to view the next map. To select a different map, type `!nextmap de_dust2`.
-- **`!goto de_dust2`**: This command allows direct access to a chosen map (`de_dust2` in this case) in your cycle, bypassing the need to wait for the current match to end.
-- **`!go`**: Use this command to immediately transition to the next map, without the need to wait for the current match to conclude.
+1) **`!addmap cs_assault Assault 3070594412`**: Use `addmap` to insert a new map to the cycle from the game or the console without having toi rewrite the file.
+- Pattern: `!addmap mapname display_name workshopid_or_mapname_for_offi_map`
+- E.g WS map:  `!addmap cs_assault Assault 3070594412`
+- E.g official map:  `!addmap de_dust2 "Dust 2" de_dust2`
 
-`mc_` commands are deprecated.
+---
+
+2) **`!removemap cs_assault`**: Use `removemap` to remove a map from the cycle ingame or from the console without having to rewrite the file.
+- Pattern: `!removemap mapname`
+- E.g WS map: `!removemap cs_assault`
+- E.g official map: `!removemap de_dust2`
+
+---
+
+3) **`!nextmap` / `!nextmap de_dust2`**: Enter `!nextmap` to view the next map. To select a different map, type `!nextmap de_dust2` or `!nextmap de_aztec`.
+
+---
+
+4) **`!goto cs_assault`**: This command allows direct access to a chosen map (`de_dust2` in this case) in your cycle, bypassing the need to wait for the current match to end.
+
+---
+
+5) **`!go`**: Use this command to immediately transition to the next map, without the need to wait for the current match to conclude.
+
+
+**`mc_` commands are deprecated **
 
 ### RTV
 

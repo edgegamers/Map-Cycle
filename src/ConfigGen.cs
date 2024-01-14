@@ -1,4 +1,6 @@
+using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace MapCycle
@@ -32,5 +34,25 @@ namespace MapCycle
 
         [JsonPropertyName("RtvVoteRatio")]
         public float RtvVoteRatio { get; set; } = 0.5f;
+
+        private string _fileName = $"{Server.GameDirectory}/csgo/addons/counterstrikesharp/configs/plugins/MapCycle/MapCycle.json";
+
+        public void RewriteConfig()
+        {
+            var config = JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(_fileName, config);
+        }
+
+        public void AddMap(string mapName, string displayName, string id, bool workshop)
+        {
+            Maps.Add(new MapItem { Name = mapName, DisplayName = displayName, Id = id, Workshop = workshop });
+            RewriteConfig();
+        }
+
+        public void RemoveMap(CCSPlayerController player, string mapName)
+        {
+            Maps.RemoveAll(x => x.Name == mapName);
+            RewriteConfig();
+        }
     }
 }

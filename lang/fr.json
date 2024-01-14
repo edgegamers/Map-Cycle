@@ -14,4 +14,8 @@
     "VoteRankFormat": "{default}[{0}] - {1}",
     "AlreadyVoted": "%prefix% Vous avez déjà voté",
     "NotEnoughVotes": "%prefix% Il n'y a pas assez de votes pour changer de map",
+    "AlreadyExistingMap": "%prefix% La map {0} existe déjà",
+    "NotEnoughArgs": "%prefix% Pas assez d'arguments",
+    "MapAdded": "%prefix% La map {0} a été ajoutée",
+    "MapRemoved": "%prefix% La map {0} a été supprimée"
 }

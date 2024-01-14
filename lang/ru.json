@@ -14,4 +14,8 @@
     "VoteRankFormat": "%prefix% [{green}{0}{default}] - {1}",
     "AlreadyVoted": "%prefix% Вы уже проголосовали",
     "NotEnoughVotes": "%prefix% Недостаточно голосов для выбора следующей карты",
+    "AlreadyExistingMap": "%prefix% Эта карта уже есть в цикле карт: {0}",
+    "NotEnoughArgs": "%prefix% Недостаточно аргументов",
+    "MapAdded": "%prefix% Карта добавлена в цикл карт: {0}",
+    "MapRemoved": "%prefix% Карта удалена из цикла карт: {0}"
 }
