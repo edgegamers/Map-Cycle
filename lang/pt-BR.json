@@ -14,4 +14,8 @@
     "VoteRankFormat": "{default}[{0}] {1}",
     "AlreadyVoted": "%prefix% Voce ja votou !",
     "NotEnoughVotes": "%prefix% Nao ha votos suficientes para definir o proximo mapa",
+    "AlreadyExistingMap": "%prefix% Este mapa ja existe no map cycle: {0}",
+    "NotEnoughArgs": "%prefix% Nao ha argumentos suficientes",
+    "MapAdded": "%prefix% Mapa adicionado ao map cycle: {0}",
+    "MapRemoved": "%prefix% Mapa removido do map cycle: {0}"
 }

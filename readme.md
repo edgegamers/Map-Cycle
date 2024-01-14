@@ -18,12 +18,32 @@ I dedicate a significant part of my free time to coding and developing meaningfu
 
 ## Commands
 ### Map Cycle
-- **`nextmap` / `nextmap de_dust2` (SERVER CONSOLE)**: Use `nextmap` to check the upcoming map. To set the next map, input `nextmap de_dust2`.
-- **`!nextmap` / `!nextmap de_dust2` (CHAT)**: Enter `!nextmap` to view the next map. To select a different map, type `!nextmap de_dust2`.
-- **`!goto de_dust2`**: This command allows direct access to a chosen map (`de_dust2` in this case) in your cycle, bypassing the need to wait for the current match to end.
-- **`!go`**: Use this command to immediately transition to the next map, without the need to wait for the current match to conclude.
+1) **`!addmap cs_assault Assault 3070594412`**: This command allows you to add a new map to the cycle without having to manually edit the configuration file.
+- Pattern: `!addmap mapname display_name workshopid_or_mapname_for_offi_map`
+- E.g WS map:  `!addmap cs_assault Assault 3070594412`
+- E.g official map:  `!addmap de_dust2 "Dust 2" de_dust2`
 
-`mc_` commands are deprecated.
+---
+
+2) **`!removemap cs_assault`**: This command allows you to remove a map from the cycle directly in-game or from the console, eliminating the need to manually edit the configuration file.
+- Pattern: `!removemap mapname`
+- E.g WS map: `!removemap cs_assault`
+- E.g official map: `!removemap de_dust2`
+
+---
+
+3) **`!nextmap` / `!nextmap de_dust2`**: Enter `!nextmap` to view the next map. To select a different map, type `!nextmap de_dust2` or `!nextmap de_aztec`.
+
+---
+
+4) **`!goto cs_assault`**: This command allows direct access to a chosen map (`de_dust2` in this case) in your cycle, bypassing the need to wait for the current match to end.
+
+---
+
+5) **`!go`**: Use this command to immediately transition to the next map, without the need to wait for the current match to conclude.
+
+
+**`mc_` commands are deprecated **
 
 ### RTV
 
@@ -62,7 +82,7 @@ The configuration file is automatically generated in `game/csgo/addons/counterst
 
 `Randomize` to play the maps in random order.
 
-`RtvEnabled` Enable or disable random map cycle.
+`RtvEnabled` Enable or disable the vote.
 
 `RtvMapCount` Number of proposed maps. They are randomly selected in the cycle.
 
@@ -150,14 +170,10 @@ Set the map on your server with `host_workshop_map 123123123` and when the map h
 2. Install and activate the plugin on your CounterStrikeSharp server.
 3. The plugin will automatically manage map rotation, announcing the next map to players at the conclusion of each match.
 
-## Dependencies
-- CounterStrikeSharp.API
-- System.Text.Json
-
 ## Author
 - ModuleName: MapCycle
 - ModuleAuthor: NANOR
-- ModuleVersion: 1.3.0
+- ModuleVersion: 1.3.1
 
 ## Support
 For assistance, please raise an issue on the GitHub repository of the project.

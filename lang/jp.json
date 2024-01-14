@@ -13,5 +13,9 @@
     "AnnounceVoteHow": "%prefix% 次のマップに投票するには、!<number> と入力してください",
     "VoteRankFormat": "%prefix% [{green}{0}{default}] - {1}",
     "AlreadyVoted": "%prefix% あなたはすでに投票済みです",
-    "NotEnoughVotes": "%prefix% 投票数が足りません"
+    "NotEnoughVotes": "%prefix% 投票数が足りません",
+    "AlreadyExistingMap": "%prefix% このマップはすでにマップサイクルに存在します: {0}",
+    "NotEnoughArgs": "%prefix% 引数が足りません",
+    "MapAdded": "%prefix% マップがマップサイクルに追加されました: {0}",
+    "MapRemoved": "%prefix% マップがマップサイクルから削除されました: {0}"
 }

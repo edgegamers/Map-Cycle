@@ -18,7 +18,7 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     // plugin informations
     public override string ModuleName => "MapCycle";
     public override string ModuleAuthor => "NANOR";
-    public override string ModuleVersion => "1.3.0";
+    public override string ModuleVersion => "1.3.1";
 
     // plugin configs
     public ConfigGen Config { get; set; } = null!;
@@ -105,6 +105,61 @@ public class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
             _rtv.Localizer = Localizer;
         }
     }
+
+    [ConsoleCommand("addmap", "Add a new map in the cycle")]
+    [RequiresPermissions("@css/changemap")]
+    [CommandHelper(minArgs: 3, usage: "<#map name> <#display name> <#id>", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
+    public void OnAddMap(CCSPlayerController? caller, CommandInfo info)
+    {
+        if(info.ArgCount < 3) {
+            info.ReplyLocalized(Localizer, "NotEnoughArgs", 3, info.ArgCount);
+            return;
+        }
+
+        var mapName = info.GetArg(1);
+        var displayName = info.GetArg(2);
+        var id = info.GetArg(3);
+        Server.PrintToChatAll($"[MapCycle] {ChatColors.Default}Adding map {mapName} with display name {displayName} and id {id}");
+        bool workshop = true;
+
+        if (Config.Maps.Any(x => x.Name == mapName))
+        {
+            info.ReplyLocalized(Localizer, "AlreadyExistingMap", mapName);
+            return;
+        }
+
+        if(id == mapName)
+        {
+            workshop = false;
+        }
+
+        Config.AddMap(mapName, displayName, id, workshop);
+        info.ReplyLocalized(Localizer, "MapAdded", mapName);
+    }
+
+    [ConsoleCommand("removemap", "Remove a map from the cycle")]
+    [RequiresPermissions("@css/changemap")]
+    [CommandHelper(minArgs: 1, usage: "<#map name>", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
+    public void OnRemoveMap(CCSPlayerController? caller, CommandInfo info)
+    {
+        if (info.ArgCount < 1)
+        {
+            info.ReplyLocalized(Localizer, "NotEnoughArgs", 1, info.ArgCount);
+            return;
+        }
+
+        var mapName = info.GetArg(1);
+
+        if (!Config.Maps.Any(x => x.Name == mapName))
+        {
+            info.ReplyLocalized(Localizer, "NotExistingMap");
+            return;
+        }
+
+        Config.RemoveMap(caller, mapName);
+        info.ReplyLocalized(Localizer, "MapRemoved", mapName);
+    }
+
 
     [ConsoleCommand("nextmap", "Gets/sets the next map of the cycle")]
     public void OnSetNextCommand(CCSPlayerController? caller, CommandInfo info)
