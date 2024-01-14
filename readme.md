@@ -62,7 +62,7 @@ The configuration file is automatically generated in `game/csgo/addons/counterst
 
 `Randomize` to play the maps in random order.
 
-`RtvEnabled` Enable or disable random map cycle.
+`RtvEnabled` Enable or disable the vote.
 
 `RtvMapCount` Number of proposed maps. They are randomly selected in the cycle.
 
@@ -150,14 +150,10 @@ Set the map on your server with `host_workshop_map 123123123` and when the map h
 2. Install and activate the plugin on your CounterStrikeSharp server.
 3. The plugin will automatically manage map rotation, announcing the next map to players at the conclusion of each match.
 
-## Dependencies
-- CounterStrikeSharp.API
-- System.Text.Json
-
 ## Author
 - ModuleName: MapCycle
 - ModuleAuthor: NANOR
-- ModuleVersion: 1.3.0
+- ModuleVersion: 1.3.1
 
 ## Support
 For assistance, please raise an issue on the GitHub repository of the project.
