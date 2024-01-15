@@ -20,6 +20,12 @@ namespace MapCycle
         [JsonPropertyName("RtvEnabled")]
         public bool RtvEnabled { get; set; } = false;
 
+        [JsonPropertyName("RtvPlayerCommandEnabled")]
+        public bool RtvPlayerCommandEnabled { get; set; } = false;
+
+        [JsonPropertyName("RtvPlayerCommandChangeTheMapDirectlyAfterVote")]
+        public bool RtvPlayerCommandChangeTheMapDirectlyAfterVote { get; set; } = false;
+
         [JsonPropertyName("RtvMapCount")]
         public int RtvMapCount { get; set; } = 5;
 
