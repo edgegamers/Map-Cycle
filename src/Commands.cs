@@ -57,7 +57,7 @@ namespace MapCycle
 
             if (!Config.Maps.Any(x => x.Name == mapName))
             {
-                info.ReplyLocalized(Localizer, "NotExistingMap");
+                info.ReplyLocalized(Localizer, "NotExistingMap", mapName);
                 return;
             }
 
@@ -123,8 +123,8 @@ namespace MapCycle
             var map = Config.Maps.FirstOrDefault(x => x.Name == commandMapName);
             if (map == null)
             {
-                // If the map doesn't exist, we print an error
-                info.ReplyLocalized(Localizer, "NotExistingMap", commandMapName);
+                _lastVisitedMap = commandMapName;
+                Server.ExecuteCommand($"map {commandMapName}");
                 return;
             }
             else
@@ -141,30 +141,30 @@ namespace MapCycle
         public void OnKeepMapCommand(CCSPlayerController? caller, CommandInfo info)
         {
             var currentMapName = Server.MapName;
-            var commandMapName = _lastVisitedMap;
+            var lastVisitedMap = _lastVisitedMap;
             var displayName = info.GetArg(1);
             var workshop = false;
 
             _lastVisitedMap = null;
 
-            if (currentMapName != commandMapName)
+            if (currentMapName != lastVisitedMap)
             {
                 workshop = true;
             }
 
-            if(displayName == null)
+            if(displayName == null || displayName == "")
             {
                 displayName = currentMapName;
             }
 
-            if (Config.Maps.Any(x => x.Name == commandMapName))
+            if (Config.Maps.Any(x => x.Name == lastVisitedMap) || Config.Maps.Any(x => x.Id == lastVisitedMap))
             {
-                info.ReplyLocalized(Localizer, "AlreadyExistingMap", commandMapName);
+                info.ReplyLocalized(Localizer, "AlreadyExistingMap", lastVisitedMap);
                 return;
             }
 
-            Config.AddMap(currentMapName, displayName, commandMapName, workshop);
-
+            Config.AddMap(currentMapName, displayName, lastVisitedMap, workshop);
+            info.ReplyLocalized(Localizer, "MapAdded", currentMapName);
         }
     }
 }

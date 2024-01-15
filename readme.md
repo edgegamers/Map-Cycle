@@ -32,15 +32,25 @@ I dedicate a significant part of my free time to coding and developing meaningfu
 
 ---
 
-3) **`!nextmap` / `!nextmap de_dust2`**: Enter `!nextmap` to view the next map. To select a different map, type `!nextmap de_dust2` or `!nextmap de_aztec`.
+3) **`!keepmap Assault`**: This command allows you to add the current map to the cycle.
+- Pattern: `!keepmap [optional]mapDisplayName`
+
+It automatically detects if it's a workshop map or not.
+How to use it:
+- For a workshop map (`!goto 123123123`): You can type the map ID directly with the `goto` command, even if it's not in the cycle. Once you're on the map, if you enjoy it, you can type `!keepmap` or `!keepmap NoobMap` with the display name or not. By default, the display name will be the map name.
+- For an official map (`!goto de_inferno`): You can type the map name directly with the `goto` command, even if it's not in the cycle. Once you're on the map, if you enjoy it, you can type `!keepmap` or `!keepmap Inferno` with the display name or not. By default, the display name will be the map name.
 
 ---
 
-4) **`!goto cs_assault`**: This command allows direct access to a chosen map (`de_dust2` in this case) in your cycle, bypassing the need to wait for the current match to end.
+4) **`!nextmap` / `!nextmap de_dust2`**: Enter `!nextmap` to view the next map. To select a different map, type `!nextmap de_dust2` or `!nextmap de_aztec`.
 
 ---
 
-5) **`!go`**: Use this command to immediately transition to the next map, without the need to wait for the current match to conclude.
+5) **`!goto cs_assault`**: This command allows direct access to a chosen map (`de_dust2` in this case) in your cycle, bypassing the need to wait for the current match to end. You can also go to a map workshop ID using the command `!goto 123123123`, even if it's not in the cycle.
+
+---
+
+6) **`!go`**: Use this command to immediately transition to the next map, without the need to wait for the current match to conclude.
 
 
 **`mc_` commands are deprecated **
@@ -173,7 +183,7 @@ Set the map on your server with `host_workshop_map 123123123` and when the map h
 ## Author
 - ModuleName: MapCycle
 - ModuleAuthor: NANOR
-- ModuleVersion: 1.3.1
+- ModuleVersion: 1.3.2
 
 ## Support
 For assistance, please raise an issue on the GitHub repository of the project.
