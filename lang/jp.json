@@ -17,5 +17,9 @@
     "AlreadyExistingMap": "%prefix% このマップはすでにマップサイクルに存在します: {0}",
     "NotEnoughArgs": "%prefix% 引数が足りません",
     "MapAdded": "%prefix% マップがマップサイクルに追加されました: {0}",
-    "MapRemoved": "%prefix% マップがマップサイクルから削除されました: {0}"
+    "MapRemoved": "%prefix% マップがマップサイクルから削除されました: {0}",
+    "RtvCommandDisabled": "%prefix% RTVコマンドは無効になっています",
+    "MapChangingIn": "%prefix% {0} 秒後にマップが変更されます",
+    "AlreadyVotedByPlayers": "%prefix% すでに投票済みのプレイヤー",
+    "VoteAlreadyStarted": "%prefix% 投票はすでに開始されています"
 }

@@ -10,6 +10,8 @@ namespace MapCycle
 {
     public partial class MapCycle
     {
+        // ----------------- Admin Commands ----------------- //
+
         [ConsoleCommand("addmap", "Add a new map in the cycle")]
         [RequiresPermissions("@css/changemap")]
         [CommandHelper(minArgs: 3, usage: "<#map name> <#display name> <#id>", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
@@ -24,7 +26,6 @@ namespace MapCycle
             var mapName = info.GetArg(1);
             var displayName = info.GetArg(2);
             var id = info.GetArg(3);
-            Server.PrintToChatAll($"[MapCycle] {ChatColors.Default}Adding map {mapName} with display name {displayName} and id {id}");
             bool workshop = true;
 
             if (Config.Maps.Any(x => x.Name == mapName))
@@ -40,59 +41,6 @@ namespace MapCycle
 
             Config.AddMap(mapName, displayName, id, workshop);
             info.ReplyLocalized(Localizer, "MapAdded", mapName);
-        }
-
-        [ConsoleCommand("removemap", "Remove a map from the cycle")]
-        [RequiresPermissions("@css/changemap")]
-        [CommandHelper(minArgs: 1, usage: "<#map name>", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
-        public void OnRemoveMap(CCSPlayerController? caller, CommandInfo info)
-        {
-            if (info.ArgCount < 1)
-            {
-                info.ReplyLocalized(Localizer, "NotEnoughArgs", 1, info.ArgCount);
-                return;
-            }
-
-            var mapName = info.GetArg(1);
-
-            if (!Config.Maps.Any(x => x.Name == mapName))
-            {
-                info.ReplyLocalized(Localizer, "NotExistingMap", mapName);
-                return;
-            }
-
-            Config.RemoveMap(caller, mapName);
-            info.ReplyLocalized(Localizer, "MapRemoved", mapName);
-        }
-
-
-        [ConsoleCommand("nextmap", "Gets/sets the next map of the cycle")]
-        public void OnSetNextCommand(CCSPlayerController? caller, CommandInfo info)
-        {
-            if (info.ArgCount == 1 || !AdminManager.PlayerHasPermissions(caller, "@css/changemap"))
-            {
-                if (_nextMap == null)
-                {
-                    info.ReplyLocalized(Localizer, "NextMapUnset");
-                }
-                else
-                {
-                    info.ReplyLocalized(Localizer, "NextMap", _nextMap.DName());
-                }
-                return;
-            }
-            var commandMapName = info.GetArg(1);
-            var map = Config.Maps.FirstOrDefault(x => x.Name == commandMapName);
-            if (map == null)
-            {
-                info.ReplyLocalized(Localizer, "NotExistingMap", commandMapName);
-                return;
-            }
-            else
-            {
-                _nextMap = map;
-                info.ReplyLocalized(Localizer, "NextMapNow", _nextMap.DName());
-            }
         }
 
         [ConsoleCommand("go", "Direct switch to the map you want of the cycle")]
@@ -119,7 +67,7 @@ namespace MapCycle
                 Server.ExecuteCommand($"host_workshop_map {commandMapName}");
                 return;
             }
-            
+
             var map = Config.Maps.FirstOrDefault(x => x.Name == commandMapName);
             if (map == null)
             {
@@ -133,6 +81,29 @@ namespace MapCycle
                 _nextMap = map;
                 ChangeMap();
             }
+        }
+
+        [ConsoleCommand("removemap", "Remove a map from the cycle")]
+        [RequiresPermissions("@css/changemap")]
+        [CommandHelper(minArgs: 1, usage: "<#map name>", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
+        public void OnRemoveMap(CCSPlayerController? caller, CommandInfo info)
+        {
+            if (info.ArgCount < 1)
+            {
+                info.ReplyLocalized(Localizer, "NotEnoughArgs", 1, info.ArgCount);
+                return;
+            }
+
+            var mapName = info.GetArg(1);
+
+            if (!Config.Maps.Any(x => x.Name == mapName))
+            {
+                info.ReplyLocalized(Localizer, "NotExistingMap", mapName);
+                return;
+            }
+
+            Config.RemoveMap(caller, mapName);
+            info.ReplyLocalized(Localizer, "MapRemoved", mapName);
         }
 
         [ConsoleCommand("keepmap", "Keep the current map in the cycle")]
@@ -152,7 +123,7 @@ namespace MapCycle
                 workshop = true;
             }
 
-            if(displayName == null || displayName == "")
+            if (displayName == null || displayName == "")
             {
                 displayName = currentMapName;
             }
@@ -165,6 +136,52 @@ namespace MapCycle
 
             Config.AddMap(currentMapName, displayName, lastVisitedMap, workshop);
             info.ReplyLocalized(Localizer, "MapAdded", currentMapName);
+        }
+
+
+        // ----------------- Player + Admin Commands ----------------- //
+
+        [ConsoleCommand("nextmap", "Gets/sets the next map of the cycle")]
+        public void OnSetNextCommand(CCSPlayerController? caller, CommandInfo info)
+        {
+            // admin part
+            if (info.ArgCount == 1 || !AdminManager.PlayerHasPermissions(caller, "@css/changemap"))
+            {
+                if (_nextMap == null)
+                {
+                    info.ReplyLocalized(Localizer, "NextMapUnset");
+                }
+                else
+                {
+                    info.ReplyLocalized(Localizer, "NextMap", _nextMap.DName());
+                }
+                return;
+            }
+
+            // player part
+            var commandMapName = info.GetArg(1);
+            var map = Config.Maps.FirstOrDefault(x => x.Name == commandMapName);
+            if (map == null)
+            {
+                info.ReplyLocalized(Localizer, "NotExistingMap", commandMapName);
+                return;
+            }
+            else
+            {
+                _nextMap = map;
+                info.ReplyLocalized(Localizer, "NextMapNow", _nextMap.DName());
+            }
+        }
+
+        [ConsoleCommand("rtv", "Start a map vote")]
+        public void OnRtvCommand(CCSPlayerController? caller, CommandInfo info)
+        {
+            if(!Config.RtvPlayerCommandEnabled){
+                info.ReplyLocalized(Localizer, "RtvCommandDisabled");
+                return;
+            }
+
+            _rtv.Call(Config.RtvDurationInSeconds, true);
         }
     }
 }

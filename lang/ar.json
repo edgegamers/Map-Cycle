@@ -17,5 +17,9 @@
     "AlreadyExistingMap": "%prefix% هذه الخريطة موجودة بالفعل في دورة الخرائط",
     "NotEnoughArgs": "%prefix% لا يوجد ما يكفي من الوسائط",
     "MapAdded": "%prefix% تمت إضافة الخريطة {0} إلى دورة الخرائط",
-    "MapRemoved": "%prefix% تمت إزالة الخريطة {0} من دورة الخرائط"
+    "MapRemoved": "%prefix% تمت إزالة الخريطة {0} من دورة الخرائط",
+    "RtvCommandDisabled": "%prefix% أمر rtv معطل",
+    "MapChangingIn": "%prefix% سيتم تغيير الخريطة في {0} ثانية",
+    "AlreadyVotedByPlayers": "%prefix% لقد قام اللاعبون بالتصويت بالفعل",
+    "VoteAlreadyStarted": "%prefix% لقد بدأ التصويت بالفعل"
 }

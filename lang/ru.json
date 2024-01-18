@@ -17,5 +17,9 @@
     "AlreadyExistingMap": "%prefix% Эта карта уже есть в цикле карт: {0}",
     "NotEnoughArgs": "%prefix% Недостаточно аргументов",
     "MapAdded": "%prefix% Карта добавлена в цикл карт: {0}",
-    "MapRemoved": "%prefix% Карта удалена из цикла карт: {0}"
+    "MapRemoved": "%prefix% Карта удалена из цикла карт: {0}",
+    "RtvCommandDisabled": "%prefix% Команда rtv отключена",
+    "MapChangingIn": "%prefix% Смена карты через {0} секунд",
+    "AlreadyVotedByPlayers": "%prefix% Вы уже голосовали за следующую карту",
+    "VoteAlreadyStarted": "%prefix% Голосование уже началось"
 }

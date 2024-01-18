@@ -12,6 +12,7 @@ namespace MapCycle
     {
         public int VoteCount = 0;
         public bool VoteEnabled = true;
+        public bool alreadyVotedByPlayer = false;
         public List<int> VoteList = new List<int>();
         public List<MapItem> MapList = new List<MapItem>();
         public List<string> PlayerVotedList = new List<string>();
@@ -57,23 +58,34 @@ namespace MapCycle
             EndVoteEvent?.Invoke(this, e);
         }
 
-        public void Call(int duration)
+        public void Call(int duration, bool voteTriggeredByPlayer = false)
         {
             SetRandomMapList();
-            StartVote(duration);
+            StartVote(duration, voteTriggeredByPlayer);
         }
 
-        public void StartVote(int duration)
+        public void StartVote(int duration, bool voteTriggeredByPlayer = false)
         {
+            if(VoteEnabled){
+                LocalizationExtension.PrintLocalizedChatAll(Localizer, "VoteAlreadyStarted");
+                return;
+            }
+
+            if(alreadyVotedByPlayer)
+            {
+                LocalizationExtension.PrintLocalizedChatAll(Localizer, "AlreadyVotedByPlayers");
+                return;
+            }
+
             VoteEnabled = true;
             VoteCount = 0;
             VoteList.Clear();
             PlayerVotedList.Clear();
             RtvCommand();
-            AddTimer(duration, EndVote, TimerFlags.STOP_ON_MAPCHANGE);
+            AddTimer(duration, () => EndVote(voteTriggeredByPlayer), TimerFlags.STOP_ON_MAPCHANGE);
         }
 
-        public void EndVote()
+        public void EndVote(bool voteTriggeredByPlayer = false)
         {
             VoteEnabled = false;
             int mapIndex = -1;
@@ -89,7 +101,12 @@ namespace MapCycle
                 return;
             }
 
-            if(mapIndex == -1) {
+            if (voteTriggeredByPlayer)
+            {
+                alreadyVotedByPlayer = voteTriggeredByPlayer;
+            }
+
+            if (mapIndex == -1) {
                 LocalizationExtension.PrintLocalizedChatAll(Localizer, "NoVotes");
                 OnEndVote(EventArgs.Empty);
                 return;

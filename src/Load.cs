@@ -1,5 +1,6 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Timers;
 
 namespace MapCycle
 {
@@ -28,7 +29,27 @@ namespace MapCycle
                     {
                         SetNextMap(Server.MapName);
                     }
+
                     LocalizationExtension.PrintLocalizedChatAll(Localizer, "NextMapNow", _nextMap.DName());
+
+                    if (Config.RtvPlayerCommandChangeTheMapDirectlyAfterVote)
+                    {
+                        AddTimer(1, () => { 
+                            LocalizationExtension.PrintLocalizedChatAll(Localizer, "MapChangingIn", 3);
+                        }, TimerFlags.STOP_ON_MAPCHANGE);
+                        
+                        AddTimer(2, () =>
+                        {
+                            LocalizationExtension.PrintLocalizedChatAll(Localizer, "MapChangingIn", 2);
+                        }, TimerFlags.STOP_ON_MAPCHANGE);
+
+                        AddTimer(3, () =>
+                        {
+                            LocalizationExtension.PrintLocalizedChatAll(Localizer, "MapChangingIn", 1);
+                        }, TimerFlags.STOP_ON_MAPCHANGE);
+
+                        AddTimer(4, ChangeMap, TimerFlags.STOP_ON_MAPCHANGE);
+                    }
                 };
             }
 

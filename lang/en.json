@@ -17,5 +17,9 @@
     "AlreadyExistingMap": "%prefix% This map is already in the map cycle: {0}",
     "NotEnoughArgs": "%prefix% Not enough arguments. Please refer to the documentation",
     "MapAdded": "%prefix% The map {0} has been added to the map cycle",
-    "MapRemoved": "%prefix% The map {0} has been removed from the map cycle"
+    "MapRemoved": "%prefix% The map {0} has been removed from the map cycle",
+    "RtvCommandDisabled": "%prefix% The RTV command is disabled",
+    "MapChangingIn": "%prefix% The map will change in {0} seconds",
+    "AlreadyVotedByPlayers": "%prefix% PLayers already voted.",
+    "VoteAlreadyStarted": "%prefix% A vote is already started"
 }

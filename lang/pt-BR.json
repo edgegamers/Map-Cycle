@@ -17,5 +17,9 @@
     "AlreadyExistingMap": "%prefix% Este mapa ja existe no map cycle: {0}",
     "NotEnoughArgs": "%prefix% Nao ha argumentos suficientes",
     "MapAdded": "%prefix% Mapa adicionado ao map cycle: {0}",
-    "MapRemoved": "%prefix% Mapa removido do map cycle: {0}"
+    "MapRemoved": "%prefix% Mapa removido do map cycle: {0}",
+    "RtvCommandDisabled": "%prefix% O comando rtv esta desativado",
+    "MapChangingIn": "%prefix% O mapa ira mudar em {0} segundos",
+    "AlreadyVotedByPlayers": "%prefix% Ja votado por {0}",
+    "VoteAlreadyStarted": "%prefix% Ja existe uma votacao em andamento"
 }

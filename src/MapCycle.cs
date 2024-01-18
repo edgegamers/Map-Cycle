@@ -2,7 +2,6 @@ using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes;
 using CounterStrikeSharp.API.Modules.Utils;
-using CounterStrikeSharp.API.Modules.Commands;
 
 using CounterStrikeSharp.API.Modules.Timers;
 
@@ -17,7 +16,7 @@ public partial class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     // plugin informations
     public override string ModuleName => "MapCycle";
     public override string ModuleAuthor => "NANOR";
-    public override string ModuleVersion => "1.3.2";
+    public override string ModuleVersion => "1.3.3";
 
     // plugin configs
     public ConfigGen Config { get; set; } = null!;
@@ -76,6 +75,17 @@ public partial class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
 
     private void SetNextMap(string mapName)
     {
+        if (_rtv != null)
+        {
+            // reset rtv variables
+            _rtv.alreadyVotedByPlayer = false;
+            _rtv.VoteEnabled = false;
+            _rtv.VoteCount = 0;
+            _rtv.VoteList.Clear();
+            _rtv.PlayerVotedList.Clear();
+            _rtv.NextMap = null;
+        }
+
         // By default, we set the first map of the cycle
         _nextMap = Config.Maps[0];
         // Get the next map index

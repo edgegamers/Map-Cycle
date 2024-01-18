@@ -17,5 +17,9 @@
     "AlreadyExistingMap": "%prefix% La map {0} existe déjà",
     "NotEnoughArgs": "%prefix% Pas assez d'arguments",
     "MapAdded": "%prefix% La map {0} a été ajoutée",
-    "MapRemoved": "%prefix% La map {0} a été supprimée"
+    "MapRemoved": "%prefix% La map {0} a été supprimée",
+    "RtvCommandDisabled": "%prefix% La commande rtv est désactivée",
+    "MapChangingIn": "%prefix% La map va changer dans {0} secondes",
+    "AlreadyVotedByPlayers": "%prefix% Les joueurs ont déjà voté!",
+    "VoteAlreadyStarted": "%prefix% Un vote est déjà en cours"
 }
