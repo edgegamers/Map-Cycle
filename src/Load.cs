@@ -20,6 +20,8 @@ namespace MapCycle
             else
             {
                 InitRTV();
+                if(_rtv == null) return;
+
                 _rtv.EndVoteEvent += (sender, e) =>
                 {
                     // To avoid a new rtv trigger
@@ -34,6 +36,8 @@ namespace MapCycle
                         SetNextMap(Server.MapName);
                     }
 
+                    if(_nextMap == null) return;
+                    
                     LocalizationExtension.PrintLocalizedChatAll(Localizer, "NextMapNow", _nextMap.DName());
 
                     if (Config.RtvPlayerCommandChangeTheMapDirectlyAfterVote)
@@ -60,6 +64,8 @@ namespace MapCycle
             RegisterEventHandler<EventRoundStart>((@event, info) =>
             {
                 _currentRound++;
+                if (_rtv == null) return HookResult.Continue;
+
                 if (Config.RtvEnabled && _currentRound == Config.RtvRoundStartVote + 1 && !Config.RtvStartVoteAtTheEnd) // +1 for the warmup
                 {
                     _rtv.Call(Config!.RtvDurationInSeconds);
@@ -70,6 +76,7 @@ namespace MapCycle
             // Create the timer to change the map
             RegisterEventHandler<EventCsWinPanelMatch>((@event, info) =>
             {
+                if (_rtv == null) return HookResult.Continue;
                 // Start the vote at the end of the match
                 if (Config.RtvStartVoteAtTheEnd && Config.RtvEnabled)
                 {

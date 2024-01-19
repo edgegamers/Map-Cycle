@@ -48,6 +48,9 @@ public partial class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         {
             _nextMap = _rtv.NextMap;
         }
+
+        if (_nextMap == null) return;
+
         // Print the next map
         LocalizationExtension.PrintLocalizedChatAll(Localizer, "NextMap", _nextMap.DName());
         // Change the map
@@ -60,6 +63,8 @@ public partial class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
             _rtv.NextMap = null;
         }
         _currentRound = 0;
+
+        if (_nextMap == null) return;
 
         // If the next map is a workshop map, we use the host_workshop_map command
         if (_nextMap.Workshop)
@@ -128,10 +133,11 @@ public partial class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
 
     private int CurrentMapIndex()
     {
-        if(CurrentMap() == null) {
+        var currentMap = CurrentMap();
+        if(currentMap == null) {
             return 0;
         } else {
-            return Config.Maps.FindIndex(a => a.Name == CurrentMap().Name);
+            return Config.Maps.FindIndex(a => a.Name == currentMap.Name);
         }
     }
 }

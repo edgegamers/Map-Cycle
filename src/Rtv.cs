@@ -18,7 +18,7 @@ namespace MapCycle
         public List<string> PlayerVotedList = new List<string>();
         public MapItem? NextMap;
         public ConfigGen? Config { get; set; }
-        public IStringLocalizer Localizer { get; set; }
+        public new IStringLocalizer? Localizer { get; set; }
 
         public override string ModuleName => throw new NotImplementedException();
 
@@ -26,7 +26,7 @@ namespace MapCycle
 
 
         // Singleton Instance ---------------------------------------
-        private static Rtv _instance;
+        private static Rtv? _instance;
 
         public static Rtv Instance
         {
@@ -44,13 +44,15 @@ namespace MapCycle
 
         public Rtv()
         {
+            Localizer = null;
+            EndVoteEvent = null;
         }
 
         // End vote Event ---------------------------------------
         public delegate void EndVoteEventHandler(object sender, EventArgs e);
 
         // Declare event
-        public event EndVoteEventHandler EndVoteEvent;
+        public event EndVoteEventHandler? EndVoteEvent;
 
         // Trigger event
         protected virtual void OnEndVote(EventArgs e)
@@ -66,12 +68,13 @@ namespace MapCycle
 
         public void StartVote(int duration, bool voteTriggeredByPlayer = false)
         {
-            if(VoteEnabled){
+            if(VoteEnabled && Localizer != null)
+            {
                 LocalizationExtension.PrintLocalizedChatAll(Localizer, "VoteAlreadyStarted");
                 return;
             }
 
-            if(alreadyVotedByPlayer)
+            if(alreadyVotedByPlayer && Localizer != null)
             {
                 LocalizationExtension.PrintLocalizedChatAll(Localizer, "AlreadyVotedByPlayers");
                 return;
@@ -87,9 +90,12 @@ namespace MapCycle
 
         public void EndVote(bool voteTriggeredByPlayer = false)
         {
+            if (Config == null) return;
+            if (Localizer == null) return;
+
             VoteEnabled = false;
             int mapIndex = -1;
-            var playerWithoutBotsCountFloat = Utilities.GetPlayers().Count(p => !p.IsBot);
+            var playerWithoutBotsCountFloat = (float)Utilities.GetPlayers().Count(p => !p.IsBot);
             var enoughVotes = VoteList.Count >= playerWithoutBotsCountFloat * Config.RtvVoteRatio;
             if (VoteList.Count != 0 && enoughVotes) {
                 mapIndex = VoteList.GroupBy(i => i).OrderByDescending(grp => grp.Count()).Select(grp => grp.Key).First();
@@ -121,6 +127,8 @@ namespace MapCycle
 
         public void SetRandomMapList()
         {
+            if (Config == null) return;
+
             Random rnd = new Random();
             List<MapItem> configList = Config.Maps;
             List<MapItem> shuffledList = configList.OrderBy(x => rnd.Next()).ToList();
@@ -131,6 +139,7 @@ namespace MapCycle
 
         public void RtvCommand()
         {
+            if (Localizer == null) return;
 
             var menu = new ChatMenu(Localizer["AnnounceVoteHow"]);
             var i = 1;
@@ -149,6 +158,8 @@ namespace MapCycle
 
         public void AddVote(CCSPlayerController? caller, ChatMenuOption info)
         {
+            if (Localizer == null) return;
+            
             string pattern = @"\[([0-9]+)\]";
             Match match = Regex.Match(info.Text, pattern);
             try
@@ -176,6 +187,8 @@ namespace MapCycle
             catch (Exception e)
             {
                 Server.PrintToConsole($" {ChatColors.Red}[MapCycleError] {ChatColors.Default}{e}");
+
+                if(caller == null) return;
                 LocalizationExtension.PrintLocalizedChat(caller, Localizer, "VoteInvalid");
             }
         }
