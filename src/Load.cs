@@ -1,6 +1,7 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Timers;
+using CounterStrikeSharp.API.Modules.Cvars;
 
 namespace MapCycle
 {
@@ -8,6 +9,9 @@ namespace MapCycle
     {
         public override void Load(bool hotReload)
         {
+            // change the convar mp_match_end_changelevel to 0
+            var chLvlCvar = ConVar.Find("mp_match_end_changelevel");
+            chLvlCvar?.SetValue(0);
 
             if (!Config.RtvEnabled)
             {
