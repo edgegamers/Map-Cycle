@@ -95,7 +95,7 @@ namespace MapCycle
                 mapIndex = VoteList.GroupBy(i => i).OrderByDescending(grp => grp.Count()).Select(grp => grp.Key).First();
             }
 
-            if(!enoughVotes) {
+            if(!enoughVotes && Config.RtvVoteRatioEnabled) {
                 LocalizationExtension.PrintLocalizedChatAll(Localizer, "NotEnoughVotes");
                 OnEndVote(EventArgs.Empty);
                 return;
