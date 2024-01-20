@@ -1,18 +1,10 @@
-using System.Text.Json.Serialization;
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Core.Attributes;
 using CounterStrikeSharp.API.Modules.Timers;
-using Timer = CounterStrikeSharp.API.Modules.Timers.Timer;
 using CounterStrikeSharp.API.Modules.Utils;
-using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Admin;
-using CounterStrikeSharp.API.Core.Attributes.Registration;
 using Microsoft.Extensions.Localization;
-using CounterStrikeSharp.API.Core.Translations;
 using CounterStrikeSharp.API.Modules.Menu;
 using System.Text.RegularExpressions;
-using System.Linq;
 
 namespace MapCycle
 {
@@ -20,6 +12,7 @@ namespace MapCycle
     {
         public int VoteCount = 0;
         public bool VoteEnabled = true;
+        public bool alreadyVotedByPlayer = false;
         public List<int> VoteList = new List<int>();
         public List<MapItem> MapList = new List<MapItem>();
         public List<string> PlayerVotedList = new List<string>();
@@ -65,30 +58,55 @@ namespace MapCycle
             EndVoteEvent?.Invoke(this, e);
         }
 
-        public void Call()
+        public void Call(int duration, bool voteTriggeredByPlayer = false)
         {
             SetRandomMapList();
-            StartVote();
+            StartVote(duration, voteTriggeredByPlayer);
         }
 
-        public void StartVote()
+        public void StartVote(int duration, bool voteTriggeredByPlayer = false)
         {
+            if(VoteEnabled){
+                LocalizationExtension.PrintLocalizedChatAll(Localizer, "VoteAlreadyStarted");
+                return;
+            }
+
+            if(alreadyVotedByPlayer)
+            {
+                LocalizationExtension.PrintLocalizedChatAll(Localizer, "AlreadyVotedByPlayers");
+                return;
+            }
+
             VoteEnabled = true;
             VoteCount = 0;
             VoteList.Clear();
             PlayerVotedList.Clear();
             RtvCommand();
-            AddTimer(Config.RtvDurationInSeconds, EndVote, TimerFlags.STOP_ON_MAPCHANGE);
+            AddTimer(duration, () => EndVote(voteTriggeredByPlayer), TimerFlags.STOP_ON_MAPCHANGE);
         }
 
-        public void EndVote()
+        public void EndVote(bool voteTriggeredByPlayer = false)
         {
             VoteEnabled = false;
             int mapIndex = -1;
-            if (VoteList.Count != 0) {
+            var playerWithoutBotsCountFloat = Utilities.GetPlayers().Count(p => !p.IsBot);
+            var enoughVotes = VoteList.Count >= playerWithoutBotsCountFloat * Config.RtvVoteRatio;
+            if (VoteList.Count != 0 && enoughVotes) {
                 mapIndex = VoteList.GroupBy(i => i).OrderByDescending(grp => grp.Count()).Select(grp => grp.Key).First();
             }
-            if(mapIndex == -1) {
+
+            if(!enoughVotes) {
+                LocalizationExtension.PrintLocalizedChatAll(Localizer, "NotEnoughVotes");
+                OnEndVote(EventArgs.Empty);
+                return;
+            }
+
+            if (voteTriggeredByPlayer)
+            {
+                alreadyVotedByPlayer = voteTriggeredByPlayer;
+            }
+
+            if (mapIndex == -1) {
                 LocalizationExtension.PrintLocalizedChatAll(Localizer, "NoVotes");
                 OnEndVote(EventArgs.Empty);
                 return;
@@ -117,7 +135,7 @@ namespace MapCycle
             var menu = new ChatMenu(Localizer["AnnounceVoteHow"]);
             var i = 1;
             MapList.ForEach(map => {
-                menu.AddMenuOption(Localizer["VoteRankFormat", i, map.Name], (controller, options) => {
+                menu.AddMenuOption(Localizer["VoteRankFormat", i, map.DName()], (controller, options) => {
                     AddVote(controller, options);
                 });
                 i++;
@@ -137,21 +155,20 @@ namespace MapCycle
             {
                 if(PlayerVotedList.Contains(caller!.PlayerName))
                 {
-                    LocalizationExtension.PrintLocalizedChatAll(Localizer, "AlreadyVoted");
+                    LocalizationExtension.PrintLocalizedChat(caller, Localizer, "AlreadyVoted");
                     return;
                 } else {
                     int number = int.Parse(match.Groups[1].Value);
                     var commandIndex = number - 1;
                     if(commandIndex > MapList.Count - 1 || commandIndex < 0)
                     {
-                        Server.PrintToChatAll($"Player {caller!.PlayerName} voted for {commandIndex}");
-                        LocalizationExtension.PrintLocalizedChatAll(Localizer, "VoteInvalid");
+                        LocalizationExtension.PrintLocalizedChat(caller, Localizer, "VoteInvalid");
                         return;
                     } else {
                         PlayerVotedList.Add(caller!.PlayerName);
                         VoteList.Add(commandIndex);
                         VoteCount++;
-                        LocalizationExtension.PrintLocalizedChatAll(Localizer, "VoteConfirm", MapList[commandIndex].Name);
+                        LocalizationExtension.PrintLocalizedChat(caller, Localizer, "VoteConfirm", MapList[commandIndex].DName());
                     }
                 }
                 
@@ -159,7 +176,7 @@ namespace MapCycle
             catch (Exception e)
             {
                 Server.PrintToConsole($" {ChatColors.Red}[MapCycleError] {ChatColors.Default}{e}");
-                LocalizationExtension.PrintLocalizedChatAll(Localizer, "VoteInvalid");
+                LocalizationExtension.PrintLocalizedChat(caller, Localizer, "VoteInvalid");
             }
         }
     }

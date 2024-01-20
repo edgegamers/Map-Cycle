@@ -12,5 +12,14 @@
     "VoteConfirm": "%prefix% 你已为 {0} 投票",
     "AnnounceVoteHow": "%prefix% 你可以使用 {0} 来投票",
     "VoteRankFormat": "%prefix% [{green}{0}{default}] - {1}",
-    "AlreadyVoted": "%prefix% 你已经投过票了"
+    "AlreadyVoted": "%prefix% 你已经投过票了",
+    "NotEnoughVotes": "%prefix% 没有足够的投票",
+    "AlreadyExistingMap": "%prefix% 这个地图已经在地图循环中了: {0}",
+    "NotEnoughArgs": "%prefix% 参数不足",
+    "MapAdded": "%prefix% 地图 {0} 已添加到地图循环中",
+    "MapRemoved": "%prefix% 地图 {0} 已从地图循环中移除",
+    "RtvCommandDisabled": "%prefix% 由于地图循环已经开始 所以rtv命令已被禁用",
+    "MapChangingIn": "%prefix% 地图将在 {0} 秒后更换",
+    "AlreadyVotedByPlayers": "%prefix% 你已经投过票了",
+    "VoteAlreadyStarted": "%prefix% 投票已经开始了"
 }

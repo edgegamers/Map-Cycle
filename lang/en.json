@@ -12,5 +12,14 @@
     "VoteConfirm": "%prefix% You voted for {0}",
     "AnnounceVoteHow": "{red}[Map Cycle] {default}Vote for the next map by typing: !1, or !2, or !3, etc...",
     "VoteRankFormat": "{default}[{0}] {1}",
-    "AlreadyVoted": "%prefix% You already voted"
+    "AlreadyVoted": "%prefix% You already voted",
+    "NotEnoughVotes": "%prefix% Not enough votes to change the map",
+    "AlreadyExistingMap": "%prefix% This map is already in the map cycle: {0}",
+    "NotEnoughArgs": "%prefix% Not enough arguments. Please refer to the documentation",
+    "MapAdded": "%prefix% The map {0} has been added to the map cycle",
+    "MapRemoved": "%prefix% The map {0} has been removed from the map cycle",
+    "RtvCommandDisabled": "%prefix% The RTV command is disabled",
+    "MapChangingIn": "%prefix% The map will change in {0} seconds",
+    "AlreadyVotedByPlayers": "%prefix% PLayers already voted.",
+    "VoteAlreadyStarted": "%prefix% A vote is already started"
 }

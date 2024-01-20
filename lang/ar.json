@@ -12,5 +12,14 @@
     "VoteConfirm": "%prefix% لقد صوتت لصالح {0}",
     "AnnounceVoteHow": "%prefix% للتصويت، اكتب !1، أو !2، أو !3، إلخ...",
     "VoteRankFormat": "%prefix% [{green}{0}{default}] - {1}",
-    "AlreadyVoted": "%prefix% لقد قمت بالتصويت بالفعل"
+    "AlreadyVoted": "%prefix% لقد قمت بالتصويت بالفعل",
+    "NotEnoughVotes": "%prefix% لا يوجد تصويت كافي",
+    "AlreadyExistingMap": "%prefix% هذه الخريطة موجودة بالفعل في دورة الخرائط",
+    "NotEnoughArgs": "%prefix% لا يوجد ما يكفي من الوسائط",
+    "MapAdded": "%prefix% تمت إضافة الخريطة {0} إلى دورة الخرائط",
+    "MapRemoved": "%prefix% تمت إزالة الخريطة {0} من دورة الخرائط",
+    "RtvCommandDisabled": "%prefix% أمر rtv معطل",
+    "MapChangingIn": "%prefix% سيتم تغيير الخريطة في {0} ثانية",
+    "AlreadyVotedByPlayers": "%prefix% لقد قام اللاعبون بالتصويت بالفعل",
+    "VoteAlreadyStarted": "%prefix% لقد بدأ التصويت بالفعل"
 }

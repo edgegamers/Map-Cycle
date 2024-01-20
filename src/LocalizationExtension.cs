@@ -1,4 +1,5 @@
 using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Commands;
 using Microsoft.Extensions.Localization;
 
@@ -11,6 +12,13 @@ public static class LocalizationExtension
         string value = localizer[key, args];
         value = value.Replace("%prefix%", localizer["prefix"]);
         info.ReplyToCommand(value);
+    }
+
+    public static void PrintLocalizedChat(CCSPlayerController player, IStringLocalizer localizer, string key, params object[] args)
+    {
+        string value = localizer[key, args];
+        value = value.Replace("%prefix%", localizer["prefix"]);
+        player.PrintToChat(value);
     }
 
     public static void PrintLocalizedChatAll(IStringLocalizer localizer, string key, params object[] args)
