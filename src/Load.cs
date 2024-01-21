@@ -11,7 +11,7 @@ namespace MapCycle
         {
             // change the convar mp_match_end_changelevel to 0
             var chLvlCvar = ConVar.Find("mp_match_end_changelevel");
-            chLvlCvar?.SetValue(0);
+            chLvlCvar?.SetValue(false);
 
             if (!Config.RtvEnabled)
             {
@@ -20,42 +20,26 @@ namespace MapCycle
             else
             {
                 InitRTV();
-                if(_rtv == null) return;
+                if (_rtv == null) return;
 
                 _rtv.EndVoteEvent += (sender, e) =>
                 {
-                    // To avoid a new rtv trigger
                     _currentRound = -100;
 
-                    if (_rtv.NextMap != null)
-                    {
-                        _nextMap = _rtv.NextMap;
-                    }
-                    else
-                    {
+                    _nextMap = _rtv.NextMap;
+                    if(_nextMap == null) {
                         SetNextMap(Server.MapName);
                     }
 
-                    if(_nextMap == null) return;
-                    
+                    if (_nextMap == null) return;
+
                     LocalizationExtension.PrintLocalizedChatAll(Localizer, "NextMapNow", _nextMap.DName());
 
-                    if (Config.RtvPlayerCommandChangeTheMapDirectlyAfterVote)
+                    if (Config.RtvPlayerCommandChangeTheMapDirectlyAfterVote && _rtv.PlayerVoteEnded)
                     {
-                        AddTimer(1, () => { 
-                            LocalizationExtension.PrintLocalizedChatAll(Localizer, "MapChangingIn", 3);
-                        }, TimerFlags.STOP_ON_MAPCHANGE);
-                        
-                        AddTimer(2, () =>
-                        {
-                            LocalizationExtension.PrintLocalizedChatAll(Localizer, "MapChangingIn", 2);
-                        }, TimerFlags.STOP_ON_MAPCHANGE);
-
-                        AddTimer(3, () =>
-                        {
-                            LocalizationExtension.PrintLocalizedChatAll(Localizer, "MapChangingIn", 1);
-                        }, TimerFlags.STOP_ON_MAPCHANGE);
-
+                        AddTimer(1, () => LocalizationExtension.PrintLocalizedChatAll(Localizer, "MapChangingIn", 3), TimerFlags.STOP_ON_MAPCHANGE);
+                        AddTimer(2, () => LocalizationExtension.PrintLocalizedChatAll(Localizer, "MapChangingIn", 2), TimerFlags.STOP_ON_MAPCHANGE);
+                        AddTimer(3, () => LocalizationExtension.PrintLocalizedChatAll(Localizer, "MapChangingIn", 1), TimerFlags.STOP_ON_MAPCHANGE);
                         AddTimer(4, ChangeMap, TimerFlags.STOP_ON_MAPCHANGE);
                     }
                 };

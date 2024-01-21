@@ -16,7 +16,7 @@ public partial class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     // plugin informations
     public override string ModuleName => "MapCycle";
     public override string ModuleAuthor => "NANOR";
-    public override string ModuleVersion => "1.3.3";
+    public override string ModuleVersion => "1.3.4";
 
     // plugin configs
     public ConfigGen Config { get; set; } = null!;
@@ -54,7 +54,7 @@ public partial class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         // Print the next map
         LocalizationExtension.PrintLocalizedChatAll(Localizer, "NextMap", _nextMap.DName());
         // Change the map
-        AddTimer(19f, ChangeMap, TimerFlags.STOP_ON_MAPCHANGE);
+        AddTimer(18f, ChangeMap, TimerFlags.STOP_ON_MAPCHANGE);
     }
 
     private void ChangeMap()

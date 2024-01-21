@@ -108,6 +108,10 @@ The configuration file is automatically generated in `game/csgo/addons/counterst
 
 `RtvPlayerCommandChangeTheMapDirectlyAfterVote`: Determines whether the map will be changed directly after the vote.
 
+`RtvVoteRatioEnabled` 
+- Enabled: If the vote count is higher than the ratio, the map with the most votes will be set as the next map. Otherwise, the map cycle will choose a map.
+- Disabled: The map with the most votes will be set as the next map.
+
 `RtvVoteRatio` Determines the minimum ratio of votes required for a vote to be considered valid.
 
 Each map in the configuration file includes the following attributes:
@@ -127,6 +131,7 @@ Each map in the configuration file includes the following attributes:
   "RtvPlayerCommandEnabled": true,
   "RtvPlayerCommandChangeTheMapDirectlyAfterVote": false,
   "RtvStartVoteAtTheEnd": true,
+  "RtvVoteRatioEnabled": true,
   "RtvVoteRatio": 0.5,
   "Maps": [
     {
@@ -191,7 +196,7 @@ Set the map on your server with `host_workshop_map 123123123` and when the map h
 ## <u>Author</u>
 - ModuleName: MapCycle
 - ModuleAuthor: NANOR
-- ModuleVersion: 1.3.3
+- ModuleVersion: 1.3.4
 
 ## <u>Support</u>
 For assistance, please raise an issue on the GitHub repository of the project.

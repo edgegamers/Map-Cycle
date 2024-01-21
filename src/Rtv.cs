@@ -12,6 +12,8 @@ namespace MapCycle
     {
         public int VoteCount = 0;
         public bool VoteEnabled = true;
+        public bool PlayerVoteEnabled = false;
+        public bool PlayerVoteEnded = false;
         public bool alreadyVotedByPlayer = false;
         public List<int> VoteList = new List<int>();
         public List<MapItem> MapList = new List<MapItem>();
@@ -68,12 +70,20 @@ namespace MapCycle
 
         public void StartVote(int duration, bool voteTriggeredByPlayer = false)
         {
-            if(VoteEnabled && Localizer != null)
+            // if already started by player, don't start it again
+            if(PlayerVoteEnabled) return;
+
+            // if started by player, set the playerVoteEnabled to true
+            PlayerVoteEnabled = voteTriggeredByPlayer;
+
+            // if already started, don't start it again
+            if (VoteEnabled && Localizer != null)
             {
                 LocalizationExtension.PrintLocalizedChatAll(Localizer, "VoteAlreadyStarted");
                 return;
             }
 
+            // if already voted by player, don't start it again
             if(alreadyVotedByPlayer && Localizer != null)
             {
                 LocalizationExtension.PrintLocalizedChatAll(Localizer, "AlreadyVotedByPlayers");
@@ -90,6 +100,16 @@ namespace MapCycle
 
         public void EndVote(bool voteTriggeredByPlayer = false)
         {
+            // if not started by player and a player vote is ongoing, don't end it
+            if(!voteTriggeredByPlayer && PlayerVoteEnabled) return;
+
+            // check if the vote is triggered by a player and if yes, set the playerVoteEnabled to false
+            if(PlayerVoteEnabled && voteTriggeredByPlayer)
+            {
+                PlayerVoteEnabled = false;
+                PlayerVoteEnded = true;
+            }
+
             if (Config == null) return;
             if (Localizer == null) return;
 
