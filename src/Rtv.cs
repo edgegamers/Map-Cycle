@@ -164,9 +164,10 @@ namespace MapCycle
             var menu = new ChatMenu(Localizer["AnnounceVoteHow"]);
             var i = 1;
             MapList.ForEach(map => {
-                var voteDisplay = $" {ChatColors.Default}[{ChatColors.BlueGrey}MapCycle{ChatColors.Default}]{ChatColors.Green}[{ChatColors.Default}{i}{ChatColors.Green}] {ChatColors.Default}- {map.DName()}";
+                var voteDisplay = map.DName();
+                var currentIndex = $"{i}";
                 menu.AddMenuOption(voteDisplay, (controller, options) => {
-                    AddVote(controller, options);
+                    AddVote(controller, options, currentIndex);
                 });
                 i++;
             });
@@ -177,12 +178,10 @@ namespace MapCycle
             }
         }
 
-        public void AddVote(CCSPlayerController? caller, ChatMenuOption info)
+        public void AddVote(CCSPlayerController? caller, ChatMenuOption info, string vote)
         {
             if (Localizer == null) return;
             
-            string pattern = @"\[([0-9]+)\]";
-            Match match = Regex.Match(info.Text, pattern);
             try
             {
                 if(PlayerVotedList.Contains(caller!.PlayerName))
@@ -190,7 +189,7 @@ namespace MapCycle
                     LocalizationExtension.PrintLocalizedChat(caller, Localizer, "AlreadyVoted");
                     return;
                 } else {
-                    int number = int.Parse(match.Groups[1].Value);
+                    int number = int.Parse(vote);
                     var commandIndex = number - 1;
                     if(commandIndex > MapList.Count - 1 || commandIndex < 0)
                     {
