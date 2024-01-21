@@ -11,7 +11,6 @@
     "VoteInvalid": "%prefix% Le vote {0} n'est pas valide",
     "VoteConfirm": "%prefix% Vous avez voté pour {0}",
     "AnnounceVoteHow": "{red}[Map Cycle] {default}Pour voter, tapez !1, ou !2, ou !3, etc...",
-    "VoteRankFormat": "{default}[{0}] - {1}",
     "AlreadyVoted": "%prefix% Vous avez déjà voté",
     "NotEnoughVotes": "%prefix% Il n'y a pas assez de votes pour changer de map",
     "AlreadyExistingMap": "%prefix% La map {0} existe déjà",

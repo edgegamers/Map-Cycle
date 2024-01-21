@@ -11,7 +11,6 @@
     "VoteInvalid": "%prefix% Голос недействителен",
     "VoteConfirm": "%prefix% Вы проголосовали за {0}",
     "AnnounceVoteHow": "%prefix% Проголосуйте за следующую карту, введя: !<number>",
-    "VoteRankFormat": "%prefix% [{green}{0}{default}] - {1}",
     "AlreadyVoted": "%prefix% Вы уже проголосовали",
     "NotEnoughVotes": "%prefix% Недостаточно голосов для выбора следующей карты",
     "AlreadyExistingMap": "%prefix% Эта карта уже есть в цикле карт: {0}",

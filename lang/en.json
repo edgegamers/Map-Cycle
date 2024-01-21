@@ -11,7 +11,6 @@
     "VoteInvalid": "%prefix% Vote invalid",
     "VoteConfirm": "%prefix% You voted for {0}",
     "AnnounceVoteHow": "{red}[Map Cycle] {default}Vote for the next map by typing: !1, or !2, or !3, etc...",
-    "VoteRankFormat": "{default}[{0}] {1}",
     "AlreadyVoted": "%prefix% You already voted",
     "NotEnoughVotes": "%prefix% Not enough votes to change the map",
     "AlreadyExistingMap": "%prefix% This map is already in the map cycle: {0}",

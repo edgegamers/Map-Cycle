@@ -164,7 +164,8 @@ namespace MapCycle
             var menu = new ChatMenu(Localizer["AnnounceVoteHow"]);
             var i = 1;
             MapList.ForEach(map => {
-                menu.AddMenuOption(Localizer["VoteRankFormat", i, map.DName()], (controller, options) => {
+                var voteDisplay = $" {ChatColors.Default}[{ChatColors.BlueGrey}MapCycle{ChatColors.Default}]{ChatColors.Green}[{ChatColors.Default}{i}{ChatColors.Green}] {ChatColors.Default}- {map.DName()}";
+                menu.AddMenuOption(voteDisplay, (controller, options) => {
                     AddVote(controller, options);
                 });
                 i++;
