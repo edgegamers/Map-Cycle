@@ -104,12 +104,12 @@ public partial class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         var _nextIndex = CurrentMapIndex() + 1;
 
         // If the randomize option is enabled, we set a random map
-        if (Config.Randomize)
+       /*  if (Config.Randomize)
         {
             do {
                 _nextIndex = _randomIndex.Next(0, Config.Maps.Count);
             } while (_nextIndex == CurrentMapIndex());
-        }
+        } */
 
         // If the next map index is greater than the map cycle count, we let the first map of the cycle
         if (_nextIndex < Config.Maps.Count){

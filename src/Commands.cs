@@ -181,13 +181,13 @@ namespace MapCycle
         [ConsoleCommand("rtv", "Start a map vote")]
         public void OnRtvCommand(CCSPlayerController? caller, CommandInfo info)
         {
-            if(!Config.RtvPlayerCommandEnabled){
+            /* if(!Config.RtvPlayerCommandEnabled){
                 info.ReplyLocalized(Localizer, "RtvCommandDisabled");
                 return;
             }
 
             if(_rtv == null) return;
-            _rtv.Call(Config.RtvDurationInSeconds, true);
+            _rtv.Call(Config.RtvDurationInSeconds, true); */
         }
     }
 }

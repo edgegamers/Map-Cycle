@@ -116,16 +116,16 @@ namespace MapCycle
             VoteEnabled = false;
             int mapIndex = -1;
             var playerWithoutBotsCountFloat = (float)Utilities.GetPlayers().Count(p => !p.IsBot);
-            var enoughVotes = VoteList.Count >= playerWithoutBotsCountFloat * Config.RtvVoteRatio;
+            /* var enoughVotes = VoteList.Count >= playerWithoutBotsCountFloat * Config.RtvVoteRatio;
             if (VoteList.Count != 0 && enoughVotes) {
                 mapIndex = VoteList.GroupBy(i => i).OrderByDescending(grp => grp.Count()).Select(grp => grp.Key).First();
-            }
+            } */
 
-            if(!enoughVotes && Config.RtvVoteRatioEnabled) {
+            /* if(!enoughVotes && Config.RtvVoteRatioEnabled) {
                 LocalizationExtension.PrintLocalizedChatAll(Localizer, "NotEnoughVotes");
                 OnEndVote(EventArgs.Empty);
                 return;
-            }
+            } */
 
             if (voteTriggeredByPlayer)
             {
@@ -153,8 +153,8 @@ namespace MapCycle
             List<MapItem> configList = Config.Maps;
             List<MapItem> shuffledList = configList.OrderBy(x => rnd.Next()).ToList();
 
-            List<MapItem> randomElements = shuffledList.Take(Config.RtvMapCount).ToList();
-            MapList = randomElements;
+            /* List<MapItem> randomElements = shuffledList.Take(Config.RtvMapCount).ToList();
+            MapList = randomElements; */
         }
 
         public void RtvCommand()

@@ -13,7 +13,7 @@ namespace MapCycle
             var chLvlCvar = ConVar.Find("mp_match_end_changelevel");
             chLvlCvar?.SetValue(false);
 
-            if (!Config.RtvEnabled)
+            /* if (!Config.RtvEnabled)
             {
                 SetNextMap(Server.MapName);
             }
@@ -43,17 +43,17 @@ namespace MapCycle
                         AddTimer(4, ChangeMap, TimerFlags.STOP_ON_MAPCHANGE);
                     }
                 };
-            }
+            } */
 
             RegisterEventHandler<EventRoundStart>((@event, info) =>
             {
                 _currentRound++;
                 if (_rtv == null) return HookResult.Continue;
 
-                if (Config.RtvEnabled && _currentRound == Config.RtvRoundStartVote + 1 && !Config.RtvStartVoteAtTheEnd) // +1 for the warmup
+               /*  if (Config.RtvEnabled && _currentRound == Config.RtvRoundStartVote + 1 && !Config.RtvStartVoteAtTheEnd) // +1 for the warmup
                 {
                     _rtv.Call(Config!.RtvDurationInSeconds);
-                }
+                } */
                 return HookResult.Continue;
             });
 
@@ -62,10 +62,10 @@ namespace MapCycle
             {
                 if (_rtv == null) return HookResult.Continue;
                 // Start the vote at the end of the match
-                if (Config.RtvStartVoteAtTheEnd && Config.RtvEnabled)
+                /* if (Config.RtvStartVoteAtTheEnd && Config.RtvEnabled)
                 {
                     _rtv.Call(15);
-                }
+                } */
                 AutoMapCycle();
                 return HookResult.Continue;
             });
