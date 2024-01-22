@@ -12,13 +12,15 @@ namespace MapCycle
     {
         public int VoteCount = 0;
         public bool VoteEnabled = true;
+        public bool PlayerVoteEnabled = false;
+        public bool PlayerVoteEnded = false;
         public bool alreadyVotedByPlayer = false;
         public List<int> VoteList = new List<int>();
         public List<MapItem> MapList = new List<MapItem>();
         public List<string> PlayerVotedList = new List<string>();
         public MapItem? NextMap;
         public ConfigGen? Config { get; set; }
-        public IStringLocalizer Localizer { get; set; }
+        public new IStringLocalizer? Localizer { get; set; }
 
         public override string ModuleName => throw new NotImplementedException();
 
@@ -26,7 +28,7 @@ namespace MapCycle
 
 
         // Singleton Instance ---------------------------------------
-        private static Rtv _instance;
+        private static Rtv? _instance;
 
         public static Rtv Instance
         {
@@ -44,13 +46,15 @@ namespace MapCycle
 
         public Rtv()
         {
+            Localizer = null;
+            EndVoteEvent = null;
         }
 
         // End vote Event ---------------------------------------
         public delegate void EndVoteEventHandler(object sender, EventArgs e);
 
         // Declare event
-        public event EndVoteEventHandler EndVoteEvent;
+        public event EndVoteEventHandler? EndVoteEvent;
 
         // Trigger event
         protected virtual void OnEndVote(EventArgs e)
@@ -66,12 +70,21 @@ namespace MapCycle
 
         public void StartVote(int duration, bool voteTriggeredByPlayer = false)
         {
-            if(VoteEnabled){
+            // if already started by player, don't start it again
+            if(PlayerVoteEnabled) return;
+
+            // if started by player, set the playerVoteEnabled to true
+            PlayerVoteEnabled = voteTriggeredByPlayer;
+
+            // if already started, don't start it again
+            if (VoteEnabled && Localizer != null)
+            {
                 LocalizationExtension.PrintLocalizedChatAll(Localizer, "VoteAlreadyStarted");
                 return;
             }
 
-            if(alreadyVotedByPlayer)
+            // if already voted by player, don't start it again
+            if(alreadyVotedByPlayer && Localizer != null)
             {
                 LocalizationExtension.PrintLocalizedChatAll(Localizer, "AlreadyVotedByPlayers");
                 return;
@@ -87,15 +100,28 @@ namespace MapCycle
 
         public void EndVote(bool voteTriggeredByPlayer = false)
         {
+            // if not started by player and a player vote is ongoing, don't end it
+            if(!voteTriggeredByPlayer && PlayerVoteEnabled) return;
+
+            // check if the vote is triggered by a player and if yes, set the playerVoteEnabled to false
+            if(PlayerVoteEnabled && voteTriggeredByPlayer)
+            {
+                PlayerVoteEnabled = false;
+                PlayerVoteEnded = true;
+            }
+
+            if (Config == null) return;
+            if (Localizer == null) return;
+
             VoteEnabled = false;
             int mapIndex = -1;
-            var playerWithoutBotsCountFloat = Utilities.GetPlayers().Count(p => !p.IsBot);
+            var playerWithoutBotsCountFloat = (float)Utilities.GetPlayers().Count(p => !p.IsBot);
             var enoughVotes = VoteList.Count >= playerWithoutBotsCountFloat * Config.RtvVoteRatio;
             if (VoteList.Count != 0 && enoughVotes) {
                 mapIndex = VoteList.GroupBy(i => i).OrderByDescending(grp => grp.Count()).Select(grp => grp.Key).First();
             }
 
-            if(!enoughVotes) {
+            if(!enoughVotes && Config.RtvVoteRatioEnabled) {
                 LocalizationExtension.PrintLocalizedChatAll(Localizer, "NotEnoughVotes");
                 OnEndVote(EventArgs.Empty);
                 return;
@@ -121,6 +147,8 @@ namespace MapCycle
 
         public void SetRandomMapList()
         {
+            if (Config == null) return;
+
             Random rnd = new Random();
             List<MapItem> configList = Config.Maps;
             List<MapItem> shuffledList = configList.OrderBy(x => rnd.Next()).ToList();
@@ -131,12 +159,15 @@ namespace MapCycle
 
         public void RtvCommand()
         {
+            if (Localizer == null) return;
 
             var menu = new ChatMenu(Localizer["AnnounceVoteHow"]);
             var i = 1;
             MapList.ForEach(map => {
-                menu.AddMenuOption(Localizer["VoteRankFormat", i, map.DName()], (controller, options) => {
-                    AddVote(controller, options);
+                var voteDisplay = map.DName();
+                var currentIndex = $"{i}";
+                menu.AddMenuOption(voteDisplay, (controller, options) => {
+                    AddVote(controller, options, currentIndex);
                 });
                 i++;
             });
@@ -147,10 +178,10 @@ namespace MapCycle
             }
         }
 
-        public void AddVote(CCSPlayerController? caller, ChatMenuOption info)
+        public void AddVote(CCSPlayerController? caller, ChatMenuOption info, string vote)
         {
-            string pattern = @"\[([0-9]+)\]";
-            Match match = Regex.Match(info.Text, pattern);
+            if (Localizer == null) return;
+            
             try
             {
                 if(PlayerVotedList.Contains(caller!.PlayerName))
@@ -158,7 +189,7 @@ namespace MapCycle
                     LocalizationExtension.PrintLocalizedChat(caller, Localizer, "AlreadyVoted");
                     return;
                 } else {
-                    int number = int.Parse(match.Groups[1].Value);
+                    int number = int.Parse(vote);
                     var commandIndex = number - 1;
                     if(commandIndex > MapList.Count - 1 || commandIndex < 0)
                     {
@@ -176,6 +207,8 @@ namespace MapCycle
             catch (Exception e)
             {
                 Server.PrintToConsole($" {ChatColors.Red}[MapCycleError] {ChatColors.Default}{e}");
+
+                if(caller == null) return;
                 LocalizationExtension.PrintLocalizedChat(caller, Localizer, "VoteInvalid");
             }
         }

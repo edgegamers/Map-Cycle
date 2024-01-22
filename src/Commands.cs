@@ -102,7 +102,10 @@ namespace MapCycle
                 return;
             }
 
-            Config.RemoveMap(caller, mapName);
+            if(caller != null)
+            {
+                Config.RemoveMap(caller, mapName);
+            }
             info.ReplyLocalized(Localizer, "MapRemoved", mapName);
         }
 
@@ -127,6 +130,8 @@ namespace MapCycle
             {
                 displayName = currentMapName;
             }
+
+            if(lastVisitedMap == null) return;
 
             if (Config.Maps.Any(x => x.Name == lastVisitedMap) || Config.Maps.Any(x => x.Id == lastVisitedMap))
             {
@@ -181,6 +186,7 @@ namespace MapCycle
                 return;
             }
 
+            if(_rtv == null) return;
             _rtv.Call(Config.RtvDurationInSeconds, true);
         }
     }

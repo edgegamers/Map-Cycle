@@ -38,6 +38,9 @@ namespace MapCycle
         [JsonPropertyName("RtvDurationInSeconds")]
         public int RtvDurationInSeconds { get; set; } = 30;
 
+        [JsonPropertyName("RtvVoteRatioEnabled")]
+        public bool RtvVoteRatioEnabled { get; set; } = true;
+
         [JsonPropertyName("RtvVoteRatio")]
         public float RtvVoteRatio { get; set; } = 0.5f;
 
