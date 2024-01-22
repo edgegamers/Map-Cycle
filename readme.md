@@ -196,7 +196,7 @@ Set the map on your server with `host_workshop_map 123123123` and when the map h
 ## <u>Author</u>
 - ModuleName: MapCycle
 - ModuleAuthor: NANOR
-- ModuleVersion: 1.3.5
+- ModuleVersion: 1.3.6
 
 ## <u>Support</u>
 For assistance, please raise an issue on the GitHub repository of the project.
