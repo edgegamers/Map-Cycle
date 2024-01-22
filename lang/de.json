@@ -20,5 +20,6 @@
     "RtvCommandDisabled": "%prefix% Der RTV-Befehl ist deaktiviert",
     "MapChangingIn": "%prefix% Die Karte wird in {0} Sekunden gewechselt",
     "AlreadyVotedByPlayers": "%prefix% Spieler haben bereits abgestimmt.",
-    "VoteAlreadyStarted": "%prefix% Eine Abstimmung ist bereits gestartet"
+    "VoteAlreadyStarted": "%prefix% Eine Abstimmung ist bereits gestartet",
+    "ConfigReloaded": "%prefix% Die Konfiguration wurde neu geladen"
 }

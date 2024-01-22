@@ -20,5 +20,6 @@
     "RtvCommandDisabled": "%prefix% 由于地图循环已经开始 所以rtv命令已被禁用",
     "MapChangingIn": "%prefix% 地图将在 {0} 秒后更换",
     "AlreadyVotedByPlayers": "%prefix% 你已经投过票了",
-    "VoteAlreadyStarted": "%prefix% 投票已经开始了"
+    "VoteAlreadyStarted": "%prefix% 投票已经开始了",
+    "ConfigReloaded": "%prefix% 配置已重新加载"
 }

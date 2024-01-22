@@ -20,5 +20,6 @@
     "RtvCommandDisabled": "%prefix% Команда rtv отключена",
     "MapChangingIn": "%prefix% Смена карты через {0} секунд",
     "AlreadyVotedByPlayers": "%prefix% Вы уже голосовали за следующую карту",
-    "VoteAlreadyStarted": "%prefix% Голосование уже началось"
+    "VoteAlreadyStarted": "%prefix% Голосование уже началось",
+    "ConfigReloaded": "%prefix% Конфигурация перезагружена"
 }

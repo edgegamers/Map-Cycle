@@ -143,6 +143,15 @@ namespace MapCycle
             info.ReplyLocalized(Localizer, "MapAdded", currentMapName);
         }
 
+        [ConsoleCommand("cfgr", "Reload the config in the current session without restarting the server")]
+        [RequiresPermissions("@css/changemap")]
+        [CommandHelper(minArgs: 0, whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
+        public void OnReloadCommand(CCSPlayerController? caller, CommandInfo info)
+        {
+            Config.Reload();
+            info.ReplyLocalized(Localizer, "ConfigReloaded");
+        }
+
 
         // ----------------- Player + Admin Commands ----------------- //
 
@@ -181,13 +190,13 @@ namespace MapCycle
         [ConsoleCommand("rtv", "Start a map vote")]
         public void OnRtvCommand(CCSPlayerController? caller, CommandInfo info)
         {
-            /* if(!Config.RtvPlayerCommandEnabled){
+            if(!Config.Rtv.PlayerCommandEnabled){
                 info.ReplyLocalized(Localizer, "RtvCommandDisabled");
                 return;
             }
 
             if(_rtv == null) return;
-            _rtv.Call(Config.RtvDurationInSeconds, true); */
+            _rtv.Call(Config.Rtv.VoteDurationInSeconds, true);
         }
     }
 }

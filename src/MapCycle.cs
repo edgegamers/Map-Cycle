@@ -20,45 +20,64 @@ public partial class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
 
     // plugin configs
     public ConfigGen Config { get; set; } = null!;
-    public bool VoteCountNeededPercent { get; private set; }
-
     public void OnConfigParsed(ConfigGen config) { Config = config; }
 
     // private variables
     private MapItem? _nextMap;
-
-    private int _currentRound = 0;
+    CCSGameRules gamerules = Utilities.FindAllEntitiesByDesignerName<CCSGameRulesProxy>("cs_gamerules").First().GameRules!;
     private MapItem? _currentMap;
     private Random _randomIndex = new Random();
     private Rtv? _rtv;
+
+    // Protected variables
     protected string? _lastVisitedMap = null;
 
     public void InitRTV()
     {
+        // Init the rtv instance
         if(_rtv == null){
             _rtv = Rtv.Instance;
             _rtv.Config = Config;
             _rtv.Localizer = Localizer;
         }
+
+        // Init the rtv end vote events
+        _rtv.EndVoteEvent += (sender, e) =>
+        {
+            _nextMap = _rtv.NextMap;
+
+            if (_nextMap == null)
+                SetNextMap(Server.MapName);
+            if (_nextMap == null) return;
+
+            LocalizationExtension.PrintLocalizedChatAll(Localizer, "NextMapNow", _nextMap.DName());
+
+            if (Config.Rtv.PlayerCommandChangeTheMapDirectlyAfterVote && _rtv.PlayerVoteEnded)
+            {
+                CountDownChangeMapMessage();
+                AddTimer(4, ChangeMap, TimerFlags.STOP_ON_MAPCHANGE);
+            }
+        };
+    }
+
+    private void CountDownChangeMapMessage()
+    {
+        AddTimer(1, () => LocalizationExtension.PrintLocalizedChatAll(Localizer, "MapChangingIn", 3), TimerFlags.STOP_ON_MAPCHANGE);
+        AddTimer(2, () => LocalizationExtension.PrintLocalizedChatAll(Localizer, "MapChangingIn", 2), TimerFlags.STOP_ON_MAPCHANGE);
+        AddTimer(3, () => LocalizationExtension.PrintLocalizedChatAll(Localizer, "MapChangingIn", 1), TimerFlags.STOP_ON_MAPCHANGE);
     }
 
     private void AutoMapCycle()
     {
         if (_rtv != null && _rtv.NextMap != null)
-        {
             _nextMap = _rtv.NextMap;
-        }
 
         if (_nextMap == null)
-        {
             SetNextMap(Server.MapName);
-        }
 
         // Print the next map if it is not null
         if (_nextMap != null)
-        {
             LocalizationExtension.PrintLocalizedChatAll(Localizer, "NextMap", _nextMap.DName());
-        }
         
         // Change the map
         AddTimer(19f, ChangeMap, TimerFlags.STOP_ON_MAPCHANGE);
@@ -66,23 +85,16 @@ public partial class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
 
     private void ChangeMap()
     {
-        if(_rtv != null){
+        if(_rtv != null)
             _rtv.NextMap = null;
-        }
-        _currentRound = 0;
-
+        
         if (_nextMap == null) return;
 
         // If the next map is a workshop map, we use the host_workshop_map command
         if (_nextMap.Workshop)
-        {
             Server.ExecuteCommand($"host_workshop_map {_nextMap.Id}");
-        }
         else
-        {
-            // Else we use the map command
             Server.ExecuteCommand($"map {_nextMap.Name}");
-        }
     } 
 
     private void SetNextMap(string mapName)
@@ -104,17 +116,17 @@ public partial class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
         var _nextIndex = CurrentMapIndex() + 1;
 
         // If the randomize option is enabled, we set a random map
-       /*  if (Config.Randomize)
+        if (Config.MapCycle.Randomize)
         {
             do {
                 _nextIndex = _randomIndex.Next(0, Config.Maps.Count);
             } while (_nextIndex == CurrentMapIndex());
-        } */
+        }
 
         // If the next map index is greater than the map cycle count, we let the first map of the cycle
-        if (_nextIndex < Config.Maps.Count){
+        if (_nextIndex < Config.Maps.Count)
             _nextMap = Config.Maps[_nextIndex];
-        }
+        
     }
 
     private MapItem? CurrentMap()
@@ -128,14 +140,19 @@ public partial class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
             _currentMap = Config.Maps.FirstOrDefault(x => x.Name == Server.MapName);
             // If the current map doesn't exist in the map cycle, we print an error
             if (_currentMap == null)
-            {
-                Server.PrintToChatAll($" {ChatColors.Red}[MapCycle] {ChatColors.Default}************ERROR MAP CYCLE*************");
-                Server.PrintToChatAll($" [MapCycle] The current map doesn't exist in the map cycle: {Server.MapName}");
-                Server.PrintToChatAll($" [MapCycle] Please check that the map is correcly named in the json config.");
-                Server.PrintToChatAll($" {ChatColors.Red}[MapCycle] {ChatColors.Default}************ERROR MAP CYCLE*************");
-            }
+                ErrorCurrentMapMessage();
+
             return _currentMap;
         }
+    }
+
+    private void ErrorCurrentMapMessage()
+    {
+        Server.PrintToChatAll($" {ChatColors.Red}[MapCycle] {ChatColors.Default}************ERROR MAP CYCLE*************");
+        Server.PrintToChatAll($" [MapCycle] The current map doesn't exist in the map cycle: {Server.MapName}");
+        Server.PrintToChatAll($" [MapCycle] Please check that the map is correcly named in the json config.");
+        Server.PrintToChatAll($" [MapCycle] Or type {ChatColors.LightRed}!keepmap {ChatColors.Default}to add it to the map cycle");
+        Server.PrintToChatAll($" {ChatColors.Red}[MapCycle] {ChatColors.Default}************ERROR MAP CYCLE*************");
     }
 
     private int CurrentMapIndex()

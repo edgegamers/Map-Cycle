@@ -20,5 +20,6 @@
     "RtvCommandDisabled": "%prefix% RTVコマンドは無効になっています",
     "MapChangingIn": "%prefix% {0} 秒後にマップが変更されます",
     "AlreadyVotedByPlayers": "%prefix% すでに投票済みのプレイヤー",
-    "VoteAlreadyStarted": "%prefix% 投票はすでに開始されています"
+    "VoteAlreadyStarted": "%prefix% 投票はすでに開始されています",
+    "ConfigReloaded": "%prefix% 設定が再読み込みされました"
 }

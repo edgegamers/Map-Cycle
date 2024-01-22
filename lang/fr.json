@@ -20,5 +20,6 @@
     "RtvCommandDisabled": "%prefix% La commande rtv est désactivée",
     "MapChangingIn": "%prefix% La map va changer dans {0} secondes",
     "AlreadyVotedByPlayers": "%prefix% Les joueurs ont déjà voté!",
-    "VoteAlreadyStarted": "%prefix% Un vote est déjà en cours"
+    "VoteAlreadyStarted": "%prefix% Un vote est déjà en cours",
+    "ConfigReloaded": "%prefix% La configuration a été rechargée"
 }
