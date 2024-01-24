@@ -20,5 +20,10 @@
     "RtvCommandDisabled": "%prefix% O comando rtv esta desativado",
     "MapChangingIn": "%prefix% O mapa ira mudar em {0} segundos",
     "AlreadyVotedByPlayers": "%prefix% Ja votado por {0} jogadores",
-    "VoteAlreadyStarted": "%prefix% Ja existe uma votacao em andamento"
+    "VoteAlreadyStarted": "%prefix% Ja existe uma votacao em andamento",
+    "ConfigReloaded": "%prefix% Configuracao recarregada",
+    "RtvNeedMoreRtvForVote": "%prefix% {0}/{1}. Voce precisa de rtv para iniciar uma votacao",
+    "RtvNeedMoreRtvForSwitchMap": "%prefix% {0}/{1}. Voce precisa de rtv para mudar o mapa",
+    "AlreadySaidRtv": "%prefix% Voce ja disse rtv",
+    "RtvReset": "%prefix% O rtv foi reiniciado"
 }

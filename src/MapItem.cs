@@ -1,3 +1,4 @@
+using CounterStrikeSharp.API;
 
 namespace MapCycle
 {
@@ -11,11 +12,17 @@ namespace MapCycle
         public string DName()
         {
             if(DisplayName != null && DisplayName != "")
-            {
                 return DisplayName;
-            } else {
+            else
                 return Name;
-            }
+        }
+
+        public void Start()
+        {
+            if(Workshop)
+                Server.ExecuteCommand($"host_workshop_map {Id}");
+            else
+                Server.ExecuteCommand($"map {Name}");
         }
     }
 }

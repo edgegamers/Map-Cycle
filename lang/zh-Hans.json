@@ -20,5 +20,10 @@
     "RtvCommandDisabled": "%prefix% 由于地图循环已经开始 所以rtv命令已被禁用",
     "MapChangingIn": "%prefix% 地图将在 {0} 秒后更换",
     "AlreadyVotedByPlayers": "%prefix% 你已经投过票了",
-    "VoteAlreadyStarted": "%prefix% 投票已经开始了"
+    "VoteAlreadyStarted": "%prefix% 投票已经开始了",
+    "ConfigReloaded": "%prefix% 配置已重新加载",
+    "RtvNeedMoreRtvForVote": "%prefix% {0}/{1}. 我们需要更多的玩家来投票",
+    "RtvNeedMoreRtvForSwitchMap": "%prefix% {0}/{1}. 我们需要更多的玩家来更换地图",
+    "AlreadySaidRtv": "%prefix% 你已经说过rtv了",
+    "RtvReset": "%prefix% rtv已重置"
 }

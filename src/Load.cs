@@ -1,7 +1,7 @@
 using CounterStrikeSharp.API;
-using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Timers;
 using CounterStrikeSharp.API.Modules.Cvars;
+using CounterStrikeSharp.API.Modules.Utils;
+using CounterStrikeSharp.API.Modules.Timers;
 
 namespace MapCycle
 {
@@ -9,69 +9,30 @@ namespace MapCycle
     {
         public override void Load(bool hotReload)
         {
+
+            if(Config.Version < 2)
+            {
+                AddTimer(20, AlertOfBadConfigVersionRecursive, TimerFlags.STOP_ON_MAPCHANGE);
+                return;
+            }
+
             // change the convar mp_match_end_changelevel to 0
             var chLvlCvar = ConVar.Find("mp_match_end_changelevel");
             chLvlCvar?.SetValue(false);
 
-            if (!Config.RtvEnabled)
-            {
-                SetNextMap(Server.MapName);
-            }
-            else
-            {
+            if (Config.Rtv.Enabled)
                 InitRTV();
-                if (_rtv == null) return;
+            else
+                SetNextMap(Server.MapName);
 
-                _rtv.EndVoteEvent += (sender, e) =>
-                {
-                    _currentRound = -100;
+            InitEvents();
+        }
 
-                    _nextMap = _rtv.NextMap;
-                    if(_nextMap == null) {
-                        SetNextMap(Server.MapName);
-                    }
-
-                    if (_nextMap == null) return;
-
-                    LocalizationExtension.PrintLocalizedChatAll(Localizer, "NextMapNow", _nextMap.DName());
-
-                    if (Config.RtvPlayerCommandChangeTheMapDirectlyAfterVote && _rtv.PlayerVoteEnded)
-                    {
-                        AddTimer(1, () => LocalizationExtension.PrintLocalizedChatAll(Localizer, "MapChangingIn", 3), TimerFlags.STOP_ON_MAPCHANGE);
-                        AddTimer(2, () => LocalizationExtension.PrintLocalizedChatAll(Localizer, "MapChangingIn", 2), TimerFlags.STOP_ON_MAPCHANGE);
-                        AddTimer(3, () => LocalizationExtension.PrintLocalizedChatAll(Localizer, "MapChangingIn", 1), TimerFlags.STOP_ON_MAPCHANGE);
-                        AddTimer(4, ChangeMap, TimerFlags.STOP_ON_MAPCHANGE);
-                    }
-                };
-            }
-
-            RegisterEventHandler<EventRoundStart>((@event, info) =>
-            {
-                _currentRound++;
-                if (_rtv == null) return HookResult.Continue;
-
-                if (Config.RtvEnabled && _currentRound == Config.RtvRoundStartVote + 1 && !Config.RtvStartVoteAtTheEnd) // +1 for the warmup
-                {
-                    _rtv.Call(Config!.RtvDurationInSeconds);
-                }
-                return HookResult.Continue;
-            });
-
-            // Create the timer to change the map
-            RegisterEventHandler<EventCsWinPanelMatch>((@event, info) =>
-            {
-                if (_rtv == null) return HookResult.Continue;
-                // Start the vote at the end of the match
-                if (Config.RtvStartVoteAtTheEnd && Config.RtvEnabled)
-                {
-                    _rtv.Call(15);
-                }
-                AutoMapCycle();
-                return HookResult.Continue;
-            });
-
-            RegisterListener<Listeners.OnMapStart>(SetNextMap);
-
+        public void AlertOfBadConfigVersionRecursive()
+        {
+            Server.PrintToConsole("[MapCycle ERROR] Bad config version. Save your maps in a separate file, delete the config file and restart the server.");
+            Server.PrintToChatAll($" {ChatColors.Red}[MapCycle ERROR] {ChatColors.Default}Bad config version. Save your maps in a separate file, delete the config file and restart the server.");
+            AddTimer(60, AlertOfBadConfigVersionRecursive, TimerFlags.STOP_ON_MAPCHANGE);
         }
     }
 }
