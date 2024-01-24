@@ -28,19 +28,10 @@ namespace MapCycle
             var id = info.GetArg(3);
             bool workshop = true;
 
-            if (Config.Maps.Any(x => x.Name == mapName))
-            {
-                info.ReplyLocalized(Localizer, "AlreadyExistingMap", mapName);
-                return;
-            }
-
             if (id == mapName)
-            {
                 workshop = false;
-            }
 
-            Config.AddMap(mapName, displayName, id, workshop);
-            info.ReplyLocalized(Localizer, "MapAdded", mapName);
+            Config.AddMap(mapName, displayName, id, workshop, info, Localizer);
         }
 
         [ConsoleCommand("go", "Direct switch to the map you want of the cycle")]
@@ -96,17 +87,8 @@ namespace MapCycle
 
             var mapName = info.GetArg(1);
 
-            if (!Config.Maps.Any(x => x.Name == mapName))
-            {
-                info.ReplyLocalized(Localizer, "NotExistingMap", mapName);
-                return;
-            }
-
             if(caller != null)
-            {
-                Config.RemoveMap(caller, mapName);
-            }
-            info.ReplyLocalized(Localizer, "MapRemoved", mapName);
+                Config.RemoveMap(caller, mapName, info, Localizer);
         }
 
         [ConsoleCommand("keepmap", "Keep the current map in the cycle")]
@@ -117,30 +99,25 @@ namespace MapCycle
             var currentMapName = Server.MapName;
             var lastVisitedMap = _lastVisitedMap;
             var displayName = info.GetArg(1);
-            var workshop = false;
+            var workshop = currentMapName != lastVisitedMap;
 
-            _lastVisitedMap = null;
-
-            if (currentMapName != lastVisitedMap)
-            {
-                workshop = true;
-            }
-
-            if (displayName == null || displayName == "")
-            {
+            if (string.IsNullOrEmpty(displayName))
                 displayName = currentMapName;
-            }
 
             if(lastVisitedMap == null) return;
 
-            if (Config.Maps.Any(x => x.Name == lastVisitedMap) || Config.Maps.Any(x => x.Id == lastVisitedMap))
-            {
-                info.ReplyLocalized(Localizer, "AlreadyExistingMap", lastVisitedMap);
-                return;
-            }
+            Config.AddMap(currentMapName, displayName, lastVisitedMap, workshop, info, Localizer);
+        }
 
-            Config.AddMap(currentMapName, displayName, lastVisitedMap, workshop);
-            info.ReplyLocalized(Localizer, "MapAdded", currentMapName);
+        [ConsoleCommand("resetrtv", "Keep the current map in the cycle")]
+        [RequiresPermissions("@css/changemap")]
+        [CommandHelper(minArgs: 0, usage: "<#(optional)map display name>", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
+        public void OnResetRtvCommand(CCSPlayerController? caller, CommandInfo info)
+        {
+            if (_rtv == null) return;
+            
+            _rtv.Reset();
+            info.ReplyLocalized(Localizer, "RtvReset");
         }
 
         [ConsoleCommand("cfgr", "Reload the config in the current session without restarting the server")]
@@ -150,6 +127,20 @@ namespace MapCycle
         {
             Config.Reload();
             info.ReplyLocalized(Localizer, "ConfigReloaded");
+        }
+
+        [ConsoleCommand("cfgc", "Check the config")]
+        [RequiresPermissions("@css/changemap")]
+        [CommandHelper(minArgs: 1, usage: "<# ConfigOptionName e.g MapCycle>", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
+        public void OnCheckConfigCommand(CCSPlayerController? caller, CommandInfo info)
+        {
+            if (Config == null) return;
+            if (Localizer == null) return;
+
+            var configName = info.GetArg(1);
+            // fetch confignamme value
+            var configValue = Config.GetConfigValue(configName);
+            Server.PrintToChatAll($"MapCycle config: {configValue}");
         }
 
 
@@ -194,9 +185,39 @@ namespace MapCycle
                 info.ReplyLocalized(Localizer, "RtvCommandDisabled");
                 return;
             }
+            if (_rtv == null) return;
 
-            if(_rtv == null) return;
-            _rtv.Call(Config.Rtv.VoteDurationInSeconds, true);
+            if(_rtv.PlayerSaidRtv.Contains(caller!.PlayerName)){
+                LocalizationExtension.PrintLocalizedChat(caller, Localizer, "AlreadySaidRtv");
+                return;
+            }
+
+            _rtv.PlayerSaidRtv.Add(caller!.PlayerName);
+            var PlayerSaidRtvCount = _rtv.PlayerSaidRtv.Count();
+            var playerWithoutBotsCountFloat = (float)Utilities.GetPlayers().Count(p => !p.IsBot);
+            var minimumPlayerCount = (int)playerWithoutBotsCountFloat * Config.Rtv.PlayerCommandRatio;
+            var hasEnoughRtv = PlayerSaidRtvCount >= minimumPlayerCount;
+
+            if (Config.Rtv.PlayerCommandTriggerAVote){
+                if(Config.Rtv.PlayerCommandRatioEnabled){
+                    if(hasEnoughRtv)
+                        _rtv.Call(Config.Rtv.VoteDurationInSeconds, true);
+                    else
+                        LocalizationExtension.PrintLocalizedChatAll(Localizer, "RtvNeedMoreRtvForVote", PlayerSaidRtvCount, minimumPlayerCount);
+                } else {
+                    _rtv.Call(Config.Rtv.VoteDurationInSeconds, true);
+                }
+            } else {
+                if (Config.Rtv.PlayerCommandRatioEnabled)
+                {
+                    if (hasEnoughRtv)
+                        ChangeMapWithAnnounce();
+                    else
+                        LocalizationExtension.PrintLocalizedChatAll(Localizer, "RtvNeedMoreRtvForSwitchMap", PlayerSaidRtvCount, minimumPlayerCount);
+                } else {
+                    ChangeMapWithAnnounce();
+                }
+            }
         }
     }
 }

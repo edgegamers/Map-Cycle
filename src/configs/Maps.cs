@@ -1,5 +1,7 @@
 using CounterStrikeSharp.API.Core;
 using System.Text.Json.Serialization;
+using CounterStrikeSharp.API.Modules.Commands;
+using Microsoft.Extensions.Localization;
 
 namespace MapCycle
 { 
@@ -13,16 +15,30 @@ namespace MapCycle
         };
 
 
-        public void AddMap(string mapName, string displayName, string id, bool workshop)
+        public void AddMap(string mapName, string displayName, string id, bool workshop, CommandInfo info, IStringLocalizer localizer)
         {
+            if (Maps.Any(x => x.Name == id || x.Id == id || x.Name == mapName))
+            {
+                info.ReplyLocalized(localizer, "AlreadyExistingMap", mapName);
+                return;
+            }
+
             Maps.Add(new MapItem { Name = mapName, DisplayName = displayName, Id = id, Workshop = workshop });
             RewriteConfig();
+            info.ReplyLocalized(localizer, "MapAdded", mapName);
         }
 
-        public void RemoveMap(CCSPlayerController player, string mapName)
+        public void RemoveMap(CCSPlayerController player, string mapName, CommandInfo info, IStringLocalizer localizer)
         {
+            if (!Maps.Any(x => x.Name == mapName))
+            {
+                info.ReplyLocalized(localizer, "NotExistingMap", mapName);
+                return;
+            }
+
             Maps.RemoveAll(x => x.Name == mapName);
             RewriteConfig();
+            info.ReplyLocalized(localizer, "MapRemoved", mapName);
         }
 
         public void ChangeMapDisplayName(CCSPlayerController player, string mapName, string displayName)

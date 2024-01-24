@@ -14,23 +14,32 @@ public class RtvConfig
 {
     // Rtv enabled
     [JsonPropertyName("Enabled")]
-    public bool Enabled { get; set; } = false;
+    public bool Enabled { get; set; } = true;
 
 
     // Automatic map vote
     [JsonPropertyName("AutoVoteEnabled")]
-    public bool AutoVoteEnabled { get; set; } = false;
+    public bool AutoVoteEnabled { get; set; } = true;
 
     [JsonPropertyName("AutoVoteRoundStart")]
     public int AutoVoteRoundStart { get; set; } = 3;
 
     [JsonPropertyName("AutoVoteStartAtTheEndOfMatch")]
-    public bool AutoVoteStartAtTheEndOfMatch { get; set; } = true;
+    public bool AutoVoteStartAtTheEndOfMatch { get; set; } = false;
 
 
     // Vote triggered by player
     [JsonPropertyName("PlayerCommandEnabled")]
-    public bool PlayerCommandEnabled { get; set; } = false;
+    public bool PlayerCommandEnabled { get; set; } = true;
+    
+    [JsonPropertyName("PlayerCommandTriggerAVote")]
+    public bool PlayerCommandTriggerAVote { get; set; } = false;
+
+    [JsonPropertyName("PlayerCommandRatioEnabled")]
+    public bool PlayerCommandRatioEnabled { get; set; } = false;
+
+    [JsonPropertyName("PlayerCommandRatio")]
+    public float PlayerCommandRatio { get; set; } = 0.5f;
 
     [JsonPropertyName("PlayerCommandChangeTheMapDirectlyAfterVote")]
     public bool PlayerCommandChangeTheMapDirectlyAfterVote { get; set; } = false;

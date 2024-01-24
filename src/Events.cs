@@ -9,9 +9,11 @@ namespace MapCycle
         {
             RegisterEventHandler<EventRoundStart>((@event, info) =>
             {
+                var gameRules = Utilities.FindAllEntitiesByDesignerName<CCSGameRulesProxy>("cs_gamerules").First().GameRules!;
+                int roundsPlayed = gameRules.TotalRoundsPlayed + 1;
                 if (_rtv == null) return HookResult.Continue;
 
-                if (Config.Rtv.Enabled && gamerules.TotalRoundsPlayed == Config.Rtv.AutoVoteRoundStart + 1 && !Config.Rtv.AutoVoteStartAtTheEndOfMatch) // +1 for the warmup
+                if (Config.Rtv.Enabled && roundsPlayed == Config.Rtv.AutoVoteRoundStart && !Config.Rtv.AutoVoteStartAtTheEndOfMatch) // +1 for the warmup
                 {
                     _rtv.Call(Config!.Rtv.VoteDurationInSeconds);
                 }

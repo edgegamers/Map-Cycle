@@ -18,6 +18,7 @@ namespace MapCycle
         public List<int> VoteList = new List<int>();
         public List<MapItem> MapList = new List<MapItem>();
         public List<string> PlayerVotedList = new List<string>();
+        public List<string> PlayerSaidRtv = new List<string>();
         public MapItem? NextMap;
         public ConfigGen? Config { get; set; }
         public new IStringLocalizer? Localizer { get; set; }
@@ -66,6 +67,20 @@ namespace MapCycle
         {
             SetRandomMapList();
             StartVote(duration, voteTriggeredByPlayer);
+        }
+
+        public void Reset()
+        {
+            VoteCount = 0;
+            VoteEnabled = false;
+            PlayerVoteEnabled = false;
+            PlayerVoteEnded = false;
+            alreadyVotedByPlayer = false;
+            VoteList = new List<int>();
+            MapList = new List<MapItem>();
+            PlayerVotedList = new List<string>();
+            NextMap = null;
+            PlayerSaidRtv = new List<string>();
         }
 
         public void StartVote(int duration, bool voteTriggeredByPlayer = false)
@@ -118,7 +133,9 @@ namespace MapCycle
             var playerWithoutBotsCountFloat = (float)Utilities.GetPlayers().Count(p => !p.IsBot);
             var enoughVotes = VoteList.Count >= playerWithoutBotsCountFloat * Config.Rtv.VoteRatio;
             if (VoteList.Count != 0 && enoughVotes) {
-                mapIndex = VoteList.GroupBy(i => i).OrderByDescending(grp => grp.Count()).Select(grp => grp.Key).First();
+                mapIndex = VoteList.GroupBy(i => i)
+                                .OrderByDescending(grp => grp.Count()).Select(grp => grp.Key)
+                                .First();
             }
 
             if(!enoughVotes && Config.Rtv.VoteRatioEnabled) {
@@ -128,9 +145,7 @@ namespace MapCycle
             }
 
             if (voteTriggeredByPlayer)
-            {
                 alreadyVotedByPlayer = voteTriggeredByPlayer;
-            }
 
             if (mapIndex == -1) {
                 LocalizationExtension.PrintLocalizedChatAll(Localizer, "NoVotes");
@@ -202,7 +217,6 @@ namespace MapCycle
                         LocalizationExtension.PrintLocalizedChat(caller, Localizer, "VoteConfirm", MapList[commandIndex].DName());
                     }
                 }
-                
             }
             catch (Exception e)
             {

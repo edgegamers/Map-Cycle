@@ -1,5 +1,7 @@
+
 # MapCycle Plugin for CounterStrikeSharp
 
+<!-- Langue: English -->
 ## <u>Overview</u>
 MapCycle is a plugin designed for CounterStrikeSharp. This plugin enables server administrators to automate the rotation of a predefined list of maps. It's compatible with both standard and workshop maps.
 
@@ -8,10 +10,13 @@ I dedicate a significant part of my free time to coding and developing meaningfu
 [![PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=MVCFKC7V772WS)
 
 ## <u>Features</u>
-- **Automatic Map Rotation**: Rotates maps according to a configurable list.
+- **Automatic Map Rotation**: Rotates maps according to a configurable list (random order possible).
 - **Support for Multiple Map Types**: Compatible with both standard and workshop maps.
 - **Simple Configuration**: Uses a JSON file for easy setup.
 - **Chat Notifications**: Informs players about the upcoming map.
+- **Rtv commands**: Triggers a vote directly by players or changes the map. This can depend on the configured options, such as ratio or not.
+- **Config hotreloading**: Allows changing options without rebooting the server.
+- **Add and remove map from the cycle directly in game**: Allows adding/removing maps on the fly without restarting the server.
 
 ## <u>Compatibility</u>
 - [CS2 Simple Admin](https://github.com/daffyyyy/CS2-SimpleAdmin)
@@ -19,26 +24,27 @@ I dedicate a significant part of my free time to coding and developing meaningfu
 ## <u>Commands</u>
 #### <u>Admins</u>
 1) **`!addmap cs_assault Assault 3070594412`**: This command allows you to add a new map to the cycle without having to manually edit the configuration file.
-- Pattern: `!addmap mapname display_name workshopid_or_mapname_for_offi_map`
-- E.g WS map:  `!addmap cs_assault Assault 3070594412`
-- E.g official map:  `!addmap de_dust2 "Dust 2" de_dust2`
+    - Pattern: `!addmap mapname display_name workshopid_or_mapname_for_offi_map`
+    - E.g WS map:  `!addmap cs_assault Assault 3070594412`
+    - E.g official map:  `!addmap de_dust2 "Dust 2" de_dust2`
 
 ---
 
 2) **`!removemap cs_assault`**: This command allows you to remove a map from the cycle directly in-game or from the console, eliminating the need to manually edit the configuration file.
-- Pattern: `!removemap mapname`
-- E.g WS map: `!removemap cs_assault`
-- E.g official map: `!removemap de_dust2`
+    - Pattern: `!removemap mapname`
+    - E.g WS map: `!removemap cs_assault`
+    - E.g official map: `!removemap de_dust2`
 
 ---
 
 3) **`!keepmap Assault`**: This command allows you to add the current map to the cycle.
-- Pattern: `!keepmap [optional]mapDisplayName`
+    - Pattern: `!keepmap [optional]mapDisplayName`
 
-It automatically detects if it's a workshop map or not.
-How to use it:
-- For a workshop map (`!goto 123123123`): You can type the map ID directly with the `goto` command, even if it's not in the cycle. Once you're on the map, if you enjoy it, you can type `!keepmap` or `!keepmap NoobMap` with the display name or not. By default, the display name will be the map name.
-- For an official map (`!goto de_inferno`): You can type the map name directly with the `goto` command, even if it's not in the cycle. Once you're on the map, if you enjoy it, you can type `!keepmap` or `!keepmap Inferno` with the display name or not. By default, the display name will be the map name.
+    It automatically detects if it's a workshop map or not.
+    
+    How to use it:
+    - For a workshop map (`!goto 123123123`): You can type the map ID directly with the `goto` command, even if it's not in the cycle. Once you're on the map, if you enjoy it, you can type `!keepmap` or `!keepmap NoobMap` with the display name or not. By default, the display name will be the map name.
+    - For an official map (`!goto de_inferno`): You can type the map name directly with the `goto` command, even if it's not in the cycle. Once you're on the map, if you enjoy it, you can type `!keepmap` or `!keepmap Inferno` with the display name or not. By default, the display name will be the map name.
 
 ---
 
@@ -48,22 +54,22 @@ How to use it:
 
 5) **`!go`**: Use this command to immediately transition to the next map, without the need to wait for the current match to conclude.
 
+---
+
+6) **`!cfgr`**: This command allows you to change a value in the plugin configuration without having to restart the server.
+When you have finished changing the values in the JSON config file, type `!cfgr` in the chat and the added options will take effect in the current session without the need to restart.
+
+---
+
+7) **`!resetrtv`**: Allows you to reset the RTV. You can then start a new vote or players can use the !rtv command again even if they have already used it before.
 
 #### <u>All players</u>
 
-4) **`!nextmap` / `!nextmap de_dust2`**: Enter `!nextmap` to view the next map. To select a different map, type `!nextmap de_dust2` or `!nextmap de_aztec`. **Notice that the command to set the nextmap is only allowed to admins.**
+1) **`!nextmap` / `!nextmap de_dust2`**: Enter `!nextmap` to view the next map. To select a different map, type `!nextmap de_dust2` or `!nextmap de_aztec`. **Notice that the command to set the nextmap is only allowed to admins.**
 
 ---
-7) **`!rtv`**: Use this command to initiate a vote immediately, if it is enabled in the configuration.
+2) **`!rtv`**: Use this command to initiate a vote immediately, if it is enabled in the configuration.
 
-
-
-### <u>RTV</u>
-
-#### <u>Commands</u>
-Use the ChatMenu to vote. The !mc_vote command no longer exists. To vote, simply press !1, or !2, or !3 etc...
-
-![img](https://drive.google.com/uc?export=view&id=18yyRQb2Z5mfOI7a_mkhCcudb8c0Tq_UJ)
 
 ## <u>Installation</u>
 - Download the latest release from [here](https://github.com/RonanLOUARN/Map-Cycle/releases).
@@ -92,27 +98,23 @@ The configuration file is automatically generated in `game/csgo/addons/counterst
 
 **JSON attributes**
 
-`Randomize` to play the maps in random order.
+- `MapCycle`: An object containing parameters for map rotation.
+  - `RandomOrder`: Enables or disables random map rotation.
 
-`RtvEnabled` Enable or disable the vote.
-
-`RtvMapCount` Number of proposed maps. They are randomly selected in the cycle.
-
-`RtvRoundStartVote` Number of the round the vote start. E.g 5 the vote will at the beginning of the fifth round (warmup not included).
-
-`RtvDurationInSeconds` Voting duration
-
-`RtvStartVoteAtTheEnd` If you activate this option, voting will start at the end of the match. And the map will change at the end of the win panel and will no longer take into account the round and duration options for RTV.
-
-`RtvPlayerCommandEnabled` This attribute allows players to use the `!rtv` command.
-
-`RtvPlayerCommandChangeTheMapDirectlyAfterVote`: Determines whether the map will be changed directly after the vote.
-
-`RtvVoteRatioEnabled` 
-- Enabled: If the vote count is higher than the ratio, the map with the most votes will be set as the next map. Otherwise, the map cycle will choose a map.
-- Disabled: The map with the most votes will be set as the next map.
-
-`RtvVoteRatio` Determines the minimum ratio of votes required for a vote to be considered valid.
+- `Rtv`: An object containing parameters for Rock The Vote (RTV) voting.
+  - `Enabled`: Enables or disables RTV.
+  - `AutoVoteEnabled`: Enables or disables automatic triggering of the vote.
+  - `AutoVoteRoundStart`: The round number when the auto vote is triggered.
+  - `AutoVoteStartAtTheEndOfMatch`: Enables voting at the end of the match. Overrides `AutoVoteRoundStart`.
+  - `PlayerCommandEnabled`: Enables or disables the !rtv command for players.
+  - `PlayerCommandTriggerAVote`: Triggers a vote when players type !rtv instead of changing the map directly.
+  - `PlayerCommandRatioEnabled`: Enables the use of `PlayerCommandRatio`.
+  - `PlayerCommandRatio`: From 0.0 to 1.0. This ratio triggers the action of the !rtv command only if the ratio of players who have typed !rtv is reached.
+  - `PlayerCommandChangeTheMapDirectlyAfterVote`: Triggers the map change as soon as the vote is finished.
+  - `VoteMapCount`: The number of maps proposed in the vote.
+  - `VoteDurationInSeconds`: The duration of the vote in seconds.
+  - `VoteRatioEnabled`: Enables the use of `VoteRatio`.
+  - `VoteRatio`: From 0.0 to 1.0. The minimum ratio of players for the vote to be valid, otherwise a map will be chosen by the map cycle.
 
 Each map in the configuration file includes the following attributes:
 - `Name`: The actual name of the map (e.g., `de_dust2`, `de_cbble`).
@@ -123,16 +125,9 @@ Each map in the configuration file includes the following attributes:
 #### <u>Example Configuration</u>
 ```json
 {
-  "Randomize": false,
-  "RtvEnabled": true,
-  "RtvMapCount": 5,
-  "RtvRoundStartVote": 1,
-  "RtvDurationInSeconds": 30,
-  "RtvPlayerCommandEnabled": true,
-  "RtvPlayerCommandChangeTheMapDirectlyAfterVote": false,
-  "RtvStartVoteAtTheEnd": true,
-  "RtvVoteRatioEnabled": true,
-  "RtvVoteRatio": 0.5,
+  "MapCycle": {
+    "RandomOrder": false
+  },
   "Maps": [
     {
       "Name": "de_dust2",
@@ -141,25 +136,28 @@ Each map in the configuration file includes the following attributes:
       "Workshop": false
     },
     {
-        "Name": "cs_assault",
-        "DisplayName": "Assault",
-        "Id": "3070594412",
-        "Workshop": true
-    },
-    {
-      "Name": "de_lake",
-      "DisplayName": "Lake",
-      "Id": "3070563536",
-      "Workshop": true
-    },
-    {
-      "Name": "de_cbble",
-      "DisplayName": "Cobblestone",
-      "Id": "3070293560",
+      "Name": "de_aztec",
+      "DisplayName": "Aztec",
+      "Id": "3070960099",
       "Workshop": true
     }
   ],
-  "ConfigVersion": 1 // Do not touch
+  "Rtv": {
+    "Enabled": true,
+    "AutoVoteEnabled": true,
+    "AutoVoteRoundStart": 1,
+    "AutoVoteStartAtTheEndOfMatch": true,
+    "PlayerCommandEnabled": false,
+    "PlayerCommandTriggerAVote": false,
+    "PlayerCommandRatioEnabled": false,
+    "PlayerCommandRatio": 1,
+    "PlayerCommandChangeTheMapDirectlyAfterVote": false,
+    "VoteMapCount": 5,
+    "VoteDurationInSeconds": 30,
+    "VoteRatioEnabled": true,
+    "VoteRatio": 0.5
+  },
+  "ConfigVersion": 2
 }
 
 ```
@@ -196,7 +194,7 @@ Set the map on your server with `host_workshop_map 123123123` and when the map h
 ## <u>Author</u>
 - ModuleName: MapCycle
 - ModuleAuthor: NANOR
-- ModuleVersion: 1.3.6
+- ModuleVersion: 1.4.0
 
 ## <u>Support</u>
 For assistance, please raise an issue on the GitHub repository of the project.

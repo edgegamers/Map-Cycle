@@ -21,5 +21,9 @@
     "MapChangingIn": "%prefix% La mappa cambierà in {0} secondi",
     "AlreadyVotedByPlayers": "%prefix% I giocatori hanno già votato.",
     "VoteAlreadyStarted": "%prefix% Un voto è già iniziato",
-    "ConfigReloaded": "%prefix% La configurazione è stata ricaricata"
+    "ConfigReloaded": "%prefix% La configurazione è stata ricaricata",
+    "RtvNeedMoreRtvForVote": "%prefix% {0}/{1}. Abbiamo bisogno di più giocatori per votare per cambiare la mappa",
+    "RtvNeedMoreRtvForSwitchMap": "%prefix% {0}/{1}. Abbiamo bisogno di più giocatori per votare per cambiare la mappa",
+    "AlreadySaidRtv": "%prefix% Hai già detto RTV",
+    "RtvReset": "%prefix% Il voto è stato resettato"
 }
