@@ -68,7 +68,7 @@ When you have finished changing the values in the JSON config file, type `!cfgr`
 1) **`!nextmap` / `!nextmap de_dust2`**: Enter `!nextmap` to view the next map. To select a different map, type `!nextmap de_dust2` or `!nextmap de_aztec`. **Notice that the command to set the nextmap is only allowed to admins.**
 
 ---
-2) **`!rtv`**: Use this command to initiate a vote immediately, if it is enabled in the configuration.
+2) **`!rtv`**: Use this command to initiate a vote or to trigger a map change (depending a ratio or not).
 
 
 ## <u>Installation</u>
