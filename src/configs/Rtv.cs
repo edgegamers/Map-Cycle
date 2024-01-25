@@ -20,6 +20,8 @@ public class RtvConfig
     // Automatic map vote
     [JsonPropertyName("AutoVoteEnabled")]
     public bool AutoVoteEnabled { get; set; } = true;
+    [JsonPropertyName("AutoVoteTimeStartInSeconds")]
+    public int AutoVoteTimeStartInSeconds { get; set; } = 0;
 
     [JsonPropertyName("AutoVoteRoundStart")]
     public int AutoVoteRoundStart { get; set; } = 3;

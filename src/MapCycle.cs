@@ -15,7 +15,7 @@ public partial class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     // plugin informations
     public override string ModuleName => "MapCycle";
     public override string ModuleAuthor => "NANOR";
-    public override string ModuleVersion => "1.4.0";
+    public override string ModuleVersion => "1.4.1";
 
     // plugin configs
     public ConfigGen Config { get; set; } = null!;
@@ -93,6 +93,17 @@ public partial class MapCycle : BasePlugin, IPluginConfig<ConfigGen>
     private void SetNextMap(string mapName)
     {
         _nextMap = Config.Maps[GetNextMapIndex() % Config.Maps.Count];
+    }
+
+    private void TriggerAutoMapVoteByTime(string mapName)
+    {
+        if (Config.Rtv.AutoVoteTimeStartInSeconds <= 0) return;
+
+        AddTimer(Config.Rtv.AutoVoteTimeStartInSeconds, () =>
+        {
+            if (_rtv == null) return;
+            _rtv.Call(Config.Rtv.VoteDurationInSeconds);
+        }, TimerFlags.STOP_ON_MAPCHANGE);
     }
 
     private int GetNextMapIndex()

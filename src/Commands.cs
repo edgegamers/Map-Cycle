@@ -39,6 +39,8 @@ namespace MapCycle
         [CommandHelper(whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
         public void OnGoToNextMapCommand(CCSPlayerController? caller, CommandInfo info)
         {
+            if(_nextMap == null)
+                SetNextMap(Server.MapName);
             ChangeMap();
         }
 

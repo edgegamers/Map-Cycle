@@ -9,6 +9,8 @@ namespace MapCycle
         {
             RegisterEventHandler<EventRoundStart>((@event, info) =>
             {
+                if(Config.Rtv.AutoVoteTimeStartInSeconds > 0) return HookResult.Continue;
+
                 var gameRules = Utilities.FindAllEntitiesByDesignerName<CCSGameRulesProxy>("cs_gamerules").First().GameRules!;
                 int roundsPlayed = gameRules.TotalRoundsPlayed + 1;
                 if (_rtv == null) return HookResult.Continue;
@@ -25,7 +27,7 @@ namespace MapCycle
             {
                 if (_rtv == null) return HookResult.Continue;
                 // Start the vote at the end of the match
-                if (Config.Rtv.AutoVoteStartAtTheEndOfMatch && Config.Rtv.Enabled)
+                if (Config.Rtv.AutoVoteStartAtTheEndOfMatch && Config.Rtv.Enabled && Config.Rtv.AutoVoteTimeStartInSeconds <= 0 )
                 {
                     _rtv.Call(15);
                 }
@@ -34,6 +36,7 @@ namespace MapCycle
             });
 
             RegisterListener<Listeners.OnMapStart>(SetNextMap);
+            RegisterListener<Listeners.OnMapStart>(TriggerAutoMapVoteByTime);
         }
     
     }

@@ -104,6 +104,7 @@ The configuration file is automatically generated in `game/csgo/addons/counterst
 - `Rtv`: An object containing parameters for Rock The Vote (RTV) voting.
   - `Enabled`: Enables or disables RTV.
   - `AutoVoteEnabled`: Enables or disables automatic triggering of the vote.
+  - `AutoVoteTimeStartInSeconds`: Triggers an auto vote after the configured time in this option. Overrides `AutoVoteRoundStart` and `AutoVoteStartAtTheEndOfMatch`. Set to 0 to disable.
   - `AutoVoteRoundStart`: The round number when the auto vote is triggered.
   - `AutoVoteStartAtTheEndOfMatch`: Enables voting at the end of the match. Overrides `AutoVoteRoundStart`.
   - `PlayerCommandEnabled`: Enables or disables the !rtv command for players.
@@ -145,6 +146,7 @@ Each map in the configuration file includes the following attributes:
   "Rtv": {
     "Enabled": true,
     "AutoVoteEnabled": true,
+    "AutoVoteTimeStartInSeconds": 50,
     "AutoVoteRoundStart": 1,
     "AutoVoteStartAtTheEndOfMatch": true,
     "PlayerCommandEnabled": false,
@@ -194,7 +196,7 @@ Set the map on your server with `host_workshop_map 123123123` and when the map h
 ## <u>Author</u>
 - ModuleName: MapCycle
 - ModuleAuthor: NANOR
-- ModuleVersion: 1.4.0
+- ModuleVersion: 1.4.1
 
 ## <u>Support</u>
 For assistance, please raise an issue on the GitHub repository of the project.
