@@ -13,11 +13,4 @@
       <Private>True</Private>
     </PackageReference>
   </ItemGroup>
-
-  <Target Name="PostBuildCopy" AfterTargets="PostBuildEvent">
-    <ItemGroup>
-      <JsonDlls Include="$(UserProfile)\.nuget\packages\newtonsoft.json\13.0.3\lib\net6.0\Newtonsoft.Json.dll" />
-    </ItemGroup>
-    <Copy SourceFiles="@(JsonDlls)" DestinationFolder="$(OutputPath)" SkipUnchangedFiles="true" />
-  </Target>
 </Project>
